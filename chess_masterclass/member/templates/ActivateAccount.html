@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    {% block scriptshead %}
+    <!-- <script src="{% static 'editProfile.js' %}">
+    </script> -->
+
+        
+    {% endblock %}
+
+
+</head>
+<body id="body">
+    <h1>hello 1</h1>
+
+    {% block content %}
+
+    <p>Please verify yourself with your key:</p>
+    <form id="submit-form" method='submit'>
+        <input type="text" id="key" maxlength="4" placeholder="Please enter key:"/>
+        <button id="submit-key" type="submit">Verify!</button>
+    </form>
+    
+    
+
+    {% endblock %}
+
+    {% block scripts %}
+
+    <script>
+        let secretKey = String({{key}})
+        let userID = String({{user_id}})
+        let submitBtn = document.querySelector('#submit-key')
+        let keyInput = document.querySelector('#key')
+        function redirect2home(){
+            window.location.replace("http://127.0.0.1:8000/")
+        }
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault()            
+            if(keyInput.value === secretKey){
+                console.log('account was created!')
+                setTimeout(() => {redirect2home();}, 5000)
+                update_items(secretKey, userID)
+            }else{
+                console.log('your key is invalid!')
+            }
+        })
+
+        function update_items(secretKey, userID){
+            let url = "{% url 'activate-account-API' %}"
+
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'userID': userID, 'secretKey': secretKey})
+            })
+            .then((response) =>{
+                return response.json()
+            })
+
+            .then((data) =>{
+            })
+            }
+    </script>
+        
+
+    {% endblock %}
+
+
+
+
+</body>
+</html>
