@@ -17,19 +17,20 @@
 
 
 </head>
-<body id="body">
-    <h1>hello 1</h1>
+<body>
+    
 
     {% block content %}
-
-    <p>Please verify yourself with your key:</p>
-    <form id="submit-form" method='submit'>
-        <input type="text" id="key" maxlength="4" placeholder="Please enter key:"/>
-        <button id="submit-key" type="submit">Verify!</button>
-    </form>
+    <div class='container-sm' style="width: 20rem; padding-top: 3rem;">
+        <form id="submit-form" method='submit' class="row g-3">
+            <div class="form-outline" >
+                <input type="text" id="key" maxlength="4" placeholder="Please enter key:" class="form-control"/>
+                <label class="form-label" for="key">Please enter key:</label>
+            </div>            
+            <button id="submit-key" type="submit" class="btn btn-primary btn-block" >Verify</button>            
+        </form>
+    </div> 
     
-    
-
     {% endblock %}
 
     {% block scripts %}

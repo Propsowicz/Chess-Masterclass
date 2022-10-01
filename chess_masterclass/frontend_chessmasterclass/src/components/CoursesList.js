@@ -20,9 +20,9 @@ export const CoursesList = () => {
     }, [])
     
   return (
-    <div>
+    <div  className="row row-cols-1 row-cols-md-4 g-4">
         {coursesList.map((course, index) => (
-            <CourseListItem key={index} name={course.name} body={course.body} price={course.price} id={course.id}/>
+            <CourseListItem key={index} name={course.name} body={course.body} price={course.price} id={course.id} slug={course.slug}/>
         ))}
 
     </div>

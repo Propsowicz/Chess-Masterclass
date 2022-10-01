@@ -5,7 +5,7 @@ import { CoursesList } from '../components/CoursesList'
 const HomePage = () => {
     
   return (
-    <div>
+    <div className='container' style={{paddingTop:'3rem'}}>
         <CoursesList />
     </div>
   )

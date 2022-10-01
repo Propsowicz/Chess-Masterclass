@@ -116,7 +116,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates',
-            BASE_DIR / 'chessmasterclass/build',
+            BASE_DIR / 'frontend_chessmasterclass/build',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -180,7 +180,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'chessmasterclass/build/static',
+    BASE_DIR / 'frontend_chessmasterclass/build/static',
     BASE_DIR / 'member/static',
 ]
 
@@ -192,6 +192,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    'UPDATE',
+]
 
 # EXTENDING USER MODEL
 AUTH_USER_MODEL='member.User'

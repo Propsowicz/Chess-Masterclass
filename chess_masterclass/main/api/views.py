@@ -59,8 +59,8 @@ class courseDetailAPI(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get(self, request, id, format=None):
-        course = ChessCourse.objects.get(id=id)
+    def get(self, request, slug, format=None):
+        course = ChessCourse.objects.get(slug=slug)
         serializer = ChessCourseSerializer(course, many=False)
 
         return Response(serializer.data)

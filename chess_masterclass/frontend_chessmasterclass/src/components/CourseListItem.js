@@ -24,7 +24,7 @@ const CourseListItem = (props) => {
         if(props.price === '0.00'){
             return price = 'FREE'
         }else{
-            return price
+            return price + '$'
         }
     }
 
@@ -52,20 +52,31 @@ const CourseListItem = (props) => {
   return (
 
     <div>
-        {/* {isPremium(props, userInfo) ? */}
         {isAccountActivated(props, userInfo) ?
-            <div>
-                <Link to={`/course/${props.id}`}>
-                    <h2>{props.name} - {getPrice(props)}</h2> 
-                </Link>
-                <p>{getBody(props)}</p>
-            </div>       
+            <div className="col-sm-6">
+                <div className="card" style={{width: '18rem', height:'13rem',}}>
+                    <div className="card-body">
+                        <h5 className="card-title">{props.name} - {getPrice(props)}</h5>
+                        <p className="card-text">{getBody(props)}</p>
+                        <Link to={`/course/${props.slug}`} className="btn btn-primary">Check it out</Link>                        
+                    </div>
+                </div>
+            </div> 
             :
-            <div>
-                <h2>{props.name} - {getPrice(props)}</h2> 
-                <p>{getBody(props)}</p>
+            <div className="col-sm-6">
+                <div className="card" style={{width: '18rem', height:'13rem',}}>
+                    <div className="card-body">
+                        <h5 className="card-title">{props.name} - {getPrice(props)}</h5>
+                        <p className="card-text">{getBody(props)}</p>
+                        <Link to={`/course/${props.slug}`} className="btn btn-secondary">Buy access</Link>                        
+                    </div>
+                </div>
             </div>               
         }
+
+        
+
+
         
     </div>
   )

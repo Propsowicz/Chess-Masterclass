@@ -7,14 +7,29 @@ const Register = () => {
 
 
   return (
-    <div>
-        <form onSubmit={register}>
-            <input type='text' name='username' placeholder='Please set username'/>
-            <input type='password' name='password' placeholder='Please set pass'/>
-            <input type='password' name='password2' placeholder='pass 2'/>
-            <input type='email' name='email'placeholder='email' />
+    <div className='container' style={{width: '20rem',paddingTop:'3rem',}}>
+        <form onSubmit={register} className="row g-3">
+          <div className="form-outline" id='username'>
+            <input id='form2Example1' type="text" className="form-control" name="username" placeholder="Enter username"/>
+            <label className="form-label" htmlFor="form2Example1">Enter username</label>
+          </div>
 
-            <button type='submit'>Zarejestruj się!</button>
+          <div className="form-outline" id='password1'>
+            <input id='form2Example2' type="password" className="form-control" name="password" placeholder="Enter password"/>
+            <label id='password-ID' className="form-label" htmlFor="form2Example2">Enter password</label>
+          </div>
+
+          <div className="form-outline" id='password2'>
+            <input id='form2Example3' type="password" className="form-control" name="password2" placeholder="Repeat password"/>
+            <label className="form-label" htmlFor="form2Example3">Repeat password</label>
+          </div>
+
+          <div className="form-outline">
+            <input id='form2Example4' type="email" className="form-control" name="email" placeholder="Enter eamil address"/>
+            <label className="form-label" htmlFor="form2Example4">Enter eamil address</label>
+          </div>
+
+          <button type="submit" className="btn btn-primary btn-block" onSubmit={register}>Register</button>           
         </form>
     </div>
   )

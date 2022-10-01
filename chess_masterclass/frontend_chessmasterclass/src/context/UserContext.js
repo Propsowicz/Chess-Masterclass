@@ -78,12 +78,27 @@ export const UserContextProvider = ({children}) => {
         navigate('/')
     }
 
+    // alerts
+    function alert(text, id){
+        let passwordDiv = document.querySelector(`#${id}`)
+        let msg = document.createElement('p')                
+        msg.innerText = text
+        msg.style.color = 'red'
+        passwordDiv.appendChild(msg)
+        setTimeout(() => {
+            passwordDiv.removeChild(msg);
+          }, 4000)
+    }
+
     // register
     let register = async (e) => {   
         e.preventDefault()
-
         if(e.target.password.value.length > 7){
-            if(e.target.password.value === e.target.password2.value){
+            if(e.target.password.value === e.target.username.value){
+                alert('Password and username are the same!', 'username')
+                console.log('Password and username are too similar')
+
+            }else if(e.target.password.value === e.target.password2.value){
                 let response = await fetch('http://127.0.0.1:8000/member/api/register/', {
                             method: 'POST',
                             headers: {
@@ -91,7 +106,7 @@ export const UserContextProvider = ({children}) => {
                             },
                             body: JSON.stringify({  'username': e.target.username.value,
                                                     'password': e.target.password.value,
-                                                    'email': e.target.email.value,        
+                                                    'email':    e.target.email.value,        
                         })
                         })
                         let status = await response.json()
@@ -101,14 +116,23 @@ export const UserContextProvider = ({children}) => {
                         }else{
                             console.log(status.username[0])
                             navigate('/')
-                        }                       
+                        }
+                        console.log(response.status)                       
             }else{
+                alert('Passwords are not the same!', 'password1')
                 console.log('passwords are not the same')
             }
         }else{
+            alert('Password is too short!', 'password2')
             console.log('password is too short')
         }
     }
+
+    // edit profile
+    let editProfile = async (e) => {
+        
+    }
+
 
 
     useEffect(() => {
@@ -125,6 +149,7 @@ export const UserContextProvider = ({children}) => {
         userInfo: userInfo,
 
         // functions
+        
         register: register,
         login: login,
         logout: logout,

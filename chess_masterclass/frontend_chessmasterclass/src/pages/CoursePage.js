@@ -6,20 +6,21 @@ import {
     Link,
     useNavigate
 } from 'react-router-dom'
+import ChessBoard from '../components/ChessBoard'
 
 const CoursePage = () => {
     let {userInfo} = useContext(UserContext)
     let navigate = useNavigate()
     
     // get dynamic ID (from App.js course/:id)
-    let courseID = useParams().id
+    let courseSlug = useParams().slug
 
     // list of course detail
     let [courseDetails, setcourseDetails] = useState([])
 
     // fetch course details
     let courseDetailGET = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseID}`)
+        let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseSlug}`)
         let data = await response.json()
         setcourseDetails(data)
     }
@@ -53,13 +54,14 @@ const CoursePage = () => {
     }
     
 
+
   return (
-    <div>
+    <div className='container'>
         {isPremium(courseDetails, userInfo) ?
             <div>
-                <h2>{courseDetails.name} - {getPrice(courseDetails.price)}</h2>
-                <p>{courseDetails.body}</p>
-
+                <p className="fs-1">{courseDetails.name}</p>
+                <p className="fs-6">{courseDetails.body}</p>   
+                <ChessBoard />
             </div>
             :
             navigateToPayment()

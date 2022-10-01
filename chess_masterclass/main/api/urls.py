@@ -10,7 +10,7 @@ from .views import coursesListAPI, courseDetailAPI, MyTokenObtainPairView
 urlpatterns = [
     # GET courses
     path('courses/', coursesListAPI.as_view(), name='all-courses'),
-    path('courses/<int:id>', courseDetailAPI.as_view(), name='course-detail'),
+    path('courses/<str:slug>', courseDetailAPI.as_view(), name='course-detail'),
 
     # Tokens
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
