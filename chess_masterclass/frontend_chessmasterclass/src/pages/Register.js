@@ -8,7 +8,7 @@ const Register = () => {
 
   return (
     <div className='container' style={{width: '20rem',paddingTop:'3rem',}}>
-        <form onSubmit={register} className="row g-3">
+        <form onSubmit={register} className="row g-3" id='submit-field'>
           <div className="form-outline" id='username'>
             <input id='form2Example1' type="text" className="form-control" name="username" placeholder="Enter username"/>
             <label className="form-label" htmlFor="form2Example1">Enter username</label>
@@ -24,12 +24,12 @@ const Register = () => {
             <label className="form-label" htmlFor="form2Example3">Repeat password</label>
           </div>
 
-          <div className="form-outline">
-            <input id='form2Example4' type="email" className="form-control" name="email" placeholder="Enter eamil address"/>
-            <label className="form-label" htmlFor="form2Example4">Enter eamil address</label>
+          <div className="form-outline" id='email'>
+            <input id='form2Example4' type="email" className="form-control" name="email" placeholder="Enter email address"/>
+            <label className="form-label" htmlFor="form2Example4">Enter email address</label>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block" onSubmit={register}>Register</button>           
+          <button id='btn-submit-register' type="submit" className="btn btn-primary btn-block" onSubmit={register}>Register</button>           
         </form>
     </div>
   )

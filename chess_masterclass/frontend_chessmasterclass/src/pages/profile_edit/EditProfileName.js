@@ -4,30 +4,18 @@ import {
     useNavigate,
        
 } from 'react-router-dom'
+import {alertMsg} from '../../utils/utlis'
 
 
 const EditProfileName = () => {
 
     const navigate = useNavigate()
-    let username = useParams().username
+    let username = useParams().username 
 
-    // alerts
-    function alert(text, id){
-        let passwordDiv = document.querySelector(`#${id}`)
-        let msg = document.createElement('p')            
-        let btn = document.querySelector('#btn-submit')
 
-        msg.innerText = text
-        msg.style.color = 'red'
-        passwordDiv.appendChild(msg)        
-        btn.disabled = true
-        setTimeout(() => {
-            passwordDiv.removeChild(msg);
-            btn.disabled = false
-          }, 2000)        
-    }
-
-    let changeEmail = async (e)  => {
+    let changeName = async (e)  => {
+        let btnToBlock = document.querySelector('#btn-submit-name')  
+        btnToBlock.disabled = true
         e.preventDefault()
 
         let response = await fetch(`http://127.0.0.1:8000/member/api/edit/${username}`, {
@@ -41,23 +29,23 @@ const EditProfileName = () => {
                 'last_name': e.target.lname.value,
             })
         })
-        let data = await response.json()
+        let status = await response.json()
+
         if(response.status === 200){
-            alert(data['Response msg'], 'edit-name')
-            setTimeout(() => {
-                navigate('/')
-              }, 2000)            
+            navigate(`/profile/${username}`)
+            localStorage.setItem('success msg', 'Profile name has been successfully changed.')
         }else{
-            alert(data['Response msg'], 'edit-name')
+            alertMsg('edit-name', status['Response msg'], 'btn-submit-name')
         }
-        
+        btnToBlock.disabled = false
+
         
     }
 
   return (
     <div className='container' style={{width: '20rem',paddingTop:'3rem',}}>
         <h3>Change your name</h3>
-        <form onSubmit={changeEmail} id='edit-name'>
+        <form onSubmit={changeName} id='edit-name'>
             <div className="form-outline" id='fname'>
                 <input id='form2Example2' type="text" className="form-control" name="fname" placeholder="Enter first name"/>
                 <label id='fname-ID' className="form-label" htmlFor="form2Example2">Enter first name</label>
@@ -66,7 +54,7 @@ const EditProfileName = () => {
                 <input id='form2Example2' type="text" className="form-control" name="lname" placeholder="Enter last name"/>
                 <label id='lname-ID' className="form-label" htmlFor="form2Example2">Enter last name</label>
             </div>
-            <button id='btn-submit' type="submit" className="btn btn-primary btn-block" >Edit name</button>
+            <button id='btn-submit-name' type="submit" className="btn btn-primary btn-block" >Edit name</button>
             
         </form>
     </div>

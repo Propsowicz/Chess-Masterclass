@@ -7,6 +7,7 @@ import {
     Link,
        
 } from 'react-router-dom'
+import {alertMsg} from '../../utils/utlis'
 
 const EditProfileEmail = () => {
     const navigate = useNavigate()
@@ -15,23 +16,24 @@ const EditProfileEmail = () => {
 
     // alerts
     function alert(text, id){
-        let passwordDiv = document.querySelector(`#${id}`)
+        let alertDiv = document.querySelector(`#${id}`)
         let msg = document.createElement('p')            
         let btn = document.querySelector('#btn-submit')
 
         msg.innerText = text
         msg.style.color = 'red'
-        passwordDiv.appendChild(msg)        
+        alertDiv.appendChild(msg)        
         btn.disabled = true
         setTimeout(() => {
-            passwordDiv.removeChild(msg);
+            alertDiv.removeChild(msg);
             btn.disabled = false
           }, 2000)        
     }
 
     let changeEmail = async (e)  => {
+        let btnToBlock = document.querySelector('#btn-submit-email')  
+        btnToBlock.disabled = true 
         e.preventDefault()
-
         let response = await fetch(`http://127.0.0.1:8000/member/api/edit/${username}`, {
             method: 'POST',
             headers: {
@@ -45,15 +47,14 @@ const EditProfileEmail = () => {
         })
         let data = await response.json()
         if(response.status === 200){
-            alert(data['Response msg'], 'edit-email')
-            setTimeout(() => {
-                navigate('/')
-              }, 2000)            
+            navigate(`/profile/${username}`)
+            localStorage.setItem('success msg', 'Profile email has been successfully changed.')            
         }else{
-            alert(data['Response msg'], 'edit-email')
+            alertMsg('edit-email', data['Response msg'], 'btn-submit-email')
         }
         
-        
+        btnToBlock.disabled = false 
+
     }
 
   return (
@@ -68,7 +69,7 @@ const EditProfileEmail = () => {
                 <input id='form2Example2' type="email" className="form-control" name="email" placeholder="Enter new email address"/>
                 <label id='email-ID' className="form-label" htmlFor="form2Example2">Enter new email address</label>
             </div>
-            <button id='btn-submit' type="submit" className="btn btn-primary btn-block" >Edit email</button>
+            <button id='btn-submit-email' type="submit" className="btn btn-primary btn-block" >Edit email</button>
             
         </form>
         

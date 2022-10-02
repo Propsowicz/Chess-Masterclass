@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
+import {alertMsg} from '../utils/utlis'
 
 // create user context
 export const UserContext = createContext()
@@ -18,6 +19,8 @@ export const UserContextProvider = ({children}) => {
 
     // func to login user: from form(onSubmit) in Login.js get username and pass and send it to API. In reverse get tokens (custom one have all needed data)
     let login = async (e) => {
+        // let btnToBlock = document.querySelector('#btn-login')  
+        // btnToBlock.disabled = true 
         e.preventDefault()
 
         // call to API
@@ -29,7 +32,7 @@ export const UserContextProvider = ({children}) => {
             body: JSON.stringify({'username': e.target.username.value, 'password': e.target.password.value}),
         })
         // get tokens in reponse
-        let data = await response.json()
+        let data = await response.json()        
 
         // if status-200 then set Lists with data and save tokens in localstorage
         if(response.status === 200){
@@ -38,11 +41,14 @@ export const UserContextProvider = ({children}) => {
             localStorage.setItem('authTokens', JSON.stringify(data))   
             navigate('/')
         }else if(response.status === 401){
-            console.log('wrong pass or username')
-        }
-        else{
+            alertMsg('login-form', 'Username or password is not correct. Try again.', 'btn-login')
+        }else if(response.status === 400){
+            alertMsg('login-form', 'Please fill all fields.', 'btn-login')
+        }else{
             console.log('smth went wrong')
         }
+        // btnToBlock.disabled = true 
+
     }
 
     // update refresh token every 4 mins
@@ -76,64 +82,53 @@ export const UserContextProvider = ({children}) => {
         setUserInfo([])
         localStorage.clear() 
         navigate('/')
-    }
-
-    // alerts
-    function alert(text, id){
-        let passwordDiv = document.querySelector(`#${id}`)
-        let msg = document.createElement('p')                
-        msg.innerText = text
-        msg.style.color = 'red'
-        passwordDiv.appendChild(msg)
-        setTimeout(() => {
-            passwordDiv.removeChild(msg);
-          }, 4000)
-    }
+    }   
 
     // register
-    let register = async (e) => {   
+    let register = async (e) => {
+        let btnToBlock = document.querySelector('#btn-submit-register')  
+        btnToBlock.disabled = true 
         e.preventDefault()
-        if(e.target.password.value.length > 7){
-            if(e.target.password.value === e.target.username.value){
-                alert('Password and username are the same!', 'username')
-                console.log('Password and username are too similar')
-
-            }else if(e.target.password.value === e.target.password2.value){
+        if(e.target.username.value && e.target.password.value && e.target.password2.value && e.target.email.value){
+            if(e.target.password.value === e.target.password2.value){
                 let response = await fetch('http://127.0.0.1:8000/member/api/register/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({  'username': e.target.username.value,
-                                                    'password': e.target.password.value,
-                                                    'email':    e.target.email.value,        
-                        })
-                        })
-                        let status = await response.json()
-
-                        if(status.status === 200 || status.status === 201){
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({  'username': e.target.username.value,
+                                                'password': e.target.password.value,
+                                                'email':    e.target.email.value,        
+                    })
+                    })
+                    let status = await response.json()                    
+                    
+                    if(response.status === 200 || response.status === 201){
+                        alertMsg('submit-field', 'Account has been created. Check you email to complete registration process.', 'btn-submit-register')
+                        setTimeout(() => {
                             navigate('/')
-                        }else{
-                            console.log(status.username[0])
-                            navigate('/')
-                        }
-                        console.log(response.status)                       
+     
+                        }, 3000)
+                    }else if(status['username']){
+                        alertMsg('username', status['username'][0], 'btn-submit-register')
+                    }else if(status['email']){
+                        alertMsg('email', status['email'][0], 'btn-submit-register')
+                    }else if(status.password){
+                        status.password[0].forEach(msg => {
+                            alertMsg('password2', msg, 'btn-submit-register')                           
+                        });                        
+                    }else{
+                        console.log('smth went wrong..')
+                    }
             }else{
-                alert('Passwords are not the same!', 'password1')
-                console.log('passwords are not the same')
-            }
+                alertMsg('password2', 'Passwords are not the same.', 'btn-submit-register')
+            }                                                       
+                
         }else{
-            alert('Password is too short!', 'password2')
-            console.log('password is too short')
+            alertMsg('submit-field', 'Please fill all fields.', 'btn-submit-register')
         }
+        btnToBlock.disabled = false 
     }
-
-    // edit profile
-    let editProfile = async (e) => {
-        
-    }
-
-
 
     useEffect(() => {
         let fourMinutes = 1000 * 4 * 60

@@ -9,7 +9,7 @@ const Login = () => {
 
   return (
     <div className='container-sm' style={{width: '20rem',paddingTop:'3rem',}}>
-        <form onSubmit={login} className="row g-3">    
+        <form onSubmit={login} className="row g-3" id='login-form'>    
               
           <div className="form-outline">
             <input id='form2Example1' type="text" className="form-control" name="username" placeholder="Enter username"/>
@@ -23,11 +23,11 @@ const Login = () => {
 
           <div className="row">
             <div className="col">
-              <Link to={'/'}>Forgot password?</Link>
+              <Link to={'/forgot-pass'}>Forgot password?</Link>
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block ">Sign in</button>
+          <button id='btn-login' type="submit" className="btn btn-primary btn-block ">Sign in</button>
 
           <div className="text-center">
             <p>Not a member? <Link to={'/register'}>Register!</Link></p>       

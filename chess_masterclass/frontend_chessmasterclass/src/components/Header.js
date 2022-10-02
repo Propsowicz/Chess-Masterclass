@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {
     useParams,
     Link
@@ -12,38 +12,40 @@ const Header = () => {
   let {logout} = useContext(UserContext)
   console.log({userInfo})
 
-  // 
-  var user = '{{request.user}}'
-    function getToken(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getToken('csrftoken');
+  // to było chyba do przesłania danych to template django
+  // var user = '{{request.user}}'
+  //   function getToken(name) {
+  //       let cookieValue = null;
+  //       if (document.cookie && document.cookie !== '') {
+  //           const cookies = document.cookie.split(';');
+  //           for (let i = 0; i < cookies.length; i++) {
+  //               const cookie = cookies[i].trim();
+  //               if (cookie.substring(0, name.length + 1) === (name + '=')) {
+  //                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  //                   break;
+  //               }
+  //           }
+  //       }
+  //       return cookieValue;
+  //   }
+  //   const csrftoken = getToken('csrftoken');
 
-    let sendTokens = () =>{
-          // const url =  "{% url 'edit-profile-api' %}"
-          const url =  "http://127.0.0.1:8000/member/edit/api"
-          fetch(url, {
-              method:'POST',
-              headers:{
-                  'Content-Type':'application/json',
-                  'X-CSRFToken': csrftoken,
-              },
-            //   body:JSON.stringify(userInfo.username)
-              body:JSON.stringify(userInfo.username)
-          })       
-      }
+  //   let sendTokens = () =>{
+  //         // const url =  "{% url 'edit-profile-api' %}"
+  //         const url =  "http://127.0.0.1:8000/member/edit/api"
+  //         fetch(url, {
+  //             method:'POST',
+  //             headers:{
+  //                 'Content-Type':'application/json',
+  //                 'X-CSRFToken': csrftoken,
+  //             },
+  //           //   body:JSON.stringify(userInfo.username)
+  //             body:JSON.stringify(userInfo.username)
+  //         })       
+  //     }
       
+  
+
   return (
     <div>             
       <nav className="navbar navbar-expand-lg bg-light">

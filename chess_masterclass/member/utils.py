@@ -11,27 +11,12 @@ class AccountOperations():
         self.user = user
     
     def createUserKeys(self):
-        url = f'{random.randint(math.pow(100000, 10), math.pow(1000000, 10))}-{self.user}-account-activation'
+        url = f'{random.randint(math.pow(100000, 10), math.pow(1000000, 10))}-{self.user}-account'
         key = f'{random.randint(1000, 9999)}'
         user_keys = User_edit_keys.objects.get(user=self.user)
         user_keys.url = url
         user_keys.secretkey = key
-        user_keys.save()
-        
-
-    def sendWelcomeEmail(self):
-        user_keys = User_edit_keys.objects.get(user=self.user)
-        msg = f'Welcome on website. To finish your acount activation please visit the link: http://127.0.0.1:8000/member/activate/{user_keys.url} and verify login with password: {user_keys.secretkey}'
-        
-        send_mail(      
-        'Acount Activation - Chess Masterclass',
-        msg,
-        str(os.getenv('EMAIL_HOST_USER')),
-        [self.user.email],
-        fail_silently=False,
-        )                
-        print('message was sended!')
-
+        user_keys.save()      
 
     def activateAccount(self, key):
         user_key = User_edit_keys.objects.get(user=self.user)
@@ -46,11 +31,37 @@ class AccountOperations():
         else:
             return False
 
-    def sendProfileEdited(self, changed_data):
+    def sendProfileEditedEmail(self, changed_data):
         msg = f'Hi {self.user.username}. You {changed_data} was changed succesfully!'
         
         send_mail(      
         'Edited Profile - Chess Masterclass',
+        msg,
+        str(os.getenv('EMAIL_HOST_USER')),
+        [self.user.email],
+        fail_silently=False,
+        )                
+        print('message was sended!')
+
+    def sendWelcomeEmail(self):
+        user_keys = User_edit_keys.objects.get(user=self.user)
+        msg = f'Welcome on website. To finish your acount activation please visit the link: http://127.0.0.1:8000/member/activate/{user_keys.url} and verify login with password: {user_keys.secretkey}'
+        
+        send_mail(      
+        'Acount Activation - Chess Masterclass',
+        msg,
+        str(os.getenv('EMAIL_HOST_USER')),
+        [self.user.email],
+        fail_silently=False,
+        )                
+        print('message was sended!')
+    
+    def sendNewUserKey(self):
+        user_keys = User_edit_keys.objects.get(user=self.user)
+        msg = f'Hello. To change your password visit the link: http://127.0.0.1:8000/member/set-new-pass/{user_keys.url} and set new password using this key: {user_keys.secretkey}'
+        
+        send_mail(      
+        'Change password - Chess Masterclass',
         msg,
         str(os.getenv('EMAIL_HOST_USER')),
         [self.user.email],

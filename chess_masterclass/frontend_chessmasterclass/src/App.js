@@ -13,9 +13,11 @@ import {
 
 } from 'react-router-dom'
 import Register from './pages/Register';
-import EditProfile from './pages/EditProfile';
-import EditProfileEmail from './pages/EditProfileEmail';
-import EditProfileName from './pages/EditProfileName';
+import EditProfile from './pages/profile_edit/EditProfile';
+import EditProfileEmail from './pages/profile_edit/EditProfileEmail';
+import EditProfileName from './pages/profile_edit/EditProfileName';
+import EditProfilePass from './pages/profile_edit/EditProfilePass';
+import ForgotPass from './pages/ForgotPass';
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
               <Route path='/profile/:username' element={<EditProfile />}/>
               <Route path='/profile/:username/edit/email' element={<EditProfileEmail />}/>
               <Route path='/profile/:username/edit/name' element={<EditProfileName />}/>
+              <Route path='/profile/:username/edit/pass' element={<EditProfilePass />}/>
+              <Route path='/forgot-pass' element={<ForgotPass />}/>
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  

@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
-import {UserContext} from '../context/UserContext'
+import {UserContext} from '../../context/UserContext'
 import {
     useParams, 
     useNavigate,
@@ -26,8 +26,23 @@ const EditProfile = () => {
       }else{
         return false
       }
-    }
+    } 
 
+    let checkForMsgs = () => {
+      if(localStorage.getItem('success msg')){
+        let msgDiv = document.querySelector('#success-div')
+        let msgBar = document.createElement('p')
+        let msg = localStorage.getItem('success msg')
+
+        msgBar.innerText = msg
+        msgBar.style.color = 'green'
+        msgDiv.appendChild(msgBar)
+        setTimeout(() => {
+          msgDiv.removeChild(msgBar)
+          localStorage.clear()
+        }, 3000)
+      }
+    }
 
     let navigateToLogin = () => {
       navigateLogin('/login')
@@ -35,19 +50,20 @@ const EditProfile = () => {
 
     useEffect(() => {
       getUserData()
+      checkForMsgs()
     }, [])
 
   return (
     
-    <div className='container' style={{paddingTop:'3rem'}}>
+    <div className='container' style={{paddingTop:'3rem'}} id='success-div'>
       {isAuthenticated(username, userInfo) ? 
-        <div style={{textAlign:'left',}}>
+        <div style={{textAlign:'left',}} >
           <h2>Profile info:</h2>
           <table className="table table-striped-columns">            
             <tbody>
               <tr>
                 <td style={{width:'15rem'}}>Username:</td>
-                <th>{userData.username}</th>              
+                <th>{userData.username} <Link to={`/profile/${username}/edit/pass`} className='fst-italic' style={{fontSize:'0.8rem'}}>EDIT PASSWORD</Link></th>              
               </tr>
               <tr>
                 <td style={{width:'15rem'}}>Email address:</td>
@@ -70,7 +86,7 @@ const EditProfile = () => {
                 <th>{userData.expiration_date}</th>              
               </tr>                        
             </tbody>
-          </table>       
+          </table>  
         </div>
           :
             navigateToLogin()

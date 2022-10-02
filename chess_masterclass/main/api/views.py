@@ -18,12 +18,12 @@ from django.shortcuts import render
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):    
     @classmethod
-    def get_token(cls, user):        
+    def get_token(cls, user):               
         token = super().get_token(user)
 
         # send custom info via access token
         # check if user's premium expired
-        today = date.today()        
+        today = date.today()
         if today > user.expiration_date:
             token['isActive'] = 'false'
         else:

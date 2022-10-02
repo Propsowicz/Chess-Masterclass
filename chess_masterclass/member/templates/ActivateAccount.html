@@ -36,8 +36,8 @@
     {% block scripts %}
 
     <script>
-        let secretKey = String({{key}})
-        let userID = String({{user_id}})
+        let secretKey = "{{key}}"
+        let userID = "{{user_id}}"
         let submitBtn = document.querySelector('#submit-key')
         let keyInput = document.querySelector('#key')
         function redirect2home(){
