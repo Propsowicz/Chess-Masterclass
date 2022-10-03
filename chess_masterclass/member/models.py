@@ -15,7 +15,8 @@ class User(AbstractUser):
     expiration_date = models.DateField(blank=True, null=True)
     is_creator = models.BooleanField(default=False, blank=True, null=True)
     is_activated = models.BooleanField(default=False, blank=True, null=True)
-   
+
+# database which stores user key and url to activate account or in case of forgotten password. Database is created via signals.py or in ForgotPassAPI in member/api/views.py
 class User_edit_keys(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     secretkey = models.CharField(max_length=10, blank=True, null=True)

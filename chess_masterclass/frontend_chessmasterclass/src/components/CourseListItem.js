@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import { Link } from 'react-router-dom'
 // import { Link } from 'react-router-dom'
 import {UserContext} from '../context/UserContext'
+import {checkCurrentPremiumPlan} from '../utils/utlis'
 
 const CourseListItem = (props) => {
     let {userInfo} = useContext(UserContext)
@@ -28,51 +29,57 @@ const CourseListItem = (props) => {
         }
     }
 
+    // let checkCurrentPremiumPlan = (props, userInfo) => {
+    //     if(userInfo.premium_plan === 'grandmaster'){
+    //         return true
+    //     }else if(userInfo.premium_plan === 'international_master'){
+    //         if(props.premiumPlan === 'grandmaster'){
+    //             return false
+    //         }else{
+    //             return true
+    //         }
+    //     }else if(userInfo.premium_plan === 'master'){
+    //         if(props.premiumPlan === 'grandmaster' || props.premiumPlan === 'international_master'){
+    //             return false
+    //         }else{
+    //             return true
+    //         }
+    //     }else if(userInfo.premium_plan === 'free'){
+    //         if(props.premiumPlan === 'free'){
+    //             return true
+    //         }else{
+    //             return false
+    //         }
+    //     }
+    // }
 
-    let isPremium = (props, userInfo) => {
-        if(parseFloat(userInfo.credit) >= props.price && userInfo.isActive === 'true'){
-            return true
-        }else if(props.price === '0.00' && userInfo.isActive === 'false'){
-            return true
-        }        
-        else{
-            return false
-        }
-    }
-
-    let isAccountActivated = (props, userInfo) => {
+    
+    let courseCartBtn = (props, userInfo) => {
         if(userInfo.user_acc_actv === 'True'){
-            return isPremium(props, userInfo)
+            if(checkCurrentPremiumPlan(props, userInfo)){
+                return <Link to={`/course/${props.slug}`} className="btn btn-success">Check it out</Link>
+
+            }else{
+                return <Link to={`/premium-plans`} className="btn btn-secondary">Buy access</Link>
+            }          
         }else{
-            return false
+            return <Link to={`/register`} className="btn btn-primary">Register</Link>
         }
     }
-
 
   return (
 
-    <div>
-        {isAccountActivated(props, userInfo) ?
-            <div className="col-sm-6">
-                <div className="card" style={{width: '18rem', height:'13rem',}}>
-                    <div className="card-body">
-                        <h5 className="card-title">{props.name} - {getPrice(props)}</h5>
-                        <p className="card-text">{getBody(props)}</p>
-                        <Link to={`/course/${props.slug}`} className="btn btn-primary">Check it out</Link>                        
-                    </div>
+    <div>                   
+        <div className="col-sm-6">
+            <div className="card" style={{width: '18rem', height:'13rem',}}>
+                <div className="card-body">
+                    <h5 className="card-title">{props.name} - {getPrice(props)}</h5>
+                    <p className="card-text">{getBody(props)}</p>
+                    {courseCartBtn(props, userInfo)}
                 </div>
-            </div> 
-            :
-            <div className="col-sm-6">
-                <div className="card" style={{width: '18rem', height:'13rem',}}>
-                    <div className="card-body">
-                        <h5 className="card-title">{props.name} - {getPrice(props)}</h5>
-                        <p className="card-text">{getBody(props)}</p>
-                        <Link to={`/course/${props.slug}`} className="btn btn-secondary">Buy access</Link>                        
-                    </div>
-                </div>
-            </div>               
-        }
+            </div>
+        </div> 
+        
 
         
 

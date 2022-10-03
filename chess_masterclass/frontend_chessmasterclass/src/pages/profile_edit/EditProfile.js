@@ -5,6 +5,7 @@ import {
     useNavigate,
     Link   
 } from 'react-router-dom'
+import {premiumPlanName} from '../../utils/utlis'
 
 const EditProfile = () => {
     let [userData, setUserData] = useState([])
@@ -18,7 +19,6 @@ const EditProfile = () => {
         let data = await response.json()
         setUserData(data)
     }
-    console.log(userData)
 
     function isAuthenticated(username, userInfo){
       if(username === userInfo.username){
@@ -46,7 +46,7 @@ const EditProfile = () => {
 
     let navigateToLogin = () => {
       navigateLogin('/login')
-    }
+    }  
 
     useEffect(() => {
       getUserData()
@@ -78,8 +78,8 @@ const EditProfile = () => {
                 <th>{userData.last_name} <Link to={`/profile/${username}/edit/name`} className='fst-italic' style={{fontSize:'0.8rem'}}>EDIT</Link></th>              
               </tr>
               <tr>
-                <td style={{width:'15rem'}}>Credit:</td>
-                <th>{userData.credit}$</th>              
+                <td style={{width:'15rem'}}>Current Premium Plan:</td>
+                <th>{premiumPlanName(userInfo)}</th>              
               </tr>
               <tr>
                 <td style={{width:'15rem'}}>Expiration day:</td>

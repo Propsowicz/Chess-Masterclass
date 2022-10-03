@@ -10,7 +10,6 @@ from django.core import exceptions
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = ['username', 'email', 'password']
         fields = '__all__'
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -45,7 +44,6 @@ class UserSerializer(serializers.ModelSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = ['email', 'first_name', 'last_name', 'password']
         fields = '__all__'
 
             

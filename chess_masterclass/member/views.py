@@ -12,7 +12,7 @@ from .utils import AccountOperations
 # Create your views here.
 
 
-
+# activate User's account template
 def activate(request, url):
     user_keys = User_edit_keys.objects.get(url=url)
 
@@ -23,6 +23,7 @@ def activate(request, url):
 
     return render(request, 'ActivateAccount.html', context)
 
+# activate User's account API link
 def activateAPI(request):
     data = json.loads(request.body)
     user = User.objects.get(id=data['userID'])
@@ -33,6 +34,7 @@ def activateAPI(request):
 
     return JsonResponse('account was activated', safe=False)
 
+# forgot User's password template
 def setNewPassword(request, url):
     user_keys = User_edit_keys.objects.get(url=url)
 
@@ -44,6 +46,7 @@ def setNewPassword(request, url):
 
     return render(request, 'SetNewPassword.html', context)
 
+# forgot User's password API link
 def setNewPasswordAPI(request):
     data = json.loads(request.body)
     user = User.objects.get(id=data['userID'])

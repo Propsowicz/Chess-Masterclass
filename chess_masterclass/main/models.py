@@ -12,6 +12,7 @@ class ChessCourse(models.Model):
     slug = models.SlugField(blank=True, null=True)
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
+    premiumPlan = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} || {self.price}' 
@@ -20,3 +21,12 @@ class ChessCourse(models.Model):
 def chess_course_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
+    if not instance.premiumPlan:        
+        if float(instance.price) == 0.00:
+            instance.premiumPlan = 'free'
+        elif float(instance.price) == 9.99:
+            instance.premiumPlan = 'master'
+        elif float(instance.price) == 19.99:
+            instance.premiumPlan = 'international master'
+        elif float(instance.price) == 34.99:
+            instance.premiumPlan = 'grandmaster'

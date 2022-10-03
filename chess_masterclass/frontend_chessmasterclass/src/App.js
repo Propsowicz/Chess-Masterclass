@@ -18,6 +18,7 @@ import EditProfileEmail from './pages/profile_edit/EditProfileEmail';
 import EditProfileName from './pages/profile_edit/EditProfileName';
 import EditProfilePass from './pages/profile_edit/EditProfilePass';
 import ForgotPass from './pages/ForgotPass';
+import PremiumPlans from './pages/PremiumPlans';
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
               <Route path='/profile/:username/edit/name' element={<EditProfileName />}/>
               <Route path='/profile/:username/edit/pass' element={<EditProfilePass />}/>
               <Route path='/forgot-pass' element={<ForgotPass />}/>
+              <Route path='/premium-plans' element={<PremiumPlans />}/>
+
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  

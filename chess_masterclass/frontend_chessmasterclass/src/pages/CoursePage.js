@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import {UserContext} from '../context/UserContext'
+import {checkCurrentPremiumPlan} from '../utils/utlis'
 
 import {
     useParams,
@@ -36,35 +37,22 @@ const CoursePage = () => {
         }else{
             return price
         }
-    }   
+    }      
 
-    let isPremium = (props, userInfo) => {
-        if(parseFloat(userInfo.credit) >= props.price && userInfo.isActive === 'true'){
-            return true
-        }else if(props.price === '0.00' && userInfo.isActive === 'false'){
-            return true
-        }        
-        else{
-            return false
-        }
-    }
-
-    let navigateToPayment = () => {
+    let navigateToHomePage = () => {
         navigate('/')
-    }
-    
-
+    }  
 
   return (
     <div className='container'>
-        {isPremium(courseDetails, userInfo) ?
+        {checkCurrentPremiumPlan(courseDetails, userInfo) ?
             <div>
                 <p className="fs-1">{courseDetails.name}</p>
                 <p className="fs-6">{courseDetails.body}</p>   
                 <ChessBoard />
             </div>
             :
-            navigateToPayment()
+            navigateToHomePage()
         }
         
 

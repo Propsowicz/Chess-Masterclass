@@ -4,6 +4,7 @@ from .models import User, User_edit_keys
 from django.contrib.auth import get_user_model, authenticate
 from django.core.mail import send_mail
 import os
+from datetime import date
 
 
 class AccountOperations():
@@ -67,4 +68,21 @@ class AccountOperations():
         [self.user.email],
         fail_silently=False,
         )                
-        print('message was sended!')
+        print('message was send!')
+
+    def getUserPaymentPlan(self):
+        premiumPlans = {
+            0 : 'free',
+            9.99 : 'master',
+            19.99 : 'international_master',
+            34.99 : 'grandmaster',
+        }
+        currentPlan = '' 
+        today = date.today()
+        
+        if today <= self.user.expiration_date:
+            currentPlan = premiumPlans[float(self.user.credit)]
+        else:
+            currentPlan = premiumPlans[0]
+
+        return currentPlan
