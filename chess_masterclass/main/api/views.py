@@ -1,5 +1,5 @@
-from main.models import ChessCourse
-from .serializers import ChessCourseSerializer
+from main.models import ChessCourse, ChessTable
+from .serializers import ChessCourseSerializer, ChessTableSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,4 +30,14 @@ class courseDetailAPI(APIView):
 
         return Response(serializer.data)
 
+class courseDetailTablesAPI(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def get(self, request, slug, format=None):
+        tables = ChessTable.objects.filter(course__slug=slug)
+        serializer = ChessTableSerializer(tables, many=True)
+
+        
+
+        return Response(serializer.data)

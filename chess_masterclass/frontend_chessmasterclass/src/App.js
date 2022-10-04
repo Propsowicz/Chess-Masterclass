@@ -17,7 +17,7 @@ import EditProfile from './pages/profile_edit/EditProfile';
 import EditProfileEmail from './pages/profile_edit/EditProfileEmail';
 import EditProfileName from './pages/profile_edit/EditProfileName';
 import EditProfilePass from './pages/profile_edit/EditProfilePass';
-import ForgotPass from './pages/ForgotPass';
+import ForgotPass from './pages/profile_edit/ForgotPass';
 import PremiumPlans from './pages/PremiumPlans';
 
 

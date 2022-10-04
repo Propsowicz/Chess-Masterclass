@@ -29,29 +29,7 @@ const CourseListItem = (props) => {
         }
     }
 
-    // let checkCurrentPremiumPlan = (props, userInfo) => {
-    //     if(userInfo.premium_plan === 'grandmaster'){
-    //         return true
-    //     }else if(userInfo.premium_plan === 'international_master'){
-    //         if(props.premiumPlan === 'grandmaster'){
-    //             return false
-    //         }else{
-    //             return true
-    //         }
-    //     }else if(userInfo.premium_plan === 'master'){
-    //         if(props.premiumPlan === 'grandmaster' || props.premiumPlan === 'international_master'){
-    //             return false
-    //         }else{
-    //             return true
-    //         }
-    //     }else if(userInfo.premium_plan === 'free'){
-    //         if(props.premiumPlan === 'free'){
-    //             return true
-    //         }else{
-    //             return false
-    //         }
-    //     }
-    // }
+ 
 
     
     let courseCartBtn = (props, userInfo) => {

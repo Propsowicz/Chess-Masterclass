@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from member.models import User
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class ChessCourse(models.Model):
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     premiumPlan = models.CharField(max_length=150, blank=True, null=True)
+    liked_by = models.ManyToManyField(User)
 
     def __str__(self):
         return f'{self.name} || {self.price}' 
@@ -30,3 +32,13 @@ def chess_course_pre_save_receiver(sender, instance, *args, **kwargs):
             instance.premiumPlan = 'international master'
         elif float(instance.price) == 34.99:
             instance.premiumPlan = 'grandmaster'
+
+
+class ChessTable(models.Model):
+    course = models.ForeignKey(ChessCourse, on_delete=models.CASCADE)
+
+    coord = models.CharField(max_length=300)
+    text = models.TextField()
+
+    def __str__(self):
+        return f'{self.course.name}'

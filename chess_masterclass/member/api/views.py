@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .serializers import UserSerializer, EditProfileSerializer
 from ..utils import AccountOperations
 from ..models import User
+from main.models import ChessCourse
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -20,7 +21,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         # way to send custom data through JWT
         token = super().get_token(user)
-            
+
+        liked_items = []
+        for obj in ChessCourse.objects.filter(liked_by=user): liked_items.append(obj.slug)
+        token['liked_courses'] = liked_items
         token['username'] = str(user.username)
         token['exp_date'] = str(user.expiration_date)
         token['user_acc_actv'] = str(user.is_activated)

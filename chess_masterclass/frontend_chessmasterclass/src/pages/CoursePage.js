@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import {UserContext} from '../context/UserContext'
 import {checkCurrentPremiumPlan} from '../utils/utlis'
+import { BsFillHeartFill } from 'react-icons/bs'
 
 import {
     useParams,
@@ -18,6 +19,7 @@ const CoursePage = () => {
 
     // list of course detail
     let [courseDetails, setcourseDetails] = useState([])
+    let [chessTables, setChessTables] = useState([])
 
     // fetch course details
     let courseDetailGET = async () => {
@@ -25,19 +27,38 @@ const CoursePage = () => {
         let data = await response.json()
         setcourseDetails(data)
     }
-    
+        
+    // function which call for api port with chess tables
+    let tablesGET = async () => {
+        let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseSlug}/table`)
+        let data = await response.json()
+        setChessTables(data)
+    }
+
+    let checkIfLiked = () => {        
+        if(userInfo.liked_courses.indexOf(courseSlug) === -1){            
+            return false
+        }else{
+            return true
+        }
+    }
+
+    let checkPermission = () => {
+        if(!checkCurrentPremiumPlan(courseDetails, userInfo)){
+            navigate()
+        }
+    }
+
     // effect function to check if there is an API call possible
     useEffect(() => {
+        console.log(checkIfLiked())
         courseDetailGET()
+        tablesGET()
+        checkPermission()
     }, [])
 
-    let getPrice = (price) => {        
-        if(price === '0.00'){
-            return price = 'FREE'
-        }else{
-            return price
-        }
-    }      
+    
+    
 
     let navigateToHomePage = () => {
         navigate('/')
@@ -45,16 +66,16 @@ const CoursePage = () => {
 
   return (
     <div className='container'>
-        {checkCurrentPremiumPlan(courseDetails, userInfo) ?
             <div>
-                <p className="fs-1">{courseDetails.name}</p>
+                <p className="fs-1">{courseDetails.name} {checkIfLiked() ? <BsFillHeartFill color='red' /> : <BsFillHeartFill color='black' />}</p>
                 <p className="fs-6">{courseDetails.body}</p>   
-                <ChessBoard />
+                {chessTables.map((table, index) => (
+                    <ChessBoard key={index} text={table.text} coord={table.coord} />
+                ))}
+
+                
             </div>
-            :
-            navigateToHomePage()
-        }
-        
+          
 
     </div>
   )
