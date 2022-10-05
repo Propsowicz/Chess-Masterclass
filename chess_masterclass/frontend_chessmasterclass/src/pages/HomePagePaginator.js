@@ -2,7 +2,7 @@ import React from 'react'
 import { CoursesList } from '../components/CoursesList'
 import Paginator from '../components/Paginator'
 
-const HomePage = () => {
+const HomePagePaginator = () => {
   
     
   return (
@@ -13,4 +13,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default HomePagePaginator

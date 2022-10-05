@@ -1,5 +1,6 @@
 import './App.css';
 import HomePage from './pages/HomePage';
+import HomePagePaginator from './pages/HomePagePaginator';
 import CoursePage from './pages/CoursePage';
 import Header from './components/Header'
 import Login from './pages/Login';
@@ -30,15 +31,22 @@ function App() {
           <Header />
           
           <Routes>          
+              {/* CHESS CONTEXT */}
               <Route path='/' element={<HomePage />}/>
+              <Route path='/page/:page' element={<HomePagePaginator />}/>
+
+              <Route path='/course/:slug' element={<CoursePage />}/>
+
+              {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
-              <Route path='/course/:slug' element={<CoursePage />}/>
               <Route path='/profile/:username' element={<EditProfile />}/>
               <Route path='/profile/:username/edit/email' element={<EditProfileEmail />}/>
               <Route path='/profile/:username/edit/name' element={<EditProfileName />}/>
               <Route path='/profile/:username/edit/pass' element={<EditProfilePass />}/>
               <Route path='/forgot-pass' element={<ForgotPass />}/>
+
+              {/* PAYMENT SERVIVCE */}
               <Route path='/premium-plans' element={<PremiumPlans />}/>
 
           </Routes>      
