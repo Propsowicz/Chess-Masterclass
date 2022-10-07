@@ -2,9 +2,8 @@ from .models import ChessCourse
 from django.core.paginator import Paginator
 
 class ChessCoursesPaginator():
-    def __init__(self, ChessCourse):
-        self.ChessCourse = ChessCourse
-        self.all_courses = self.ChessCourse.objects.all().order_by('price')        
+    def __init__(self, all_courses):        
+        self.all_courses = all_courses        
         # attr
         self.items_per_page = 2
 

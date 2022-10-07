@@ -16,7 +16,7 @@ class coursesListAPI(APIView):
     def get(self, request, format=None):
         all_courses = ChessCourse.objects.all().order_by('price')
         paginator = ChessCoursesPaginator(ChessCourse)
-        serializer = ChessCourseSerializer(paginator.getPageItems(page), many=True)
+        serializer = ChessCourseSerializer(paginator.getPageItems(1), many=True)
 
         return Response(serializer.data)
 
@@ -26,10 +26,43 @@ class coursesListPaginatorAPI(APIView):
 
     def get(self, request, page, format=None):
         all_courses = ChessCourse.objects.all().order_by('price')
-        paginator = ChessCoursesPaginator(ChessCourse)
+        paginator = ChessCoursesPaginator(all_courses)
         serializer = ChessCourseSerializer(paginator.getPageItems(page), many=True)
 
         return Response(serializer.data) 
+
+# Filter
+class coursesListFilterAPI(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]   
+
+    def get(self, request, filter, page, format=None):
+        filter_list = filter[6:].split(';')
+        if filter == 'filter':
+            all_courses = ChessCourse.objects.all().order_by('price')
+        else:
+            all_courses = ChessCourse.objects.all().order_by('price').filter(premiumPlan__in=filter_list)
+        
+        paginator = ChessCoursesPaginator(all_courses)
+        request.session['number_of_pages'] = paginator.getPageCount()
+        number_of_pages = str(paginator.getPageCount())
+
+
+        serializer = ChessCourseSerializer(paginator.getPageItems(page), many=True)
+
+        return Response({'data': serializer.data, 'number_of_pages': number_of_pages}) 
+
+# class coursesListFilterAPI(APIView):
+#     authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticatedOrReadOnly]   
+
+#     def get(self, request, filter, format=None):
+#         all_courses = ChessCourse.objects.all().order_by('price').filter(premiumPlan__exact=filter)
+#         serializer = ChessCourseSerializer(all_courses, many=True)
+
+#         return Response(serializer.data) 
+
+
 
 class courseDetailAPI(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -56,6 +89,6 @@ class pagesTotalNumber(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
-        paginator = ChessCoursesPaginator(ChessCourse)
+        print('sessions storage result: ' +  str(request.session.get('number_of_pages')))
 
-        return Response({'total_page_number': paginator.getPageCount()})
+        return Response({'total_page_number': 4})

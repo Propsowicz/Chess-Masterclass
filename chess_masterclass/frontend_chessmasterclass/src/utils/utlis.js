@@ -62,3 +62,4 @@ export function chessCoordsParser(props){
     }
     return parsedCoord
 }
+

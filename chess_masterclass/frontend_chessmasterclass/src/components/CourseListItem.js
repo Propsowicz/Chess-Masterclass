@@ -48,7 +48,7 @@ const CourseListItem = (props) => {
   return (
 
     <div>                   
-        <div className="col-sm-6">
+        <div className="col-sm-6" style={{paddingTop:'3rem'}}>
             <div className="card" style={{width: '18rem', height:'13rem',}}>
                 <div className="card-body">
                     <h5 className="card-title">{props.name} - {getPrice(props)}</h5>

@@ -1,6 +1,6 @@
 import './App.css';
 import HomePage from './pages/HomePage';
-import HomePagePaginator from './pages/HomePagePaginator';
+
 import CoursePage from './pages/CoursePage';
 import Header from './components/Header'
 import Login from './pages/Login';
@@ -33,7 +33,8 @@ function App() {
           <Routes>          
               {/* CHESS CONTEXT */}
               <Route path='/' element={<HomePage />}/>
-              <Route path='/page/:page' element={<HomePagePaginator />}/>
+  
+
 
               <Route path='/course/:slug' element={<CoursePage />}/>
 
