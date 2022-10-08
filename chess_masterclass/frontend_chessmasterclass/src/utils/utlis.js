@@ -33,7 +33,7 @@ export function checkCurrentPremiumPlan(props, userInfo){
         }else{
             return true
         }
-    }else if(userInfo.premium_plan === 'free'){
+    }else if(userInfo.premium_plan === 'free'){        
         if(props.premiumPlan === 'free'){
             return true
         }else{
@@ -49,17 +49,19 @@ export function premiumPlanName(userInfo){
     if(userInfo.premium_plan === 'free'){return 'Free'}
   }
 
-export function chessCoordsParser(props){
-    let x = "{a8: 'bR', a7: 'bP', a1:'wR', a2: 'wP'}"
-    let parsedCoord = {}
-    let rootProcessing = props.coord.substring(1, x.length - 1)
-    let firstLevelSplit = rootProcessing.split(',')
-    for(let i = 0; i < firstLevelSplit.length; i++){
-        let scdLevelSplit = firstLevelSplit[i].split(':')
-        let key = scdLevelSplit[0].replace(/ /g, '').replace(/"/g, '')     
-        let value = scdLevelSplit[1].replace(/ /g, '').replace(/'/g, '')       
-        parsedCoord[key] = value
-    }
-    return parsedCoord
-}
+
+//   to del
+// export function chessCoordsParser(props){
+//     let x = "{a8: 'bR', a7: 'bP', a1:'wR', a2: 'wP'}"
+//     let parsedCoord = {}
+//     let rootProcessing = props.coord.substring(1, x.length - 1)
+//     let firstLevelSplit = rootProcessing.split(',')
+//     for(let i = 0; i < firstLevelSplit.length; i++){
+//         let scdLevelSplit = firstLevelSplit[i].split(':')
+//         let key = scdLevelSplit[0].replace(/ /g, '').replace(/"/g, '')     
+//         let value = scdLevelSplit[1].replace(/ /g, '').replace(/'/g, '')       
+//         parsedCoord[key] = value
+//     }
+//     return parsedCoord
+// }
 

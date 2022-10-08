@@ -32,9 +32,7 @@ function App() {
           
           <Routes>          
               {/* CHESS CONTEXT */}
-              <Route path='/' element={<HomePage />}/>
-  
-
+              <Route path='/' element={<HomePage />}/>  
 
               <Route path='/course/:slug' element={<CoursePage />}/>
 

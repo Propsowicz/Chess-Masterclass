@@ -8,7 +8,7 @@ import {
     Link,
     useNavigate
 } from 'react-router-dom'
-import ChessBoard from '../components/ChessBoard'
+import ChessDiv from '../components/ChessDiv'
 
 const CoursePage = () => {
     let {userInfo} = useContext(UserContext)
@@ -26,6 +26,10 @@ const CoursePage = () => {
         let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseSlug}`)
         let data = await response.json()
         setcourseDetails(data)
+
+        if(!checkCurrentPremiumPlan(data, userInfo)){              
+            navigateToHomePage()
+        }
     }
         
     // function which call for api port with chess tables
@@ -44,18 +48,19 @@ const CoursePage = () => {
     }
 
     let checkPermission = () => {
-        if(!checkCurrentPremiumPlan(courseDetails, userInfo)){
-            navigate()
+        if(!checkCurrentPremiumPlan(courseDetails, userInfo)){  
+            console.log('tu co jest? :' + courseDetails.premiumPlan)          
+            console.log(checkCurrentPremiumPlan(courseDetails, userInfo))
+            // navigateToHomePage()
         }
     }
 
     // effect function to check if there is an API call possible
     useEffect(() => {
-        console.log(checkIfLiked())
         courseDetailGET()
         tablesGET()
-        checkPermission()
-    }, [])
+        // checkPermission()
+    }, [courseDetails.premiumPlan])
 
     
     
@@ -70,7 +75,7 @@ const CoursePage = () => {
                 <p className="fs-1">{courseDetails.name} {checkIfLiked() ? <BsFillHeartFill color='red' /> : <BsFillHeartFill color='black' />}</p>
                 <p className="fs-6">{courseDetails.body}</p>   
                 {chessTables.map((table, index) => (
-                    <ChessBoard key={index} text={table.text} coord={table.coord} />
+                    <ChessDiv key={index} text={table.text} coord={table.coord} />
                 ))}
 
                 

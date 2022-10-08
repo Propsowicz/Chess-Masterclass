@@ -1,37 +1,45 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Chessboard } from "react-chessboard";
-import {chessCoordsParser} from '../utils/utlis'
 
 // https://www.npmjs.com/package/react-chessboard
 
 const ChessBoard = (props) => {
+  const [game, setGame] = useState()
+
+  let chessCoordsParser = () => {
+    try{
+      let x = "{a8: 'bR', a7: 'bP', a1:'wR', a2: 'wP'}" // example
+      let parsedCoord = {}
+      let rootProcessing = props.coord.substring(1, x.length - 1)
+      let firstLevelSplit = rootProcessing.split(',')
+      for(let i = 0; i < firstLevelSplit.length; i++){
+          let scdLevelSplit = firstLevelSplit[i].split(':')
+          let key = scdLevelSplit[0].replace(/ /g, '').replace(/"/g, '')     
+          let value = scdLevelSplit[1].replace(/ /g, '').replace(/'/g, '')       
+          parsedCoord[key] = value
+      }
+      setGame(parsedCoord)
+    }catch (error){
+      setGame('')
+      console.log('error with chessboard')
+    }
     
-
-
-    // const [game, setGame] = useState('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR')
-    const [game, setGame] = useState(chessCoordsParser(props))
-    // lista game sie nadpisuje przy kazdym ruchu, trzeba by zrobic mozliwosc ustawiania figur dowolnie
-    // trzeba by wrzucic game do bazy danych (zrobic jakas podbaze z akapitami i tablicami szachowymi do Course)
+}
+  
+useEffect(() => {
+  chessCoordsParser()
+}, [])
    
 
   return (
-    <div className='container'>
-        <div className="card mb-3">
-        <div className="row g-0">
-          <div className="col-md-4">
-            <Chessboard id="BasicBoard" arePiecesDraggable={false} boardWidth={400} 
-              position={game} 
-              getPositionObject={setGame}
-              />
-          </div>
-          <div className="col-md-8">
-            <div className="card-body">              
-              <p className="card-text" style={{marginLeft: '0%', textAlign: 'left'}}>{props.text}</p>              
-            </div>
-          </div>
-        </div>
-      </div>       
+    <div>
+      <Chessboard id="BasicBoard" arePiecesDraggable={false} boardWidth={props.size} 
+                    position={game} 
+                    // getPositionObject={setGame}
+                    />
+
     </div>
+    
   )
 }
 

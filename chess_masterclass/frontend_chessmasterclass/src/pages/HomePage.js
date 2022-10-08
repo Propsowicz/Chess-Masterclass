@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { CoursesList } from '../components/CoursesList'
-import Filtering from '../components/Filtering'
-import Paginator from '../components/Paginator'
+import Filtering from '../components/HomePageComponents/Filtering'
+import Paginator from '../components/HomePageComponents/Paginator'
 import {Link} from 'react-router-dom'
+import SortItems from '../components/HomePageComponents/SortItems'
+import SearchItems from '../components/HomePageComponents/SearchItems'
 
 const HomePage = () => {
 
@@ -10,31 +12,28 @@ const HomePage = () => {
   let [page, setPage] = useState(1)
   let [totalPageNumber, setTotalPageNumber] = useState([])
   let [pagesList, setPagesList] = useState([])
+  let [representChessTable, setRepresentChessTable] = useState({})
 
-  let getTotalPageNumber = async () => {
-      // let reponse = await fetch('http://127.0.0.1:8000/api/courses/page/total-page-number')
-      // let data = await reponse.json()
-      // setTotalPageNumber(data.total_page_number)
+  let getTotalPageNumber = async () => {      
       let filterPath = 'filter'
         for (let key in filter){
             if(filter[key]){
                 filterPath = filterPath + `;${key}`
             }            
-          }
+          }        
           setFilterURL(filterPath)
 
-      let response = await fetch(`http://127.0.0.1:8000/api/courses/${filterPath}/${page}`)
+      let response = await fetch(`http://127.0.0.1:8000/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
       console.log(data.number_of_pages)
       setTotalPageNumber(parseFloat(data.number_of_pages))
+      setRepresentChessTable(data.course_main_chesstable_coors)
       localStorage.setItem('last_page_index', data.number_of_pages)
-
-
-
       
       let pageBtns = document.querySelectorAll('button[data-paginator]')
       if(data.number_of_pages < 3){        
         for(let i = 0; i < pageBtns.length; i++){
+          setPagesList([1, 2, 3])
           pageBtns[i].className = 'page-link disabled'
         }
       }else{      
@@ -79,6 +78,13 @@ const HomePage = () => {
 
 // END
 // FILTER
+let premiumPlansNames = {
+  free: 'Free',
+  master: 'Master',
+  im: 'International Master',
+  gm: 'Grandmaster'
+}
+
 let [filter, setFilter] = useState({
   'free': false,
   'master': false,
@@ -87,65 +93,75 @@ let [filter, setFilter] = useState({
 })
 
 let [filterUrl, setFilterURL] = useState('filter')
-
-
-  let freeFilterHandler = (e) => {    
+  let FilterHandler = (e) => {    
     setFilter(filter => ({...filter, [e.target.value]: !filter[e.target.value]}))    
-    // setFilter(!filter)  
-    // sessionStorage.setItem('freeFilter', freeFilter)    
+      
 }
-// setTheObject(prevState => ({ ...prevState, currentOrNewKey: newValue}));
-  
+// END
+
+// SORT
+let [sortBy, setSortBy] = useState('price')
+
+let sortHandler =  (e) => {
+  setSortBy(e.target.value)
+}
+
+// END
+
+// SEARCH
+let [searchString, setSearchString] = useState('search')
+let searchHandler = (e) => {
+  let searchText = e.target.value
+  if(searchText === ''){
+    setSearchString('search')
+  }else{
+    setSearchString(e.target.value)
+  }    
+}
+
+// END
+
 
 // USEEFFECT
 useEffect(() => {
-  console.log(filter)
-  console.log(page)
-  console.log('total page number: ' + totalPageNumber)
+  // console.log(filter)
+  // console.log('is not a number?: ' + page)
+  // console.log('total page number: ' + totalPageNumber)
+  // console.log(representChessTable)
+  // console.log(sortBy)
   getTotalPageNumber()
-},[filter, page, totalPageNumber])
+},[filter, page, totalPageNumber, sortBy, searchString])
 
   return (
-    <div className='container' style={{paddingTop:'3rem'}}>
-        <div className="form-check form-check-inline">
-              <input className="form-check-input" type="checkbox" id="free" value="free" onChange={freeFilterHandler} defaultChecked={false}  />
-              <label className="form-check-label" htmlFor="inlineCheckbox1">Free</label>
-        </div>
-        <div className="form-check form-check-inline">
-              <input className="form-check-input" type="checkbox" id="free" value="master" onChange={freeFilterHandler} defaultChecked={false}  />
-              <label className="form-check-label" htmlFor="inlineCheckbox1">Master</label>
-        </div>
-        <div className="form-check form-check-inline">
-              <input className="form-check-input" type="checkbox" id="free" value="international master" onChange={freeFilterHandler} defaultChecked={false}  />
-              <label className="form-check-label" htmlFor="inlineCheckbox1">International Master</label>
-        </div>
-        <div className="form-check form-check-inline">
-              <input className="form-check-input" type="checkbox" id="free" value="grandmaster" onChange={freeFilterHandler} defaultChecked={false}  />
-              <label className="form-check-label" htmlFor="inlineCheckbox1">Grandmaster</label>
-        </div>
+    <div className='container' style={{paddingTop:'0rem'}}>
+      <div className="accordion accordion-flush" id="accordionFlushExample">
+        <div className="accordion-item">
+          <h2 className="accordion-header" id="flush-headingOne">
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              View Managment
+            </button>
+          </h2>
+          <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div className='nav navbar-expand bg-light' style={{paddingTop:'1rem'}}>      
+              <SortItems handleOnClick={sortHandler} sort_by={sortBy} />
+              
+              <Filtering value={premiumPlansNames.free} handleOnChange={FilterHandler}/>
+              <Filtering value={premiumPlansNames.master} handleOnChange={FilterHandler}/>
+              <Filtering value={premiumPlansNames.im} handleOnChange={FilterHandler}/>
+              <Filtering value={premiumPlansNames.gm} handleOnChange={FilterHandler}/>
+                           
+              <SearchItems handleOnKeyUp={searchHandler} />   
+            </div>
+          </div>
+        </div>                
+      </div>
+         
+        
 
-        <CoursesList filter={filterUrl} page={page}/>
+      <CoursesList filter={filterUrl} page={page} sort_by={sortBy} search={searchString} representChessTable={representChessTable}/>
 
-
-
-
-
-
-      <div style={{paddingTop: '3rem'}}>
-        <nav aria-label="Page navigation example">
-            <ul className="pagination justify-content-center">
-                <li className="page-item">
-                    {isFirst() ? <button className="page-link disabled" to="#">Previous</button> : <button className="page-link" onClick={previousPage}>Previous</button> }
-                </li>
-                <li className="page-item"><button className="page-link" data-paginator onClick={selectPage} value={pagesList[0]}>{pagesList[0]}</button></li>
-                <li className="page-item"><button className="page-link" data-paginator onClick={selectPage} value={pagesList[1]}>{pagesList[1]}</button></li>
-                <li className="page-item"><button className="page-link" data-paginator onClick={selectPage} value={pagesList[2]}>{pagesList[2]}</button></li>
-                <li className="page-item">
-                    {isLast() ? <button className="page-link disabled" to="#">Next</button> : <button className="page-link" onClick={nextPage}>Next</button> }                
-                </li>
-            </ul>
-        </nav>
-    </div>
+      <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>
+      
     </div>
   )
 }

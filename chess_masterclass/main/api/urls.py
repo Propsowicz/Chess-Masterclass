@@ -13,7 +13,9 @@ urlpatterns = [
 
 
     # filtered Data
-    path('courses/<str:filter>/<int:page>', coursesListFilterAPI.as_view(), name='courses-filter'),
+    # path('courses/<str:filter>/<int:page>', coursesListFilterAPI.as_view(), name='courses-filter'),
+    # path('courses/<str:filter>/<int:page>', coursesListFilterAPI.as_view(), name='courses-filter'),
+    path('courses/<str:order_by>/<str:filter>/<str:search>/<int:page>', coursesListFilterAPI.as_view(), name='courses-filter'),
 
 
 
