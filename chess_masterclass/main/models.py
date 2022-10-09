@@ -11,10 +11,11 @@ class ChessCourse(models.Model):
     name = models.CharField(max_length=255)
     body = models.TextField()
     slug = models.SlugField(blank=True, null=True)
+    representationChessBoard = models.CharField(max_length=255, blank=True, null=True)
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     premiumPlan = models.CharField(max_length=150, blank=True, null=True)
-    liked_by = models.ManyToManyField(User)
+    liked_by = models.ManyToManyField(User, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} || {self.price}' 

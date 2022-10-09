@@ -20,6 +20,7 @@ import EditProfileName from './pages/profile_edit/EditProfileName';
 import EditProfilePass from './pages/profile_edit/EditProfilePass';
 import ForgotPass from './pages/profile_edit/ForgotPass';
 import PremiumPlans from './pages/PremiumPlans';
+import LikedCourses from './pages/LikedCourses';
 
 
 function App() {
@@ -32,9 +33,10 @@ function App() {
           
           <Routes>          
               {/* CHESS CONTEXT */}
-              <Route path='/' element={<HomePage />}/>  
-
+              <Route path='/' element={<HomePage />}/>
+              <Route path='/liked/' element={<LikedCourses />}/>
               <Route path='/course/:slug' element={<CoursePage />}/>
+
 
               {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>

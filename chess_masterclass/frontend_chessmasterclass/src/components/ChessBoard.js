@@ -8,9 +8,8 @@ const ChessBoard = (props) => {
 
   let chessCoordsParser = () => {
     try{
-      let x = "{a8: 'bR', a7: 'bP', a1:'wR', a2: 'wP'}" // example
       let parsedCoord = {}
-      let rootProcessing = props.coord.substring(1, x.length - 1)
+      let rootProcessing = props.coord.substring(1, props.coord.length - 1)
       let firstLevelSplit = rootProcessing.split(',')
       for(let i = 0; i < firstLevelSplit.length; i++){
           let scdLevelSplit = firstLevelSplit[i].split(':')

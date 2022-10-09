@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react'
-import { CoursesList } from '../components/CoursesList'
+import React, {useState, useEffect, useContext} from 'react'
+import { LikedCoursesList } from '../components/LikedCoursesList'
 import Filtering from '../components/HomePageComponents/Filtering'
 import Paginator from '../components/HomePageComponents/Paginator'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import SortItems from '../components/HomePageComponents/SortItems'
 import SearchItems from '../components/HomePageComponents/SearchItems'
+import {UserContext} from '../context/UserContext'
 
-const HomePage = () => {
 
-// PAGINATOR
-  const [page, setPage] = useState(1)
-  const [totalPageNumber, setTotalPageNumber] = useState([])
-  const [pagesList, setPagesList] = useState([])
+const LikedCourses = () => {
 
-  
+    const [page, setPage] = useState(1)
+    const [totalPageNumber, setTotalPageNumber] = useState([])
+    const [pagesList, setPagesList] = useState([])
+    
+    let {userInfo} = useContext(UserContext)
+    let username = userInfo.username
 
   let getCoursesData = async () => {      
       let filterPath = 'filter'
@@ -24,20 +26,16 @@ const HomePage = () => {
           }        
           setFilterURL(filterPath)
 
-      let response = await fetch(`http://127.0.0.1:8000/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
+      let response = await fetch(`http://127.0.0.1:8000/api/courses/${username}/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
       console.log(data.number_of_pages)
-      // const chessboard_coords = data.course_main_chesstable_coors
-      // setRepresentChessTable(chessboard_coords)
-      // console.log(chessboard_coords)
+      console.log(data)
 
 
       localStorage.setItem('last_page_index', data.number_of_pages)
 
       setTotalPageNumber(parseFloat(data.number_of_pages))
-      // console.log(data.course_main_chesstable_coors)
-      // setRepresentChessTable(data.course_main_chesstable_coors)
-      // localStorage.setItem('last_page_index', data.number_of_pages)
+      
       
       let pageBtns = document.querySelectorAll('button[data-paginator]')
       if(data.number_of_pages < 3){        
@@ -130,6 +128,18 @@ let searchHandler = (e) => {
 
 // END
 
+// PERMISSON
+    function isAuthenticated(userInfo){
+        if(userInfo.username){
+            return true
+        }else{
+            navigate('/login')
+            return false
+        }
+    } 
+    let navigate = useNavigate()
+// END
+
 
 // USEEFFECT
 useEffect(() => {
@@ -137,9 +147,11 @@ useEffect(() => {
   // console.log('is not a number?: ' + page)
   // console.log('total page number: ' + totalPageNumber)
   // console.log(sortBy)
+  console.log(isAuthenticated(userInfo))
   getCoursesData()
 
 },[filter, page, totalPageNumber, sortBy, searchString])
+
 
   return (
     <div className='container' style={{paddingTop:'0rem'}}>
@@ -167,7 +179,7 @@ useEffect(() => {
          
         
 
-      <CoursesList filter={filterUrl} page={page} sort_by={sortBy} search={searchString}/>
+      <LikedCoursesList filter={filterUrl} page={page} sort_by={sortBy} search={searchString}/>
 
       <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>
       
@@ -175,4 +187,4 @@ useEffect(() => {
   )
 }
 
-export default HomePage
+export default LikedCourses

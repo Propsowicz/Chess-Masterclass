@@ -93,7 +93,6 @@ const CourseListItem = (props) => {
     useEffect(() => {
         // getPremiumPlan()
         // console.log('what is type?: ' + typeof(props.representChessTable))
-        // console.log(props.representChessTable)
     },[chessPos])
 
 
