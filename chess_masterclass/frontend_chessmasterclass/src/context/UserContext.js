@@ -143,8 +143,7 @@ export const UserContextProvider = ({children}) => {
         // data
         userInfo: userInfo,
 
-        // functions
-        
+        // functions        
         register: register,
         login: login,
         logout: logout,

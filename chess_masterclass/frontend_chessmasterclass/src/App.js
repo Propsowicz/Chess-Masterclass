@@ -37,7 +37,6 @@ function App() {
               <Route path='/liked/' element={<LikedCourses />}/>
               <Route path='/course/:slug' element={<CoursePage />}/>
 
-
               {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
