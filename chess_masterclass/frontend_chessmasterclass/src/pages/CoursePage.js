@@ -51,18 +51,7 @@ const CoursePage = () => {
 
     }
 
-    // let checkIfLiked = () => {        
-    //     // if(courseDetails.liked_courses.indexOf(1) === -1){            
-    //     if(courseDetails.liked_by.indexOf(1) === -1){        
-    //         console.log(courseDetails.liked_by)
-    //         console.log(typeof(courseDetails.liked_by[0]))
-    //         console.log(typeof(1))
-    //         console.log(userInfo.user_id)
-    //         return false
-    //     }else{
-    //         return true
-    //     }
-    // }
+   
 
     let checkPermission = () => {
         if(!checkCurrentPremiumPlan(courseDetails, userInfo)){  
@@ -73,7 +62,7 @@ const CoursePage = () => {
     }
 
     let likeCourse = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${userInfo.username}/${courseDetails.id}`, {
+        let response = await fetch(`${url}/api/courses/${userInfo.username}/${courseDetails.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
