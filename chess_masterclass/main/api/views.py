@@ -22,8 +22,8 @@ from member.models import User
 #         return Response(serializer.data)
 
 class coursesListPaginatorAPI(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]   
+    authentication_classes = []
+    permission_classes = []   
 
     def get(self, request, page, format=None):
         all_courses = ChessCourse.objects.all().order_by('price')
@@ -34,8 +34,8 @@ class coursesListPaginatorAPI(APIView):
 
 # Filter
 class coursesListAPI(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]   
+    authentication_classes = []
+    permission_classes = []  
 
     def get(self, request, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -57,8 +57,8 @@ class coursesListAPI(APIView):
         return Response({'data': serializer.data, 'number_of_pages': number_of_pages}) 
 
 class coursesLikedByUserListAPI(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]   
+    authentication_classes = []
+    permission_classes = []   
 
     def get(self, request, username, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -115,8 +115,8 @@ class coursesLikedByUserListAPI(APIView):
 
 
 class courseDetailAPI(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = []
+    permission_classes = []
 
     def get(self, request, slug, format=None):
         course = ChessCourse.objects.get(slug=slug)
@@ -157,8 +157,8 @@ class likeCourse(APIView):
 
 # to delete
 class pagesTotalNumber(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = []
+    permission_classes = []
 
     def get(self, request, format=None):
         print('sessions storage result: ' +  str(request.session.get('number_of_pages')))
