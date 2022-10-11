@@ -197,7 +197,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'frontend_chessmasterclass/build/static',
     BASE_DIR / 'member/static',
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
