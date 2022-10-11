@@ -6,6 +6,7 @@ import {
        
 } from 'react-router-dom'
 import {alertMsg} from '../../utils/utlis'
+import {url} from '../../constants/urlAPI'
 
 const EditProfilePass = () => {
 
@@ -20,7 +21,7 @@ const EditProfilePass = () => {
         e.preventDefault()
         if(e.target.old_password.value && e.target.new_password.value && e.target.new_password2.value){
             if(e.target.new_password.value === e.target.new_password2.value){
-                            let response = await fetch(`http://127.0.0.1:8000/member/api/edit/${username}`, {
+                            let response = await fetch(`${url}/member/api/edit/${username}`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

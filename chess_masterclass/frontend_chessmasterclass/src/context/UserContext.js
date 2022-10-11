@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import {alertMsg} from '../utils/utlis'
+import {url} from '../constants/urlAPI'
 
 // create user context
 export const UserContext = createContext()
@@ -24,7 +25,7 @@ export const UserContextProvider = ({children}) => {
         e.preventDefault()
 
         // call to API
-        let response = await fetch('http://127.0.0.1:8000/member/api/token/', {
+        let response = await fetch(`${url}/member/api/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export const UserContextProvider = ({children}) => {
     // update refresh token every 4 mins
     let updateTokens = async () => {        
         // call to API
-        let response = await fetch('http://127.0.0.1:8000/member/api/token/refresh/', {
+        let response = await fetch(`${url}/member/api/token/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ export const UserContextProvider = ({children}) => {
         e.preventDefault()
         if(e.target.username.value && e.target.password.value && e.target.password2.value && e.target.email.value){
             if(e.target.password.value === e.target.password2.value){
-                let response = await fetch('http://127.0.0.1:8000/member/api/register/', {
+                let response = await fetch(`${url}/member/api/register/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

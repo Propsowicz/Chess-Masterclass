@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import {UserContext} from '../context/UserContext'
 import {checkCurrentPremiumPlan} from '../utils/utlis'
 import { BsFillHeartFill } from 'react-icons/bs'
+import {url} from '../constants/urlAPI'
 
 import {
     useParams,
@@ -25,7 +26,7 @@ const CoursePage = () => {
 
     // fetch course details
     let courseDetailGET = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseSlug}`)
+        let response = await fetch(`${url}/api/courses/${courseSlug}`)
         let data = await response.json()
         setCourseDetails(data)
         console.log(data)

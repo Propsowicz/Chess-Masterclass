@@ -6,6 +6,7 @@ import {
     Link   
 } from 'react-router-dom'
 import {premiumPlanName} from '../../utils/utlis'
+import {url} from '../../constants/urlAPI'
 
 const EditProfile = () => {
     let [userData, setUserData] = useState([])
@@ -15,7 +16,7 @@ const EditProfile = () => {
     let username = useParams().username
 
     let getUserData = async ()  => {
-        let response = await fetch(`http://127.0.0.1:8000/member/api/edit/${username}`)
+        let response = await fetch(`${url}/member/api/edit/${username}`)
         let data = await response.json()
         setUserData(data)
     }

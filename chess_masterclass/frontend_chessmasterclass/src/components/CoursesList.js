@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import CourseListItem from './CourseListItem'
 import { useLocation, useParams  } from 'react-router-dom'
+import {url} from '../constants/urlAPI'
 
 
 export const CoursesList = (props) => {
@@ -25,7 +26,7 @@ export const CoursesList = (props) => {
         //   }
         // console.log(filterPath)
 
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${props.sort_by}/${props.filter}/${props.search}/${props.page}`)
+        let response = await fetch(`${url}/api/courses/${props.sort_by}/${props.filter}/${props.search}/${props.page}`)
         let data = await response.json()
         console.log(data.data)
         setCoursesList(data.data)

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import CourseListItem from './CourseListItem'
 import { useLocation, useParams  } from 'react-router-dom'
 import {UserContext} from '../context/UserContext'
+import {url} from '../constants/urlAPI'
 
 export const LikedCoursesList = (props) => {
     let location = useLocation()
@@ -26,7 +27,7 @@ export const LikedCoursesList = (props) => {
         //   }
         // console.log(filterPath)
 
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${username}/${props.sort_by}/${props.filter}/${props.search}/${props.page}`)
+        let response = await fetch(`${url}/api/courses/${username}/${props.sort_by}/${props.filter}/${props.search}/${props.page}`)
         let data = await response.json()
         console.log(data.data)
         setCoursesList(data.data)

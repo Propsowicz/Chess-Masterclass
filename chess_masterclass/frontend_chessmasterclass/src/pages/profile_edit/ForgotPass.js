@@ -1,4 +1,5 @@
 import React from 'react'
+import {url} from '../../constants/urlAPI'
 
 const ForgotPass = () => {
 
@@ -25,7 +26,7 @@ const ForgotPass = () => {
             alert('At least one field must be filled!', 'edit-pass')
             
         }else{
-            let response = await fetch(`http://127.0.0.1:8000/member/api/forgot-pass/send`, {
+            let response = await fetch(`${url}/member/api/forgot-pass/send`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

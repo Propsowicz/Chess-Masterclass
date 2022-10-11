@@ -5,7 +5,7 @@ import {
        
 } from 'react-router-dom'
 import {alertMsg} from '../../utils/utlis'
-
+import {url} from '../../constants/urlAPI'
 
 const EditProfileName = () => {
 
@@ -18,7 +18,7 @@ const EditProfileName = () => {
         btnToBlock.disabled = true
         e.preventDefault()
 
-        let response = await fetch(`http://127.0.0.1:8000/member/api/edit/${username}`, {
+        let response = await fetch(`${url}/member/api/edit/${username}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

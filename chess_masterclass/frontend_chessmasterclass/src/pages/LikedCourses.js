@@ -6,7 +6,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import SortItems from '../components/HomePageComponents/SortItems'
 import SearchItems from '../components/HomePageComponents/SearchItems'
 import {UserContext} from '../context/UserContext'
-
+import {url} from '../constants/urlAPI'
 
 const LikedCourses = () => {
 
@@ -26,7 +26,7 @@ const LikedCourses = () => {
           }        
           setFilterURL(filterPath)
 
-      let response = await fetch(`http://127.0.0.1:8000/api/courses/${username}/${sortBy}/${filterPath}/${searchString}/${page}`)
+      let response = await fetch(`${url}/api/courses/${username}/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
       console.log(data.number_of_pages)
       console.log(data)

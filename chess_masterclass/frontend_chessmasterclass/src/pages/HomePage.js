@@ -5,6 +5,7 @@ import Paginator from '../components/HomePageComponents/Paginator'
 import {Link} from 'react-router-dom'
 import SortItems from '../components/HomePageComponents/SortItems'
 import SearchItems from '../components/HomePageComponents/SearchItems'
+import {url} from '../constants/urlAPI'
 
 const HomePage = () => {
 
@@ -24,7 +25,7 @@ const HomePage = () => {
           }        
           setFilterURL(filterPath)
 
-      let response = await fetch(`http://127.0.0.1:8000/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
+      let response = await fetch(`${url}/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
       console.log(data.number_of_pages)
       // const chessboard_coords = data.course_main_chesstable_coors
