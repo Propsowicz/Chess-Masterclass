@@ -8,7 +8,7 @@ services:
     name: chess_masterclass
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn chess_masterclass.wsgi:application"
+    startCommand: "cd chess_masterclass && gunicorn chess_masterclass.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
