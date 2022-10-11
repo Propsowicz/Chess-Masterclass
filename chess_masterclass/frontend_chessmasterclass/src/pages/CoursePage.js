@@ -44,7 +44,7 @@ const CoursePage = () => {
         
     // function which call for api port with chess tables
     let tablesGET = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/courses/${courseSlug}/table`)
+        let response = await fetch(`${url}/api/courses/${courseSlug}/table`)
         let data = await response.json()
         setChessTables(data)
         console.log(data)
