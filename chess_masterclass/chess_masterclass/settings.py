@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     # api service:
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+
+    # mail sender:
+    "anymail",
 ]
 
 REST_FRAMEWORK = {    
@@ -231,10 +234,20 @@ AUTH_USER_MODEL='member.User'
 
 
 # sending email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
-EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+# EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 
+# ANYMAIL - MAILJET
+
+ANYMAIL = {
+    'MAILJET_API_KEY': os.environ.get('MAILJET_API_KEY'),
+    'MAILJET_SECRET_KEY': os.environ.get('MAILJET_SECRET_KEY'),
+}
+
+EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+SERVER_EMAIL = os.environ.get('EMAIL_HOST_USER')

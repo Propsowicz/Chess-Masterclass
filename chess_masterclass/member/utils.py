@@ -46,7 +46,7 @@ class AccountOperations():
 
     def sendWelcomeEmail(self):
         user_keys = User_edit_keys.objects.get(user=self.user)
-        msg = f'Welcome on website. To finish your acount activation please visit the link: http://127.0.0.1:8000/member/activate/{user_keys.url} and verify login with password: {user_keys.secretkey}'
+        msg = f'Welcome on website. To finish your acount activation please visit the link: https://chess-masterclass.onrender.com/member/activate/{user_keys.url} and verify login with password: {user_keys.secretkey}'
         
         send_mail(      
         'Acount Activation - Chess Masterclass',
@@ -59,7 +59,7 @@ class AccountOperations():
     
     def sendNewUserKey(self):
         user_keys = User_edit_keys.objects.get(user=self.user)
-        msg = f'Hello. To change your password visit the link: http://127.0.0.1:8000/member/set-new-pass/{user_keys.url} and set new password using this key: {user_keys.secretkey}'
+        msg = f'Hello. To change your password visit the link: https://chess-masterclass.onrender.com/member/set-new-pass/{user_keys.url} and set new password using this key: {user_keys.secretkey}'
         
         send_mail(      
         'Change password - Chess Masterclass',
