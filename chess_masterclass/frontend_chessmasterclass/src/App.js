@@ -21,6 +21,7 @@ import EditProfilePass from './pages/profile_edit/EditProfilePass';
 import ForgotPass from './pages/profile_edit/ForgotPass';
 import PremiumPlans from './pages/PremiumPlans';
 import LikedCourses from './pages/LikedCourses';
+import CreateCourse from './pages/manage course/CreateCourse';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
               <Route path='/' element={<HomePage />}/>
               <Route path='/liked/' element={<LikedCourses />}/>
               <Route path='/course/:slug' element={<CoursePage />}/>
+              <Route path='/create-course' element={<CreateCourse />} />
 
               {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>

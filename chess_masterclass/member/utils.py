@@ -38,7 +38,7 @@ class AccountOperations():
         send_mail(      
         'Edited Profile - Chess Masterclass',
         msg,
-        str(os.getenv('EMAIL_HOST_USER')),
+        str(os.getenv('EMAIL2_HOST_USER')),
         [self.user.email],
         fail_silently=False,
         )                
@@ -51,7 +51,7 @@ class AccountOperations():
         send_mail(      
         'Acount Activation - Chess Masterclass',
         msg,
-        str(os.getenv('EMAIL_HOST_USER')),
+        str(os.getenv('EMAIL2_HOST_USER')),
         [self.user.email],
         fail_silently=False,
         )                
@@ -64,7 +64,7 @@ class AccountOperations():
         send_mail(      
         'Change password - Chess Masterclass',
         msg,
-        str(os.getenv('EMAIL_HOST_USER')),
+        str(os.getenv('EMAIL2_HOST_USER')),
         [self.user.email],
         fail_silently=False,
         )                

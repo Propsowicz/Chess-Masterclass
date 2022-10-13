@@ -29,7 +29,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # DEBUG = 'RENDER' not in os.environ
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME: 
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -216,16 +216,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # CORS
-# CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_METHODS = [
-#     "DELETE",
-#     "GET",
-#     "OPTIONS",
-#     "PATCH",
-#     "POST",
-#     "PUT",
-#     'UPDATE',
-# ]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    'UPDATE',
+]
 
 # EXTENDING USER MODEL
 AUTH_USER_MODEL='member.User'
@@ -243,11 +243,20 @@ AUTH_USER_MODEL='member.User'
 
 # ANYMAIL - MAILJET
 
-ANYMAIL = {
-    'MAILJET_API_KEY': os.environ.get('MAILJET_API_KEY'),
-    'MAILJET_SECRET_KEY': os.environ.get('MAILJET_SECRET_KEY'),
-}
+# ANYMAIL = {
+#     'MAILJET_API_KEY': os.environ.get('MAILJET_API_KEY'),
+#     'MAILJET_SECRET_KEY': os.environ.get('MAILJET_SECRET_KEY'),
+# }
 
-EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
-SERVER_EMAIL = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+# DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+# SERVER_EMAIL = os.environ.get('EMAIL_HOST_USER')
+
+# sending email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 's189.cyber-folks.pl'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = str(os.getenv('EMAIL2_HOST_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL2_HOST_PASSWORD'))
+
