@@ -22,6 +22,8 @@ import ForgotPass from './pages/profile_edit/ForgotPass';
 import PremiumPlans from './pages/PremiumPlans';
 import LikedCourses from './pages/LikedCourses';
 import CreateCourse from './pages/manage course/CreateCourse';
+import AllStudies from './pages/manage studies/AllStudies';
+import Study from './pages/manage studies/Study';
 
 
 function App() {
@@ -38,6 +40,10 @@ function App() {
               <Route path='/liked/' element={<LikedCourses />}/>
               <Route path='/course/:slug' element={<CoursePage />}/>
               <Route path='/create-course' element={<CreateCourse />} />
+
+              {/* STUDY CONTEXT */}
+              <Route path='/study' element={<AllStudies />} />
+              <Route path='/study/author-:author/:slug' element={<Study />} />
 
               {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>

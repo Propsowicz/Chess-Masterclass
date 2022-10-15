@@ -15,7 +15,7 @@ class ChessCourse(models.Model):
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     premiumPlan = models.CharField(max_length=150, blank=True, null=True)
-    liked_by = models.ManyToManyField(User, null=True, blank=True)
+    liked_by = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return f'{self.name} || {self.price}' 
@@ -43,3 +43,40 @@ class ChessTable(models.Model):
 
     def __str__(self):
         return f'{self.course.name}'
+
+# chess study
+
+class ChessStudy(models.Model):
+    name = models.CharField(max_length=255)
+    body = models.TextField()
+    slug = models.SlugField(blank=True, null=True)
+    representationChessBoard = models.CharField(max_length=255, blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    private =  models.BooleanField(default=True)
+
+    pub_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.name} || {self.author}'
+
+@receiver(pre_save, sender=ChessStudy)
+def chess_study_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
+
+
+class ChessStudyTable(models.Model):
+    study = models.ForeignKey(ChessStudy, on_delete=models.CASCADE)
+
+    coord = models.CharField(max_length=300)
+    text = models.TextField()
+
+    def __str__(self):
+        return f'{self.course.name}'
+
+class ChessStudyLikes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    study = models.ForeignKey(ChessStudy, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} liked {self.study.name} by {self.study.author.username}'

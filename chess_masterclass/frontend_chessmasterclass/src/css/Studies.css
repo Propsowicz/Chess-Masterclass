@@ -1,0 +1,11 @@
+.drop-down-div {
+    text-align: left;
+
+} 
+.study-btn-div {
+    padding: 0.25rem 0;
+}  
+.drop-down-div input{
+    margin-left: -0.7rem;
+    margin-top: 0.5rem;
+}

@@ -62,7 +62,7 @@ const Header = () => {
               </li>
 
               <li className="nav-item">
-                <Link className="nav-link" to="/create-course">Create Course</Link>
+                <Link className="nav-link" to="/study">Studies</Link>
               </li>            
                                
             </ul>
