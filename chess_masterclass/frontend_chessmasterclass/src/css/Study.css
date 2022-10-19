@@ -1,0 +1,32 @@
+.study-header-textarea{
+    border: none;
+    height: 1.6em;
+    text-align: center;
+    resize: none;
+}
+
+.study-header-label {
+    font-size: 0.5em;
+    color: gray;
+}
+
+.grid-study-header {
+    display: flex;
+    justify-content: center;
+}
+
+.study-body-textarea {
+    border: none;
+    width: 80%;
+    height: 20em;
+    text-align: center;
+    resize: none;
+}
+
+.study-chess-table-body{
+    border: none;
+    width: 100%;
+    height: 22em;
+    text-align: center;
+    resize: none;
+}

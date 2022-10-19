@@ -225,6 +225,7 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
     'UPDATE',
+    'CREATE',
 ]
 
 # EXTENDING USER MODEL

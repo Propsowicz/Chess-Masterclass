@@ -43,7 +43,7 @@ function App() {
 
               {/* STUDY CONTEXT */}
               <Route path='/study' element={<AllStudies />} />
-              <Route path='/study/author-:author/:slug' element={<Study />} />
+              <Route path='/study/author-:author/:id' element={<Study />} />
 
               {/* USER SERVICE */}
               <Route path='/login' element={<Login />}/>

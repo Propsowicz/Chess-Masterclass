@@ -1,5 +1,4 @@
 import React, {useContext, useState, useEffect} from 'react'
-import SideBar from '../../components/Studies/SideBar'
 import {Link} from 'react-router-dom'
 import Filtering from '../../components/HomePageComponents/Filtering'
 import SortItems from '../../components/HomePageComponents/SortItems'
@@ -215,11 +214,23 @@ let handleSort = (e) => {
 }
 // SORT -- end
 
+// CHECK IF USER IS LOGGED -- start
+let [loggedStatus, setLoggedStatus] = useState(false)
+
+let isUserLogged = () => {
+  if(typeof(userInfo.username) === 'undefined'){
+    setLoggedStatus(false)
+  }else{
+    setLoggedStatus(true)
+  }
+}
+
 
   useEffect(() => {
     getStudies()
+    isUserLogged()
     // showSelectedBtn()
-    console.log(selectedBtn)
+    console.log(userInfo.username)
     console.log('is liked ?  ' + liked)
     console.log(sort)
     console.log(totalPageNumber)
@@ -236,9 +247,9 @@ let handleSort = (e) => {
           </h2>
           <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
             <div className="accordion-body">
-              <AllPublicStudies handleOnChange={changePrivacyToPublic} className={selectedBtn['all-public-studies']}/>
-              <MyPublicStudies handleOnChange={changetoMyPublicStudies} className={selectedBtn['my-public-studies']}/>
-              <LikedPublic handleOnChange={changetoMyPublicLikedStudies} className={selectedBtn['liked-public-studies']}/>
+              <AllPublicStudies handleOnChange={changePrivacyToPublic} className={selectedBtn['all-public-studies']} />
+              <MyPublicStudies handleOnChange={changetoMyPublicStudies} className={selectedBtn['my-public-studies']} isLogged={loggedStatus}/>
+              <LikedPublic handleOnChange={changetoMyPublicLikedStudies} className={selectedBtn['liked-public-studies']} isLogged={loggedStatus}/>
             </div>
           </div>
         </div>
@@ -250,9 +261,9 @@ let handleSort = (e) => {
           </h2>
           <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
             <div className="accordion-body">
-                <AllPrivateStudies handleOnChange={changePrivacyToPrivate} className={selectedBtn['all-private-studies']}/>
-                <CreateStudy />
-                <LikedPrivate handleOnChange={changetoMyPrivateLikedStudies} className={selectedBtn['liked-private-studies']}/>
+                <AllPrivateStudies handleOnChange={changePrivacyToPrivate} className={selectedBtn['all-private-studies']} isLogged={loggedStatus}/>
+                <CreateStudy isLogged={loggedStatus} />
+                <LikedPrivate handleOnChange={changetoMyPrivateLikedStudies} className={selectedBtn['liked-private-studies']} isLogged={loggedStatus}/>
             </div>
           </div>
         </div>

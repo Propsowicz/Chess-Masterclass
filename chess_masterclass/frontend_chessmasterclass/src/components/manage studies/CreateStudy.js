@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {UserContext} from '../../context/UserContext'
-import {useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {alertMsg} from '../../utils/utlis'
 
 
-const CreateStudy = (e) => {
+const CreateStudy = (props) => {
     let {userInfo} = useContext(UserContext)
 
      function successAlertMsg(){
@@ -14,7 +14,7 @@ const CreateStudy = (e) => {
         document.getElementById('create-new-study').appendChild(alert)
         setTimeout(() => {
             document.getElementById('create-new-study').removeChild(alert)
-        }, 3000)
+        }, 5000)
      }
 
 
@@ -45,8 +45,12 @@ const CreateStudy = (e) => {
   return (
 
     <div id='create-new-study' className='study-btn-div'>
-        <button id='create-new-study-btn' type="button" class="btn btn-secondary" onClick={createNewStudy}>Create new study</button>    
-        
+        {props.isLogged
+        ?
+            <button id='create-new-study-btn' type="button" class="btn btn-secondary" onClick={createNewStudy}>Create new study</button>
+        :
+            <Link to='/login' id='create-new-study-btn' type="button" class="btn btn-secondary" >Create new study</Link>
+        }            
     </div>
     
   )

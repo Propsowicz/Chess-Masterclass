@@ -19,7 +19,7 @@ const StudiesList = (props) => {
   return (
     <div  className="row row-cols-1 row-cols-md-4 g-4" >
         {studyList.map((study, index) => (
-            <StudiesListItem name={study.name} body={study.body} author={study.username} representationChessBoard={study.representationChessBoard} slug={study.slug}/>
+            <StudiesListItem name={study.name} body={study.body} author={study.username} representationChessBoard={study.representationChessBoard} id={study.id} likes={study.number_of_likes}/>
         ))}
         
 

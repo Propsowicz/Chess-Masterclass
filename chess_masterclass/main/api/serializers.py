@@ -1,5 +1,5 @@
 from rest_framework import serializers  
-from main.models import ChessCourse, ChessTable, ChessStudy, ChessStudyTable
+from main.models import ChessCourse, ChessTable, ChessStudy, ChessStudyTable, ChessStudyLikes
 from member.api.serializers import UserSerializer
 
 class ChessCourseSerializer(serializers.ModelSerializer):
@@ -15,10 +15,19 @@ class ChessTableSerializer(serializers.ModelSerializer):
 class ChessStudySerializer(serializers.ModelSerializer):
     study = serializers.StringRelatedField()
     username = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
 
     class Meta:
         model = ChessStudy
-        fields = ['name', 'body', 'author', 'slug', 'representationChessBoard', 'private', 'username', 'study']
+        fields = ['name', 'body', 'id', 'author', 'slug', 'representationChessBoard', 'private', 'username', 'study', 'number_of_likes', 'followers']
     def get_username(self, study):
         return study.author.username
 
+    def get_followers(self, study):        
+        return [_.user.id for _ in ChessStudyLikes.objects.filter(study=study)]   
+
+
+class ChessStudyTableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChessStudyTable
+        fields = '__all__'

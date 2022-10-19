@@ -11,7 +11,7 @@ class ChessCourse(models.Model):
     name = models.CharField(max_length=255)
     body = models.TextField()
     slug = models.SlugField(blank=True, null=True)
-    representationChessBoard = models.CharField(max_length=255, blank=True, null=True)
+    representationChessBoard = models.CharField(max_length=600, blank=True, null=True)
 
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     premiumPlan = models.CharField(max_length=150, blank=True, null=True)
@@ -38,7 +38,7 @@ def chess_course_pre_save_receiver(sender, instance, *args, **kwargs):
 class ChessTable(models.Model):
     course = models.ForeignKey(ChessCourse, on_delete=models.CASCADE)
 
-    coord = models.CharField(max_length=300)
+    coord = models.CharField(max_length=600)
     text = models.TextField()
 
     def __str__(self):
@@ -50,7 +50,7 @@ class ChessStudy(models.Model):
     name = models.CharField(max_length=255)
     body = models.TextField()
     slug = models.SlugField(blank=True, null=True)
-    representationChessBoard = models.CharField(max_length=255, blank=True, null=True)
+    representationChessBoard = models.CharField(max_length=600, blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     private =  models.BooleanField(default=True)
 
@@ -58,6 +58,11 @@ class ChessStudy(models.Model):
 
     def __str__(self):
         return f'{self.name} || {self.author}'
+
+    @property
+    def number_of_likes(self):        
+        return self.chessstudylikes_set.all().count()
+    
 
 @receiver(pre_save, sender=ChessStudy)
 def chess_study_pre_save_receiver(sender, instance, *args, **kwargs):
@@ -68,11 +73,11 @@ def chess_study_pre_save_receiver(sender, instance, *args, **kwargs):
 class ChessStudyTable(models.Model):
     study = models.ForeignKey(ChessStudy, on_delete=models.CASCADE)
 
-    coord = models.CharField(max_length=300)
+    coord = models.CharField(max_length=600)
     text = models.TextField()
 
     def __str__(self):
-        return f'{self.course.name}'
+        return f'{self.study.name}'
 
 class ChessStudyLikes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

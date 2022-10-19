@@ -13,8 +13,8 @@ const ChessBoard = (props) => {
       let firstLevelSplit = rootProcessing.split(',')
       for(let i = 0; i < firstLevelSplit.length; i++){
           let scdLevelSplit = firstLevelSplit[i].split(':')
-          let key = scdLevelSplit[0].replace(/ /g, '').replace(/"/g, '')     
-          let value = scdLevelSplit[1].replace(/ /g, '').replace(/'/g, '')       
+          let key = scdLevelSplit[0].replace(/ /g, '').replace(/"/g, '').replace(/'/g, '').replace('/', '')       
+          let value = scdLevelSplit[1].replace(/ /g, '').replace(/'/g, '').replace(/"/g, '').replace('/', '')            
           parsedCoord[key] = value
       }
       setGame(parsedCoord)
@@ -23,11 +23,12 @@ const ChessBoard = (props) => {
       console.log('error with chessboard')
     }
     
+    
 }
   
 useEffect(() => {
   chessCoordsParser()
-}, [])
+}, [props.coord])
    
 
   return (

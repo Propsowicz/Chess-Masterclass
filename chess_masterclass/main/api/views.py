@@ -1,5 +1,5 @@
 from main.models import ChessCourse, ChessTable, ChessStudy, ChessStudyTable, ChessStudyLikes
-from .serializers import ChessCourseSerializer, ChessTableSerializer, ChessStudySerializer
+from .serializers import ChessCourseSerializer, ChessTableSerializer, ChessStudySerializer, ChessStudyTableSerializer
 
 from rest_framework.views import APIView
 from rest_framework import status
@@ -159,6 +159,31 @@ class likeCourse(APIView):
             course.liked_by.add(user)
             return Response('course liked')
                     
+class editCourse(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request, id, tableId):
+        data = request.data
+        table = ChessTable.objects.get(id=tableId)
+        if data['method'] == 'COORD':
+            table.coord = data['coord']            
+        elif data['method'] == 'BODY':
+            table.text = data['text']            
+       
+        table.save() 
+        return Response({'msg':'Course content has been edited'})
+
+    def put(self, request, id):
+        data = request.data
+        course = ChessCourse.objects.get(id=id)             
+        if data['method'] == 'TITLE':
+            course.name = data['title']            
+        elif data['method'] == 'COURSE-BODY':
+            course.body = data['body']            
+        course.save()
+        return Response({'msg':'Course content has been edited'})
+
 
 
 
@@ -187,36 +212,37 @@ class EditStudyAPI(APIView):
 
 
 
-# create deafult study
-class CreateStudyAPI(APIView):
+# manage studies
+class AllStudiesAPI(APIView):
     authentication_classes = []
     permission_classes = []    
 
-    def post(self, request, username):
-        user = User.objects.get(username=username)       
+    def post(self, request, username): # create deafult study (deafult: private, deafault name: My chess study #{next free number})
+        user = User.objects.get(username=username)
+        # get next free chess study number by username   
         all_user_studies = ChessStudy.objects.filter(author=user) 
         try: 
             user_study_next_id = all_user_studies.count() + 1
         except:
             user_study_next_id = 1
-
+        # some deafults
         body = 'Please insert description...'
-        position = 'start'
+        position = '{a1:"wR",a2:"wP",a7:"bP",a8:"bR",b1:"wN",b2:"wP",b7:"bP",b8:"bN",c1:"wB",c2:"wP",c7:"bP",c8:"bB",d1:"wQ",d2:"wP",d7:"bP",d8:"bQ",e1:"wK",e2:"wP",e7:"bP",e8:"bK",f1:"wB",f2:"wP",f7:"bP",f8:"bB",g1:"wN",g2:"wP",g7:"bP",g8:"bN",h1:"wR",h2:"wP",h7:"bP",h8:"bR"}'
         private = True
         name = f'My chess study #{user_study_next_id}'
 
-        if user_study_next_id > 1:            
-            last_users_study_pub_date = all_user_studies.order_by('-pub_date')[0].pub_date
-            time_border = last_users_study_pub_date + timedelta(minutes = 5)            
+        # security from overcreating a lot of studies - you need to w8 5 minutes to create new study
+        if user_study_next_id > 1:      # if it is your >1 study - w8 5 minutes till creating a new one      
+            last_users_study_pub_date = all_user_studies.order_by('-pub_date')[0].pub_date  # get last created study
+            time_border = last_users_study_pub_date + timedelta(minutes = 5)                # create time border (adding 5 minutes to creation time) which has to be crossed before creating a new study
             if timezone.now() > time_border:
                 ChessStudy.objects.create(name=name, body=body, representationChessBoard=position, author=user, private=private)
                 return Response({'msg': f'Study created at {datetime.now()}'}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'msg': 'Please wait before adding a new study.'}, status=status.HTTP_401_UNAUTHORIZED)
-        else:
+        else:   # if it is your first study - create it
             ChessStudy.objects.create(name=name, body=body, representationChessBoard=position, author=user, private=private)
             return Response({'msg': f'Study created at {datetime.now()}'}, status=status.HTTP_201_CREATED)
-
         return Response({'msg': 'stmh went wrong'}, status=status.HTTP_401_UNAUTHORIZED)
 
     def get(self, request, username, access, private, liked, search, sort, page):    
@@ -248,12 +274,12 @@ class CreateStudyAPI(APIView):
             # search option
             query_set_search = query_set_liked.filter(name__icontains=search) | query_set_liked.filter(author__username__icontains=search)
         
-        # added liked count filed to current query set
+        # added liked count field to current query set
         studies_with_likes = query_set_search.annotate(likes=Count('chessstudylikes'))
         
         # sort by {sort}
         studies = studies_with_likes.order_by(sort)
-
+        
         # pagination
         paginator = ChessCoursesPaginator(studies)
         number_of_pages = str(paginator.getPageCount())   # number of pages of current query set
@@ -264,3 +290,112 @@ class CreateStudyAPI(APIView):
 
         return Response({'data': serializer.data, 'number_of_pages': number_of_pages})
         
+
+# manage single study
+class StudyAPI(APIView):
+    authentication_classes = []
+    permission_classes = []    
+
+    def get(self, request, username, id):
+        user = User.objects.get(username=username)
+        study = ChessStudy.objects.get(author=user, id=id)
+
+        serializer = ChessStudySerializer(study, many=False)
+
+        return Response(serializer.data)
+    
+    def put(self, request, username, id):
+        user = User.objects.get(username=username)
+        data = request.data
+       
+        study = ChessStudy.objects.get(id=id, author=user)
+        try:
+            study.name = data['name']
+        except:
+            pass
+        try:
+            study.body = data['body']
+        except:
+            pass
+        study.save()
+
+
+        return Response({'msg': 'ok'})
+
+class StudyTableAPI(APIView):
+    authentication_classes = []
+    permission_classes = []   
+
+    def get(self, request, username, id):
+        user = User.objects.get(username=username)
+        study = ChessStudy.objects.get(id=id, author=user)
+
+        tables = ChessStudyTable.objects.filter(study=study)
+        serializer = ChessStudyTableSerializer(tables, many=True)
+    
+        return Response(serializer.data)
+
+    def put(self, request, username, id, tableId):
+        table = ChessStudyTable.objects.get(id=tableId)
+        data = request.data
+        print(data)
+        try:
+            table.text = data['text']
+        except:
+            pass
+        try:
+            table.coord = data['coord']
+        except:
+            pass
+        table.save()
+
+        return Response({'msg': 'table was edited'})
+    
+    def delete(self, request, username, id, tableId):
+        table = ChessStudyTable.objects.get(id=tableId)
+        table.delete()
+
+        return Response({'msg': 'table has been deleted'})
+
+    def patch(self, request, username, id, tableId):
+        data = request.data
+        study = ChessStudy.objects.get(id=id)        
+        study.representationChessBoard = data['coord']
+        study.save()
+
+        return Response({'msg': 'selected position is now representative to Study'})
+
+    def post(self, request, username, id):
+        data = request.data
+        study = ChessStudy.objects.get(id=id)
+
+        if data['method'] == 'CREATE':
+            body = 'Please insert description...'
+            position = '{a1:"wR",a2:"wP",a7:"bP",a8:"bR",b1:"wN",b2:"wP",b7:"bP",b8:"bN",c1:"wB",c2:"wP",c7:"bP",c8:"bB",d1:"wQ",d2:"wP",d7:"bP",d8:"bQ",e1:"wK",e2:"wP",e7:"bP",e8:"bK",f1:"wB",f2:"wP",f7:"bP",f8:"bB",g1:"wN",g2:"wP",g7:"bP",g8:"bN",h1:"wR",h2:"wP",h7:"bP",h8:"bR"}'
+
+            ChessStudyTable.objects.create(study=study, coord=position, text=body)
+            return Response({'msg': 'a new table has been created'})    
+        if data['method'] == 'LIKE':   
+            user = User.objects.get(username=data['user'])
+            if ChessStudyLikes.objects.filter(user=user, study=study).exists():
+                ChessStudyLikes.objects.get(user=user, study=study).delete()
+            else:
+                ChessStudyLikes.objects.create(user=user, study=study)
+
+            return Response({'msg': 'liked or disliked'})    
+        if data['method'] == 'PRIVACY':
+            current_privacy = data['current_privacy']
+
+            if current_privacy:
+                study.private = False
+            else:
+                study.private = True
+            study.save()
+
+            return Response({'msg': 'privacy of study has been changed'})    
+        
+        if data['method'] == 'DELETE-STUDY':
+            study.delete()
+
+            return Response({'msg': 'study has been deleted'}) 
+

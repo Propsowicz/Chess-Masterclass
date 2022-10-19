@@ -11,11 +11,14 @@ import {
 } from 'react-router-dom'
 import ChessDiv from '../components/ChessDiv'
 import LikeHeart from '../components/LikeHeart'
+import NotEditableCourseContent from '../components/manage courses/NotEditableCourseContent'
+import EditableCourseContent from '../components/manage courses/EditableCourseContent'
 
 const CoursePage = () => {
     let {userInfo} = useContext(UserContext)
     let navigate = useNavigate()
     const [isCourseLiked, setIsColorLiked] = useState(false)
+    const [isUserCreator, setIsUserCreator] = useState(userInfo.user_creator)
 
     // get dynamic ID (from App.js course/:id)
     let courseSlug = useParams().slug
@@ -76,35 +79,49 @@ const CoursePage = () => {
         setIsColorLiked(!isCourseLiked)
     }
 
-
+    let checkIfUserIsCreator = () => {
+        if(userInfo.user_creator === 'False'){
+            return false
+        }else{
+            return true
+        }
+    }
+    
     
 
     // effect function to check if there is an API call possible
     useEffect(() => {
         courseDetailGET()
         tablesGET()
+        
         // console.log(checkIfLiked())
         // checkPermission()
-    }, [courseDetails.premiumPlan, ])
+    }, [courseDetails.premiumPlan, isUserCreator])
 
     
     
-
     let navigateToHomePage = () => {
         navigate('/')
     }  
 
   return (
     <div className='container'>
-            <div>
+            {checkIfUserIsCreator()
+            ?
+                <EditableCourseContent name={courseDetails.name} handleOnClick={likeCourse} isLiked={isCourseLiked} body={courseDetails.body} chessTables={chessTables} id={courseDetails.id} user={userInfo.username}/>
+            :
+                <NotEditableCourseContent name={courseDetails.name} handleOnClick={likeCourse} isLiked={isCourseLiked} body={courseDetails.body} chessTables={chessTables} />
+            }
+            {/* <div>
+                
                 <p className="fs-1">{courseDetails.name} <LikeHeart handleOnClick={likeCourse} isLiked={isCourseLiked}/></p>
                 <p className="fs-6">{courseDetails.body}</p>   
                 {chessTables.map((table, index) => (
                     <ChessDiv key={index} text={table.text} coord={table.coord} />
                 ))}
 
-                
-            </div>
+
+            </div> */}
           
 
     </div>
