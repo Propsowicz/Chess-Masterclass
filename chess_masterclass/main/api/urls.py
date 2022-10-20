@@ -34,7 +34,7 @@ urlpatterns = [
     # courses
     path('courses/<str:slug>', courseDetailAPI.as_view(), name='course-detail'),
     path('courses/<str:slug>/table', courseDetailTablesAPI.as_view(), name='course-detail-table'),    
-    path('courses/<str:username>/<int:id>', likeCourse.as_view(), name='like-course'),\
+    path('courses/<str:username>/<int:id>', likeCourse.as_view(), name='like-course'),
     path('course/creator-mode/edit/<int:id>', editCourse.as_view()),
     path('course/creator-mode/edit/<int:id>/<int:tableId>', editCourse.as_view()),
     

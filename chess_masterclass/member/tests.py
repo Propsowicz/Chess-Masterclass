@@ -249,3 +249,37 @@ class MemberServiceTest(TestCase):
         data = {'operation': 'email-edit', 'email': email, 'password': 'new_password123123'}
         response = self.client.post(url, json.dumps(data), content_type='application/json', follow=False)
         self.assertEqual(response.status_code, 406)
+
+    def test_edit_user_email_change_pasword_correct(self):
+        user_1 = User.objects.get(username='user1')
+        user_1.set_password('new_password123123')   # dunno why i need to do that
+        user_1.save()
+        new_password = 'newStrongPass'
+        old_password = 'new_password123123'
+        url = f'/member/api/edit/{user_1.username}'
+        data = {'operation': 'password-edit', 'new_password': new_password, 'old_password': old_password}
+        response = self.client.post(url, json.dumps(data), content_type='application/json', follow=False)
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_user_email_change_pasword_too_short(self):
+        user_1 = User.objects.get(username='user1')
+        user_1.set_password('new_password123123')   # dunno why i need to do that
+        user_1.save()
+        new_password = 'new'
+        old_password = 'new_password123123'
+        url = f'/member/api/edit/{user_1.username}'
+        data = {'operation': 'password-edit', 'new_password': new_password, 'old_password': old_password}
+        response = self.client.post(url, json.dumps(data), content_type='application/json', follow=False)
+        self.assertEqual(response.status_code, 400)
+
+    def test_edit_user_email_change_pasword_digit_only(self):
+        user_1 = User.objects.get(username='user1')
+        user_1.set_password('new_password123123')   # dunno why i need to do that
+        user_1.save()
+        new_password = '123456789'
+        old_password = 'new_password123123'
+        url = f'/member/api/edit/{user_1.username}'
+        data = {'operation': 'password-edit', 'new_password': new_password, 'old_password': old_password}
+        response = self.client.post(url, json.dumps(data), content_type='application/json', follow=False)
+        self.assertEqual(response.status_code, 400)
+    # EDIT PROFILE -- end

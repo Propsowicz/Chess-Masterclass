@@ -52,7 +52,7 @@ class ChessStudy(models.Model):
     slug = models.SlugField(blank=True, null=True)
     representationChessBoard = models.CharField(max_length=600, blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    private =  models.BooleanField(default=True)
+    private = models.BooleanField(default=True)
 
     pub_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
