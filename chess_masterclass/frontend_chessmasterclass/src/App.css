@@ -39,3 +39,36 @@
 .chessboard{
   padding-left: 1.5rem;
 }
+.break-line{
+  border-top: 2px solid;
+  margin: 10px;
+}
+.study-header{
+  margin-bottom: -5px;
+}
+
+@media (max-width:840px){
+  .responsive-filters{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;    
+    text-align: left;
+  }
+  .responsive-field{
+    text-align: left;
+    margin-left: 1.5em;
+  }
+  .resp-search{
+    width: 100%;
+  }
+  .resp-list-item{
+    margin-left: -2em;
+  }
+  .card{
+    margin: 0 auto;
+  }
+  .resp-accordion{
+    margin-top: -5em;
+    margin-left: 5em;
+  }
+}

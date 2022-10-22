@@ -1,6 +1,5 @@
-import React, {useContext, useEffect} from 'react'
-import {
-    useParams,
+import React, {useContext} from 'react'
+import {    
     Link
 } from 'react-router-dom'
 import {UserContext} from '../context/UserContext'
@@ -9,47 +8,14 @@ import NotLoggedUser from './NotLoggedUser'
 
 const Header = () => {
   let {userInfo} = useContext(UserContext)
-  let {logout} = useContext(UserContext)
-  console.log({userInfo})
-
-  // to było chyba do przesłania danych to template django
-  // var user = '{{request.user}}'
-  //   function getToken(name) {
-  //       let cookieValue = null;
-  //       if (document.cookie && document.cookie !== '') {
-  //           const cookies = document.cookie.split(';');
-  //           for (let i = 0; i < cookies.length; i++) {
-  //               const cookie = cookies[i].trim();
-  //               if (cookie.substring(0, name.length + 1) === (name + '=')) {
-  //                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-  //                   break;
-  //               }
-  //           }
-  //       }
-  //       return cookieValue;
-  //   }
-  //   const csrftoken = getToken('csrftoken');
-
-  //   let sendTokens = () =>{
-  //         // const url =  "{% url 'edit-profile-api' %}"
-  //         const url =  "http://127.0.0.1:8000/member/edit/api"
-  //         fetch(url, {
-  //             method:'POST',
-  //             headers:{
-  //                 'Content-Type':'application/json',
-  //                 'X-CSRFToken': csrftoken,
-  //             },
-  //           //   body:JSON.stringify(userInfo.username)
-  //             body:JSON.stringify(userInfo.username)
-  //         })       
-  //     }
       
-  
-
   return (
     <div>             
       <nav className="navbar navbar-expand-lg bg-light">
-        <div className="container-fluid">          
+        <div className="container-fluid">  
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>        
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
@@ -63,15 +29,13 @@ const Header = () => {
 
               <li className="nav-item">
                 <Link className="nav-link" to="/study">Studies</Link>
-              </li>            
+              </li>           
                                
             </ul>
             {userInfo.username ? <LogedUserDropDown /> : <NotLoggedUser />}           
           </div>
         </div>
-      </nav>
-
-        
+      </nav>       
     </div>
   )
 }

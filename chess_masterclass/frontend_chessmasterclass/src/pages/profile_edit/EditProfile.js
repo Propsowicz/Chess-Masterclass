@@ -11,16 +11,17 @@ import {url} from '../../constants/urlAPI'
 const EditProfile = () => {
     let [userData, setUserData] = useState([])
     let navigateLogin = useNavigate()
-
     let {userInfo} = useContext(UserContext)
     let username = useParams().username
 
+    // get user's data
     let getUserData = async ()  => {
         let response = await fetch(`${url}/member/api/edit/${username}`)
         let data = await response.json()
         setUserData(data)
     }
 
+    // check if logged user is user's profile owner
     function isAuthenticated(username, userInfo){
       if(username === userInfo.username){
         return true
@@ -29,6 +30,7 @@ const EditProfile = () => {
       }
     } 
 
+    // function to display success msg after edit profile (get msg text from loac storage)
     let checkForMsgs = () => {
       if(localStorage.getItem('success msg')){
         let msgDiv = document.querySelector('#success-div')
@@ -91,8 +93,7 @@ const EditProfile = () => {
         </div>
           :
             navigateToLogin()
-          }
-           
+          }           
     </div>
   )
 }

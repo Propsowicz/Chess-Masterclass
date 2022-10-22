@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react'
 import '../../../css/Study.css'
+import {url} from '../../../constants/urlAPI'
+
 
 const StudyChessTableBody = (props) => {
 
     let editChessTableBody = async (e) => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/${props.tableId}`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -14,19 +16,17 @@ const StudyChessTableBody = (props) => {
                     'text': e.target.value
                 }
             )
-        })
-        
+        })        
     }
     
     useEffect(() => {
-
     },[props.author])
 
   return (
     <div className="card-body">
         {props.isLogged
         ?
-            <textarea className='study-chess-table-body' onKeyUp={editChessTableBody}>{props.text}</textarea>
+            <textarea className='study-chess-table-body' onKeyUp={editChessTableBody} defaultValue={props.text}></textarea>
         :   
             <p className="card-text" style={{marginLeft: '0%', textAlign: 'left'}}>{props.text}</p>
         }

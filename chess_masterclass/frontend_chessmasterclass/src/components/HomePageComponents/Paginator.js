@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useParams, Link  } from 'react-router-dom'
 
 
-const Paginator = (props) => {
-   
+const Paginator = (props) => {   
     function previusPageOnClick(e){props.previousPageHandler(e)}
     function nextPageOnClick(e){props.nextPageHandler(e)}
-    function selectPageOnClick(e){props.selectPageHandler(e)}
-
-    
+    function selectPageOnClick(e){props.selectPageHandler(e)}    
   return (
     <div style={{paddingTop: '3rem'}}>
         <nav aria-label="Page navigation example">

@@ -21,25 +21,19 @@ const ChessBoard = (props) => {
     }catch (error){
       setGame('')
       console.log('error with chessboard')
-    }
-    
-    
+    }    
 }
   
 useEffect(() => {
   chessCoordsParser()
 }, [props.coord])
    
-
   return (
     <div>
       <Chessboard id="BasicBoard" arePiecesDraggable={false} boardWidth={props.size} 
                     position={game} 
-                    // getPositionObject={setGame}
                     />
-
-    </div>
-    
+    </div>    
   )
 }
 

@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {url} from '../../../constants/urlAPI'
 
 const StudyManagment = (props) => {
     let navigate = useNavigate()
@@ -13,7 +14,7 @@ const StudyManagment = (props) => {
     }
 
     let changePrivacy = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/change-privacy`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/change-privacy`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +30,7 @@ const StudyManagment = (props) => {
     }
 
     let deleteStudy = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/delete-study`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/delete-study`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,13 +49,13 @@ const StudyManagment = (props) => {
     <>
         {props.isLogged
         ?
-            <div class="btn-group dropstart" style={{float:'right'}}>
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <div className="btn-group dropstart" style={{float:'right'}}>
+                <button type="button" className="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Edit
                 </button>
-                <ul class="dropdown-menu">
-                    <li><button type="button" class="btn btn-light" onClick={changePrivacy}>Set as {checkIfPrivate(props)}</button></li>
-                    <li><button type="button" class="btn btn-light" onClick={deleteStudy}>Delete Study</button></li>
+                <ul className="dropdown-menu">
+                    <li><button type="button" className="btn btn-light" onClick={changePrivacy}>Set as {checkIfPrivate(props)}</button></li>
+                    <li><button type="button" className="btn btn-light" onClick={deleteStudy}>Delete Study</button></li>
                 </ul>
             </div>
         :

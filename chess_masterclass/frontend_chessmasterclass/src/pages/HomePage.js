@@ -8,13 +8,10 @@ import SearchItems from '../components/HomePageComponents/SearchItems'
 import {url} from '../constants/urlAPI'
 
 const HomePage = () => {
-
-// PAGINATOR
+// PAGINATOR -- start
   const [page, setPage] = useState(1)
   const [totalPageNumber, setTotalPageNumber] = useState([])
-  const [pagesList, setPagesList] = useState([])
-
-  
+  const [pagesList, setPagesList] = useState([])  
 
   let getCoursesData = async () => {      
       let filterPath = 'filter'
@@ -24,21 +21,9 @@ const HomePage = () => {
             }            
           }        
           setFilterURL(filterPath)
-
       let response = await fetch(`${url}/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
-      console.log(data.number_of_pages)
-      // const chessboard_coords = data.course_main_chesstable_coors
-      // setRepresentChessTable(chessboard_coords)
-      // console.log(chessboard_coords)
-
-
-      localStorage.setItem('last_page_index', data.number_of_pages)
-
-      setTotalPageNumber(parseFloat(data.number_of_pages))
-      // console.log(data.course_main_chesstable_coors)
-      // setRepresentChessTable(data.course_main_chesstable_coors)
-      // localStorage.setItem('last_page_index', data.number_of_pages)
+      setTotalPageNumber(parseFloat(data.number_of_pages))      
       
       let pageBtns = document.querySelectorAll('button[data-paginator]')
       if(data.number_of_pages < 3){        
@@ -85,9 +70,9 @@ const HomePage = () => {
   let previousPage = () => {
     setPage(page => page - 1)
   }
+// PAGINATOR -- end
 
-// END
-// FILTER
+// FILTER -- start
 let premiumPlansNames = {
   free: 'Free',
   master: 'Master',
@@ -107,18 +92,17 @@ const [filterUrl, setFilterURL] = useState('filter')
     setFilter(filter => ({...filter, [e.target.value]: !filter[e.target.value]}))    
       
 }
-// END
+// FILTER -- end
 
-// SORT
+// SORTING -- start
 const [sortBy, setSortBy] = useState('price')
 
 let sortHandler =  (e) => {
   setSortBy(e.target.value)
 }
+// SORTING -- end
 
-// END
-
-// SEARCH
+// SEARCH -- start
 const [searchString, setSearchString] = useState('search')
 let searchHandler = (e) => {
   let searchText = e.target.value
@@ -128,19 +112,12 @@ let searchHandler = (e) => {
     setSearchString(e.target.value)
   }    
 }
+// SEARCH -- end
 
-// END
-
-
-// USEEFFECT
-useEffect(() => {
-  // console.log(filter)
-  // console.log('is not a number?: ' + page)
-  // console.log('total page number: ' + totalPageNumber)
-  // console.log(sortBy)
+useEffect(() => {  
   getCoursesData()
-
-},[filter, page, totalPageNumber, sortBy, searchString])
+},[filter, page, totalPageNumber, sortBy, searchString])  
+// use effect is basically realoded every display option (filter/search/sort) is changed
 
   return (
     <div className='container' style={{paddingTop:'0rem'}}>
@@ -152,7 +129,8 @@ useEffect(() => {
             </button>
           </h2>
           <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div className='nav navbar-expand bg-light' style={{paddingTop:'1rem'}}>      
+            <div className='nav navbar-expand bg-light responsive-filters' style={{paddingTop:'1rem'}}>         
+
               <SortItems handleOnClick={sortHandler} sort_by={sortBy} />
               
               <Filtering value={premiumPlansNames.free} handleOnChange={FilterHandler}/>
@@ -165,13 +143,8 @@ useEffect(() => {
           </div>
         </div>                
       </div>
-         
-        
-
       <CoursesList filter={filterUrl} page={page} sort_by={sortBy} search={searchString}/>
-
-      <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>
-      
+      <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>      
     </div>
   )
 }

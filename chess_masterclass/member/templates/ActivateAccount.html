@@ -7,19 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    {% block scriptshead %}
-    <!-- <script src="{% static 'editProfile.js' %}">
-    </script> -->
-
-        
+    {% block scriptshead %}           
     {% endblock %}
-
-
 </head>
-<body>
-    
-
+<body> 
     {% block content %}
     <div class='container-sm' style="width: 20rem; padding-top: 3rem;">
         <form id="submit-form" method='submit' class="row g-3">
@@ -29,12 +20,10 @@
             </div>            
             <button id="submit-key" type="submit" class="btn btn-primary btn-block" >Verify</button>            
         </form>
-    </div> 
-    
+    </div>     
     {% endblock %}
 
     {% block scripts %}
-
     <script>
         let secretKey = "{{key}}"
         let userID = "{{user_id}}"
@@ -72,13 +61,8 @@
             .then((data) =>{
             })
             }
-    </script>
-        
-
+    </script>     
     {% endblock %}
-
-
-
 
 </body>
 </html>

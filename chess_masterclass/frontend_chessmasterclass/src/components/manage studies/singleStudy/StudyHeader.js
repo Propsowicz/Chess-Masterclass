@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import LikeHeart from '../../LikeHeart'
 import '../../../css/Study.css'
+import {url} from '../../../constants/urlAPI'
 
 
 const StudyHeader = (props) => {
@@ -12,7 +13,7 @@ const StudyHeader = (props) => {
 
   // UPDATE DATA -- start
   let editTitle = async (e) => {
-    let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}`, {
+    let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -42,7 +43,7 @@ const StudyHeader = (props) => {
         ?
           <div className="fs-1 grid-study-header">
               <div>
-                <textarea type='text' className='study-header-textarea' style={{width:`${textAreaWidth(props)}em`}} onKeyUp={editTitle}>{props.name}</textarea>
+                <textarea type='text' className='study-header-textarea' style={{width:`${textAreaWidth(props)}em`}} onKeyUp={editTitle} defaultValue={props.name}></textarea>
               </div>
               <div>
                 <span className='study-header-label'>by {props.author}</span> <LikeHeart handleOnClick={likeOnClick} isLiked={props.isLiked}/><span style={{fontSize:'0.6em', color:'grey'}}>{props.likes}</span>

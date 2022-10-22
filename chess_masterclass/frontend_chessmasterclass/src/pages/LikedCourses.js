@@ -2,21 +2,20 @@ import React, {useState, useEffect, useContext} from 'react'
 import { LikedCoursesList } from '../components/LikedCoursesList'
 import Filtering from '../components/HomePageComponents/Filtering'
 import Paginator from '../components/HomePageComponents/Paginator'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import SortItems from '../components/HomePageComponents/SortItems'
 import SearchItems from '../components/HomePageComponents/SearchItems'
 import {UserContext} from '../context/UserContext'
 import {url} from '../constants/urlAPI'
 
 const LikedCourses = () => {
-
+  // PAGINATOR -- start
     const [page, setPage] = useState(1)
     const [totalPageNumber, setTotalPageNumber] = useState([])
-    const [pagesList, setPagesList] = useState([])
-    
+    const [pagesList, setPagesList] = useState([])    
     let {userInfo} = useContext(UserContext)
     let username = userInfo.username
-
+    
   let getCoursesData = async () => {      
       let filterPath = 'filter'
         for (let key in filter){
@@ -28,14 +27,8 @@ const LikedCourses = () => {
 
       let response = await fetch(`${url}/api/courses/${username}/${sortBy}/${filterPath}/${searchString}/${page}`)
       let data = await response.json()
-      console.log(data.number_of_pages)
-      console.log(data)
 
-
-      localStorage.setItem('last_page_index', data.number_of_pages)
-
-      setTotalPageNumber(parseFloat(data.number_of_pages))
-      
+      setTotalPageNumber(parseFloat(data.number_of_pages))      
       
       let pageBtns = document.querySelectorAll('button[data-paginator]')
       if(data.number_of_pages < 3){        
@@ -74,17 +67,17 @@ const LikedCourses = () => {
   }
   let selectPage = (e) => {
     setPage(parseFloat(e.target.value))
-  }
-    
+  }    
   let nextPage = () => {
     setPage(page => page + 1)
   }
   let previousPage = () => {
     setPage(page => page - 1)
   }
+  // PAGINATOR -- end
 
-// END
-// FILTER
+
+  // FILTER -- start
 let premiumPlansNames = {
   free: 'Free',
   master: 'Master',
@@ -104,18 +97,17 @@ const [filterUrl, setFilterURL] = useState('filter')
     setFilter(filter => ({...filter, [e.target.value]: !filter[e.target.value]}))    
       
 }
-// END
+// FILTER -- end
 
-// SORT
+// SORTING -- start
 const [sortBy, setSortBy] = useState('price')
 
 let sortHandler =  (e) => {
   setSortBy(e.target.value)
 }
+// SORTING -- end
 
-// END
-
-// SEARCH
+// SEARCH -- start
 const [searchString, setSearchString] = useState('search')
 let searchHandler = (e) => {
   let searchText = e.target.value
@@ -125,10 +117,9 @@ let searchHandler = (e) => {
     setSearchString(e.target.value)
   }    
 }
+// SEARCH -- end
 
-// END
-
-// PERMISSON
+// PERMISSON -- start
     function isAuthenticated(userInfo){
         if(userInfo.username){
             return true
@@ -137,21 +128,13 @@ let searchHandler = (e) => {
             return false
         }
     } 
-    let navigate = useNavigate()
-// END
+    let navigate = useNavigate()    
+// PERMISSON -- end
 
-
-// USEEFFECT
-useEffect(() => {
-  // console.log(filter)
-  // console.log('is not a number?: ' + page)
-  // console.log('total page number: ' + totalPageNumber)
-  // console.log(sortBy)
-  console.log(isAuthenticated(userInfo))
+useEffect(() => {  
   getCoursesData()
-
+  isAuthenticated(userInfo)
 },[filter, page, totalPageNumber, sortBy, searchString])
-
 
   return (
     <div className='container' style={{paddingTop:'0rem'}}>
@@ -163,7 +146,7 @@ useEffect(() => {
             </button>
           </h2>
           <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div className='nav navbar-expand bg-light' style={{paddingTop:'1rem'}}>      
+            <div className='nav navbar-expand bg-light responsive-filters' style={{paddingTop:'1rem'}}>    
               <SortItems handleOnClick={sortHandler} sort_by={sortBy} />
               
               <Filtering value={premiumPlansNames.free} handleOnChange={FilterHandler}/>
@@ -177,8 +160,6 @@ useEffect(() => {
         </div>                
       </div>
          
-        
-
       <LikedCoursesList filter={filterUrl} page={page} sort_by={sortBy} search={searchString}/>
 
       <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>

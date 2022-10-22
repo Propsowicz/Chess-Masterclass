@@ -1,19 +1,18 @@
 import React from 'react'
 import {
     useParams, 
-    useNavigate,
-       
-} from 'react-router-dom'
+    useNavigate,       
+    } 
+from 'react-router-dom'
 import {alertMsg} from '../../utils/utlis'
 import {url} from '../../constants/urlAPI'
 
 const EditProfileName = () => {
 
+    // EDIT USER NAME -- start
     const navigate = useNavigate()
     let username = useParams().username 
-
-
-    let changeName = async (e)  => {
+        let changeName = async (e)  => {
         let btnToBlock = document.querySelector('#btn-submit-name')  
         btnToBlock.disabled = true
         e.preventDefault()
@@ -31,16 +30,16 @@ const EditProfileName = () => {
         })
         let status = await response.json()
 
-        if(response.status === 200){
+        if(response.status === 200){                                                                        // if 200 go to user's page
             navigate(`/profile/${username}`)
-            localStorage.setItem('success msg', 'Profile name has been successfully changed.')
-        }else{
+            localStorage.setItem('success msg', 'Profile name has been successfully changed.')              // save success msg in local storage to display it after navigation to user's profile page
+        }else{                                                                                              // if not 200 display error msg
             alertMsg('edit-name', status['Response msg'], 'btn-submit-name')
         }
-        btnToBlock.disabled = false
-
-        
+        btnToBlock.disabled = false        
     }
+    // EDIT USER NAME -- end
+
 
   return (
     <div className='container' style={{width: '20rem',paddingTop:'3rem',}}>

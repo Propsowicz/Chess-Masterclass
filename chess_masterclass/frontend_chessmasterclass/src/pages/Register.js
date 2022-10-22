@@ -1,11 +1,8 @@
 import React, {useContext} from 'react'
 import {UserContext} from '../context/UserContext'
 
-
 const Register = () => {
     let {register} = useContext(UserContext)
-
-
   return (
     <div className='container' style={{width: '20rem',paddingTop:'3rem',}}>
         <form onSubmit={register} className="row g-3" id='submit-field'>

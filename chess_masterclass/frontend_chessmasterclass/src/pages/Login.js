@@ -1,12 +1,11 @@
 import React, {useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 import { Link } from 'react-router-dom'
+import LoginMsg from '../developer_componenets/LoginMsg'
 
 const Login = () => {
-
-  // get hook func(login()) from UserContext.js
   let {login} = useContext(UserContext)
-
+  
   return (
     <div className='container-sm' style={{width: '20rem',paddingTop:'3rem',}}>
         <form onSubmit={login} className="row g-3" id='login-form'>    
@@ -31,9 +30,9 @@ const Login = () => {
 
           <div className="text-center">
             <p>Not a member? <Link to={'/register'}>Register!</Link></p>       
-          </div>      
-
+          </div>   
         </form>
+        <LoginMsg />
     </div>
   )
 }

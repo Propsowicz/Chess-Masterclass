@@ -1,9 +1,10 @@
 import React from 'react'
+import {url} from '../../../constants/urlAPI'
 
 const CreateStudyTable = (props) => {
 
     let createNewTable = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/create`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

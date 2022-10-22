@@ -1,18 +1,15 @@
 import './App.css';
 import HomePage from './pages/HomePage';
-
 import CoursePage from './pages/CoursePage';
 import Header from './components/Header'
 import Login from './pages/Login';
 import { UserContextProvider } from './context/UserContext';
-
-
 import {
   Routes,
   Route,
   BrowserRouter,
-
-} from 'react-router-dom'
+  } 
+from 'react-router-dom'
 import Register from './pages/Register';
 import EditProfile from './pages/profile_edit/EditProfile';
 import EditProfileEmail from './pages/profile_edit/EditProfileEmail';
@@ -21,25 +18,20 @@ import EditProfilePass from './pages/profile_edit/EditProfilePass';
 import ForgotPass from './pages/profile_edit/ForgotPass';
 import PremiumPlans from './pages/PremiumPlans';
 import LikedCourses from './pages/LikedCourses';
-import CreateCourse from './pages/manage course/CreateCourse';
 import AllStudies from './pages/manage studies/AllStudies';
 import Study from './pages/manage studies/Study';
 
-
 function App() {
   return (
-    <div className="App">
-      
+    <div className="App">      
       <BrowserRouter>
         <UserContextProvider>
-          <Header />
-          
+          <Header />          
           <Routes>          
               {/* CHESS CONTEXT */}
               <Route path='/' element={<HomePage />}/>
               <Route path='/liked/' element={<LikedCourses />}/>
               <Route path='/course/:slug' element={<CoursePage />}/>
-              <Route path='/create-course' element={<CreateCourse />} />
 
               {/* STUDY CONTEXT */}
               <Route path='/study' element={<AllStudies />} />
@@ -56,13 +48,9 @@ function App() {
 
               {/* PAYMENT SERVIVCE */}
               <Route path='/premium-plans' element={<PremiumPlans />}/>
-
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  
-
-    
-
     </div>
   );
 }

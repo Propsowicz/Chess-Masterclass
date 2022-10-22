@@ -7,7 +7,7 @@ const SearchItems = (props) => {
   return (
     <div className="container-fluid">
         <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onKeyUp={searchOnKeyUp}/>
+            <input className="form-control me-2 resp-search" type="search" placeholder="Search" aria-label="Search" onKeyUp={searchOnKeyUp}/>
         </form>
     </div>
   )

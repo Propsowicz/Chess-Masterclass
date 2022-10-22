@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useContext} from 'react'
 import {UserContext} from '../../context/UserContext'
 import {Link} from 'react-router-dom'
 import {alertMsg} from '../../utils/utlis'
+import {url} from '../../constants/urlAPI'
 
 
 const CreateStudy = (props) => {
@@ -20,7 +21,7 @@ const CreateStudy = (props) => {
 
     let createNewStudy = async (e) => {
         e.preventDefault()
-        let response = await fetch(`http://127.0.0.1:8000/api/study/${userInfo.username}/create`, {
+        let response = await fetch(`${url}/api/study/${userInfo.username}/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,19 +38,17 @@ const CreateStudy = (props) => {
             alertMsg('create-new-study', data.msg, 'create-new-study-btn',)
         }else{
             successAlertMsg()
-            console.log('Study has been created..')
         }
     }
-
 
   return (
 
     <div id='create-new-study' className='study-btn-div'>
         {props.isLogged
         ?
-            <button id='create-new-study-btn' type="button" class="btn btn-secondary" onClick={createNewStudy}>Create new study</button>
+            <button id='create-new-study-btn' type="button" className="btn btn-secondary" onClick={createNewStudy}>Create new study</button>
         :
-            <Link to='/login' id='create-new-study-btn' type="button" class="btn btn-secondary" >Create new study</Link>
+            <Link to='/login' id='create-new-study-btn' type="button" className="btn btn-secondary" >Create new study</Link>
         }            
     </div>
     

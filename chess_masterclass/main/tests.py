@@ -185,7 +185,7 @@ class ChessStudyTest(TestCase):
         self.assertEqual(msg1, "Please wait before adding a new study.")
         self.assertEqual(msg2, "Please wait before adding a new study.")
     # EDIT STUDY -- end
-
+    
     # DISPLAY STUDIES -- start
     def test_display_studies(self):
         privacy = 'public'
@@ -255,3 +255,6 @@ class ChessStudyTest(TestCase):
         self.assertEqual(self.study_user_1_public.chessstudytable_set.all().count(), 2)
         self.assertEqual(response.status_code, 200)
     # MANAGE CHESS STUDY TABLE -- end 
+    
+    
+    

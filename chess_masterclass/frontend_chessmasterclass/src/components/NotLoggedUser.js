@@ -1,6 +1,5 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-
 
 const NotLoggedUser = () => {
   return (
@@ -10,8 +9,7 @@ const NotLoggedUser = () => {
                     <Link to='login' className='nav-link'>Login</Link>
             </li>
         </ul>  
-    </div>
-    
+    </div>    
   )
 }
 

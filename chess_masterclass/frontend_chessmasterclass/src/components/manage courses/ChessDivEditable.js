@@ -4,7 +4,7 @@ import { Chessboard } from "react-chessboard";
 
 const ChessDivEditable = (props) => {
 
-    const [game, setGame] = useState()
+  const [game, setGame] = useState()
 
   let chessCoordsParser = () => {
     try{
@@ -21,9 +21,7 @@ const ChessDivEditable = (props) => {
     }catch (error){
       setGame('')
       console.log('error with chessboard')
-    }
-    
-    
+    }        
     }
 
     let upgradePosition = async (e) => {

@@ -6,8 +6,7 @@ from .utils import AccountOperations
 import json
 from django.contrib.auth import authenticate
 
-# Create your tests here.
-
+# User managment tests
 class MemberServiceTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='user1', email='somerandom@notexistingmail.com')

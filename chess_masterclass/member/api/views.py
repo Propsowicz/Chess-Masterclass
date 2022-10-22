@@ -13,8 +13,6 @@ from main.models import ChessCourse
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-# views:
-
 # custom token serializer
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):    
     @classmethod
@@ -24,12 +22,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         liked_items = []
         for obj in ChessCourse.objects.filter(liked_by=user): liked_items.append(obj.slug)
-        token['liked_courses'] = liked_items
+        token['liked_courses'] = liked_items                                        
         token['username'] = str(user.username)
         token['exp_date'] = str(user.expiration_date)
         token['user_acc_actv'] = str(user.is_activated)
         token['user_creator'] = str(user.is_creator)
-        token['premium_plan'] = AccountOperations(user).getUserPaymentPlan()
+        token['premium_plan'] = AccountOperations(user).getUserPaymentPlan()        # information obtained from AccountOperations class
 
         return token
 
@@ -57,7 +55,7 @@ class EditProfileAPI(APIView):
 
     # POST
     # with every request frontend sends dict item with operation type (ie 'email-edit')
-    # every operation has simple validation with reponse including msg&HTTP status
+    # every operation has simple validation with response including msg&HTTP status
     def post(self, request, *args, **kwargs):
         # general usage data
         data = request.data

@@ -11,20 +11,17 @@ export const UserContext = createContext()
 export const UserContextProvider = ({children}) => {   
 
     // lists with user/auth data
-    // check if there are tokens in local storage: if they are overwrite lists 
+    // check if there are tokens in local storage: if there are overwrite lists 
     let [authTokens, setAuthTokens] = useState(localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : [])
     let [userInfo, setUserInfo] = useState(localStorage.getItem('authTokens') ? jwt_decode(JSON.parse(localStorage.getItem('authTokens')).access) : [])
 
     // func to navigate (ie to homepage)
     const navigate = useNavigate()
 
-    // func to login user: from form(onSubmit) in Login.js get username and pass and send it to API. In reverse get tokens (custom one have all needed data)
-    let login = async (e) => {
-        // let btnToBlock = document.querySelector('#btn-login')  
-        // btnToBlock.disabled = true 
+    // LOGIN FUNCTION -- start
+    // from form(onSubmit) in Login.js get username and pass and send it to API. In reverse get tokens (via custom token i get needed all data)
+    let login = async (e) => {        
         e.preventDefault()
-
-        // call to API
         let response = await fetch(`${url}/member/api/token/`, {
             method: 'POST',
             headers: {
@@ -32,29 +29,26 @@ export const UserContextProvider = ({children}) => {
             },
             body: JSON.stringify({'username': e.target.username.value, 'password': e.target.password.value}),
         })
-        // get tokens in reponse
         let data = await response.json()        
 
-        // if status-200 then set Lists with data and save tokens in localstorage
         if(response.status === 200){
             setAuthTokens(data)
             setUserInfo(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))   
+            localStorage.setItem('authTokens', JSON.stringify(data))                                    // set JWT token in local storage
             navigate('/')
-        }else if(response.status === 401){
+        }else if(response.status === 401){                                                              // if 401 password doesnt match username
             alertMsg('login-form', 'Username or password is not correct. Try again.', 'btn-login')
-        }else if(response.status === 400){
+        }else if(response.status === 400){                                                              // if 400 fill all fields
             alertMsg('login-form', 'Please fill all fields.', 'btn-login')
         }else{
             console.log('smth went wrong')
         }
-        // btnToBlock.disabled = true 
-
     }
+    // LOGIN FUNCTION -- end
 
-    // update refresh token every 4 mins
+    // UPDATE TOKEN FUNCTION -- start
+    // update refresh token every 4 mins (django refresh it every 5 minutes so i want to overtake it here)
     let updateTokens = async () => {        
-        // call to API
         let response = await fetch(`${url}/member/api/token/refresh/`, {
             method: 'POST',
             headers: {
@@ -62,36 +56,36 @@ export const UserContextProvider = ({children}) => {
             },
             body: JSON.stringify({'refresh': authTokens?.refresh}),
         })
-        // get tokens in reponse
         let data = await response.json()
 
-        // if status-200 then set Lists with data and save tokens in localstorage
-        if(response.status === 200){
+        if(response.status === 200){                                        // set JWT token in local storage
             setAuthTokens(data)
             setUserInfo(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))              
         }
-        // else: smth is wrong and logout
         else{
-            logout()
+            logout()                                                        // if not 200 -> call logout()
         }
     }
+    // UPDATE TOKEN FUNCTION -- end
 
-    // logout
+    // LOGOUT -- start
+    // basically clear every useState and local storage
     let logout = () => {
         setAuthTokens([])
         setUserInfo([])
         localStorage.clear() 
         navigate('/')
     }   
+    // LOGOUT -- end
 
-    // register
+    // REGISTER -- end
     let register = async (e) => {
         let btnToBlock = document.querySelector('#btn-submit-register')  
         btnToBlock.disabled = true 
         e.preventDefault()
-        if(e.target.username.value && e.target.password.value && e.target.password2.value && e.target.email.value){
-            if(e.target.password.value === e.target.password2.value){
+        if(e.target.username.value && e.target.password.value && e.target.password2.value && e.target.email.value){         // check if all fields are filled
+            if(e.target.password.value === e.target.password2.value){                                                       // check if pass and repeated pass are the same
                 let response = await fetch(`${url}/member/api/register/`, {
                         method: 'POST',
                         headers: {
@@ -104,17 +98,17 @@ export const UserContextProvider = ({children}) => {
                     })
                     let status = await response.json()                    
                     
-                    if(response.status === 200 || response.status === 201){
+                    if(response.status === 200 || response.status === 201){                                                 // if 200 -> account has been created successfully
                         alertMsg('submit-field', 'Account has been created. Check you email to complete registration process.', 'btn-submit-register')
                         setTimeout(() => {
                             navigate('/')
      
                         }, 3000)
-                    }else if(status['username']){
+                    }else if(status['username']){                                                                           // username already exists
                         alertMsg('username', status['username'][0], 'btn-submit-register')
-                    }else if(status['email']){
+                    }else if(status['email']){                                                                              // email already exists
                         alertMsg('email', status['email'][0], 'btn-submit-register')
-                    }else if(status.password){
+                    }else if(status.password){                                                                              // get list of password valditaion (from django pass validator) errors
                         status.password[0].forEach(msg => {
                             alertMsg('password2', msg, 'btn-submit-register')                           
                         });                        
@@ -123,8 +117,7 @@ export const UserContextProvider = ({children}) => {
                     }
             }else{
                 alertMsg('password2', 'Passwords are not the same.', 'btn-submit-register')
-            }                                                       
-                
+            }                                           
         }else{
             alertMsg('submit-field', 'Please fill all fields.', 'btn-submit-register')
         }
@@ -139,18 +132,17 @@ export const UserContextProvider = ({children}) => {
         return () => clearInterval(interval)
     }, [])
 
-    // collection of data to hook between components
     let contextData = {
         // data
         userInfo: userInfo,
 
-        // functions        
+        // functions
         register: register,
         login: login,
         logout: logout,
     }
 
-    // provider DOM
+    // PROVIDER DOM
     return(
         <UserContext.Provider value={contextData}>
             {children}

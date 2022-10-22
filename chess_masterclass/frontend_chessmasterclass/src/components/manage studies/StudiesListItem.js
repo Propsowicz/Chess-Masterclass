@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import ChessBoard from '../ChessBoard'
 import GoToStudy from './GoToStudy'
-import { AiOutlineHeart } from 'react-icons/ai'
 import StudyLikeHeart from './StudyLikeHeart'
 
 
@@ -17,7 +16,6 @@ const StudiesListItem = (props) => {
             return body
         }    
     }
-
     
   return (
     <div>

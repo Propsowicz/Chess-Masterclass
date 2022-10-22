@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Chessboard } from "react-chessboard";
-
+import {url} from '../../../constants/urlAPI'
 
 const StudyChessBoard = (props) => {
     const [game, setGame] = useState()
@@ -24,23 +24,19 @@ const StudyChessBoard = (props) => {
         }        
     }
 
-    let upgradePosition = async (e) => {
-        console.log('czy działam?')
-        console.log(e)
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/${props.tableId}`, {
+    let upgradePosition = async (e) => {        
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(
                 {
-                    // 'coord': currentPosition
                     'coord': e
                 }
             )
         })
     }
-
     
 useEffect(() => {
   chessCoordsParser()

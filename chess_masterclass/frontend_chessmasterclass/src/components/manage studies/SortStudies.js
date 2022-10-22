@@ -16,6 +16,7 @@ const SortStudies = (props) => {
             }
         }
     }
+    
     useEffect(() => {
         checkSelectedSorting()
     }, [props.sort_by])

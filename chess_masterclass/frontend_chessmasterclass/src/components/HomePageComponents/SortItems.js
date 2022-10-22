@@ -3,13 +3,10 @@ import React, {useEffect} from 'react'
 const SortItems = (props) => {
 
     function sortingOnClick(e){props.handleOnClick(e)}
-
     let dropDownItems = document.querySelectorAll('.dropdown-item')
-
     let checkSelectedSorting = () => {
         for(let i = 0; i < dropDownItems.length; i++){
             if(dropDownItems[i].value === props.sort_by){
-                console.log('selected: ' + dropDownItems[i].value)
                 dropDownItems[i].style.background = '#ABABAB'
             }else{
                 dropDownItems[i].style.background = null
@@ -22,7 +19,7 @@ const SortItems = (props) => {
     }, [props.sort_by])
 
   return (
-    <div className="dropdown-center" style={{paddingRight:'1rem'}}>
+    <div className="dropdown-center responsive-field" style={{paddingRight:'1rem'}}>
         <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Sort by:
         </button>

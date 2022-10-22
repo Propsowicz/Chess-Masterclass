@@ -15,32 +15,10 @@ from django.db.models import Count
 import json
 from django.utils import timezone
 from datetime import datetime, timedelta
-# API views:
 
-# class coursesListAPI(APIView):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     permission_classes = [IsAuthenticatedOrReadOnly]    
-
-#     def get(self, request, format=None):
-#         all_courses = ChessCourse.objects.all().order_by('price')
-#         paginator = ChessCoursesPaginator(ChessCourse)
-#         serializer = ChessCourseSerializer(paginator.getPageItems(1), many=True)
-
-#         return Response(serializer.data)
-
-class coursesListPaginatorAPI(APIView):
-    authentication_classes = []
-    permission_classes = []   
-
-    def get(self, request, page, format=None):
-        all_courses = ChessCourse.objects.all().order_by('price')
-        paginator = ChessCoursesPaginator(all_courses)
-        serializer = ChessCourseSerializer(paginator.getPageItems(page), many=True)
-
-        return Response(serializer.data) 
-
-# Filter
-class coursesListAPI(APIView):
+# CHESS COURSES VIEW CLASSES
+# DISPLAY ALL COURSES (HOMEPAGE)
+class coursesListAPI(APIView):              
     authentication_classes = []
     permission_classes = []  
 
@@ -63,6 +41,7 @@ class coursesListAPI(APIView):
 
         return Response({'data': serializer.data, 'number_of_pages': number_of_pages}) 
 
+# DISPLAY LIKED COURSES
 class coursesLikedByUserListAPI(APIView):
     authentication_classes = []
     permission_classes = []   
@@ -87,40 +66,7 @@ class coursesLikedByUserListAPI(APIView):
 
         return Response({'data': serializer.data, 'number_of_pages': number_of_pages}) 
 
-# # Filter
-# class coursesListFilterAPI(APIView):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     permission_classes = [IsAuthenticatedOrReadOnly]   
-
-#     def get(self, request, filter, page, format=None):
-#         filter_list = filter[6:].split(';')
-#         if filter == 'filter':
-#             all_courses = ChessCourse.objects.all().order_by('price')
-#         else:
-#             all_courses = ChessCourse.objects.all().order_by('price').filter(premiumPlan__in=filter_list)
-        
-#         paginator = ChessCoursesPaginator(all_courses)
-#         request.session['number_of_pages'] = paginator.getPageCount()
-#         number_of_pages = str(paginator.getPageCount())
-
-
-#         serializer = ChessCourseSerializer(paginator.getPageItems(page), many=True)
-
-#         return Response({'data': serializer.data, 'number_of_pages': number_of_pages}) 
-
-
-# class coursesListFilterAPI(APIView):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     permission_classes = [IsAuthenticatedOrReadOnly]   
-
-#     def get(self, request, filter, format=None):
-#         all_courses = ChessCourse.objects.all().order_by('price').filter(premiumPlan__exact=filter)
-#         serializer = ChessCourseSerializer(all_courses, many=True)
-
-#         return Response(serializer.data) 
-
-
-
+# DISPLAY SINGLE COURSE
 class courseDetailAPI(APIView):
     authentication_classes = []
     permission_classes = []
@@ -130,9 +76,8 @@ class courseDetailAPI(APIView):
         serializer = ChessCourseSerializer(course, many=False)
 
         return Response(serializer.data)
-
-        
-
+     
+# DISPLAY TABLES OF EACH COURSE
 class courseDetailTablesAPI(APIView):
     authentication_classes = []
     permission_classes = []
@@ -143,7 +88,7 @@ class courseDetailTablesAPI(APIView):
 
         return Response(serializer.data)
 
-
+# LIKE COURSE
 class likeCourse(APIView):
     authentication_classes = []
     permission_classes = []
@@ -159,6 +104,7 @@ class likeCourse(APIView):
             course.liked_by.add(user)
             return Response('course liked')
                     
+# EDIT COURSES -- ONLY TO USER WITH is_creator == True
 class editCourse(APIView):
     authentication_classes = []
     permission_classes = []
@@ -186,33 +132,23 @@ class editCourse(APIView):
 
 
 
-
-# to delete
-class pagesTotalNumber(APIView):
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, format=None):
-        print('sessions storage result: ' +  str(request.session.get('number_of_pages')))
-
-        return Response({'total_page_number': 4})
-
-class EditStudyAPI(APIView):
-    authentication_classes = []
-    permission_classes = []
+# class EditStudyAPI(APIView):
+#     authentication_classes = []
+#     permission_classes = []
 
     
 
-    def put(self, request, username, slug):
-        study = ChessStudy.objects.get(id=id)
-        serializer = ChessStudySerializer(study, many=False)
+#     def put(self, request, username, slug):
+#         study = ChessStudy.objects.get(id=id)
+#         serializer = ChessStudySerializer(study, many=False)
 
-        return Response(serializer.data)
-
-
+#         return Response(serializer.data)
 
 
-# manage studies
+
+
+# CHESS STUDY VIEW CLASSES
+# DISPLAY ALL STUDIES AND CREATE NEW STUDY (with some deafaults)
 class AllStudiesAPI(APIView):
     authentication_classes = []
     permission_classes = []    
@@ -288,10 +224,9 @@ class AllStudiesAPI(APIView):
         loaded_studies = paginator.getPageItems(page)     
         serializer = ChessStudySerializer(loaded_studies, many=True)
 
-        return Response({'data': serializer.data, 'number_of_pages': number_of_pages})
-        
+        return Response({'data': serializer.data, 'number_of_pages': number_of_pages})        
 
-# manage single study
+# DISPLAY SINGE STUDY (AND EDIT IT)
 class StudyAPI(APIView):
     authentication_classes = []
     permission_classes = []    
@@ -318,14 +253,14 @@ class StudyAPI(APIView):
         except:
             pass
         study.save()
-
-
         return Response({'msg': 'ok'})
 
+# DISPLAY CHESS TABLES FOR EACH STUDY (also create, delete and edit it)
 class StudyTableAPI(APIView):
     authentication_classes = []
     permission_classes = []   
 
+    # get table data
     def get(self, request, username, id):
         user = User.objects.get(username=username)
         study = ChessStudy.objects.get(id=id, author=user)
@@ -335,6 +270,7 @@ class StudyTableAPI(APIView):
     
         return Response(serializer.data)
 
+    # edit table data
     def put(self, request, username, id, tableId):
         table = ChessStudyTable.objects.get(id=tableId)
         data = request.data
@@ -348,15 +284,16 @@ class StudyTableAPI(APIView):
         except:
             pass
         table.save()
-
         return Response({'msg': 'table was edited'})
     
+    # delete table
     def delete(self, request, username, id, tableId):
         table = ChessStudyTable.objects.get(id=tableId)
         table.delete()
 
         return Response({'msg': 'table has been deleted'})
 
+    # set table as representative table of study
     def patch(self, request, username, id, tableId):
         data = request.data
         study = ChessStudy.objects.get(id=id)        
@@ -365,16 +302,20 @@ class StudyTableAPI(APIView):
 
         return Response({'msg': 'selected position is now representative to Study'})
 
+    # post method which handle a few operations
     def post(self, request, username, id):
         data = request.data
         study = ChessStudy.objects.get(id=id)
 
+        # create new table with position of full chesstable
         if data['method'] == 'CREATE':
             body = 'Please insert description...'
             position = '{a1:"wR",a2:"wP",a7:"bP",a8:"bR",b1:"wN",b2:"wP",b7:"bP",b8:"bN",c1:"wB",c2:"wP",c7:"bP",c8:"bB",d1:"wQ",d2:"wP",d7:"bP",d8:"bQ",e1:"wK",e2:"wP",e7:"bP",e8:"bK",f1:"wB",f2:"wP",f7:"bP",f8:"bB",g1:"wN",g2:"wP",g7:"bP",g8:"bN",h1:"wR",h2:"wP",h7:"bP",h8:"bR"}'
 
             ChessStudyTable.objects.create(study=study, coord=position, text=body)
             return Response({'msg': 'a new table has been created'})    
+        
+        # like study
         if data['method'] == 'LIKE':   
             user = User.objects.get(username=data['user'])
             if ChessStudyLikes.objects.filter(user=user, study=study).exists():
@@ -382,7 +323,9 @@ class StudyTableAPI(APIView):
             else:
                 ChessStudyLikes.objects.create(user=user, study=study)
 
-            return Response({'msg': 'liked or disliked'})    
+            return Response({'msg': 'liked or disliked'})   
+        
+        # set privacy of study (public or private) 
         if data['method'] == 'PRIVACY':
             current_privacy = data['current_privacy']
 
@@ -394,6 +337,7 @@ class StudyTableAPI(APIView):
 
             return Response({'msg': 'privacy of study has been changed'})    
         
+        # delete study
         if data['method'] == 'DELETE-STUDY':
             study.delete()
 

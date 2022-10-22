@@ -17,12 +17,7 @@ import LikedPrivate from '../../components/manage studies/LikedPrivate'
 
 const AllStudies = () => {
   let {userInfo} = useContext(UserContext)
-
-  // BUTTONS CLASSNAME -- start
-
-  // let [selectedBtn, setSelectedBtn] = useState('all-public-studies')
-  // let [list_of_btns, setList_of_btns] = useState(['all-public-studies', 'all-private-studies', 'my-public-studies', 'liked-public-studies', 'liked-private-studies'])
-
+  // BUTTONS NAME -- start
   let [selectedBtn, setSelectedBtn] = useState({
     'all-public-studies': 'btn btn-primary',
     'all-private-studies': 'btn btn-secondary',
@@ -30,26 +25,7 @@ const AllStudies = () => {
     'liked-public-studies': 'btn btn-secondary',
     'liked-private-studies': 'btn btn-secondary',
   })
-
-  // let showSelectedBtn = () => {
-  //   // list_of_btns = ['all-public-studies', 'all-private-studies', 'my-public-studies', 'liked-public-studies', 'liked-private-studies']
-  //   document.getElementById(list_of_btns[0]).className = 'btn btn-primary'
-
-  //   for(let i = 0; i < list_of_btns.length; i++){
-  //     if(i === selectedBtn){
-  //       console.log('im in ok')
-  //       document.getElementById(i).className = 'btn btn-primary'
-  //     }else{
-  //       console.log('im in not ok')
-  //       document.getElementById(i).className = 'btn btn-secondary'
-  //     }
-  //   }
-  // }
-
-
-// BUTTONS CLASSNAME -- end
-
-  // user > access > private > liked > search > sort > page
+  // BUTTONS NAME -- end
 
   // PAGINATOR -- start
   const [page, setPage] = useState(1)
@@ -59,9 +35,6 @@ const AllStudies = () => {
   let getStudies = async () => {
     let response = await fetch(`http://127.0.0.1:8000/api/study/${userInfo.username}/${access}/${isPrivate}/${liked}/${search}/${sort}/${page}`)
     let data = await response.json()
-    console.log(data)
-
-
       setTotalPageNumber(parseFloat(data.number_of_pages))
      
       let pageBtns = document.querySelectorAll('button[data-paginator]')
@@ -108,7 +81,6 @@ const AllStudies = () => {
   let previousPage = () => {
     setPage(page => page - 1)
   }
-
 // PAGINATOR -- end
 
 // ACCESS -- start
@@ -138,8 +110,6 @@ let changePrivacyToPrivate = (e) => {
     'liked-private-studies': 'btn btn-secondary',
   })
 }
-  
-
 // ACCESS -- end
 
 // PRIVATE -- start
@@ -157,7 +127,6 @@ let changetoMyPublicStudies = (e) => {
     'liked-private-studies': 'btn btn-secondary',
   })
 }
-
 // PRIVATE -- end
 
 // LIKED -- start
@@ -188,8 +157,6 @@ let changetoMyPrivateLikedStudies = (e) => {
     'liked-private-studies': 'btn btn-primary',
   })
 }
-
-
 // LIKED -- end
 
 // SEARCH -- start
@@ -201,8 +168,7 @@ let handleSearch = (e) => {
     setSearch('search')
   }else{
     setSearch(e.target.value)
-  }
-  
+  }  
 }
 // SEARCH -- end
 
@@ -224,71 +190,46 @@ let isUserLogged = () => {
     setLoggedStatus(true)
   }
 }
-
+// CHECK IF USER IS LOGGED -- end
 
   useEffect(() => {
     getStudies()
-    isUserLogged()
-    // showSelectedBtn()
-    console.log(userInfo.username)
-    console.log('is liked ?  ' + liked)
-    console.log(sort)
-    console.log(totalPageNumber)
+    isUserLogged()    
   }, [page, totalPageNumber, access, isPrivate, liked, search, sort, selectedBtn])
 
   return (
     <div> 
-      <div className="accordion" id="accordionPanelsStayOpenExample" style={{width: '18rem', zIndex: '99', position: 'fixed', paddingTop: '3rem'}}>
+      <div className="accordion resp-accordion" id="accordionPanelsStayOpenExample" style={{width: '18rem', zIndex: '99', position: 'fixed', paddingTop: '3rem'}}>
         <div className="accordion-item drop-down-div">
           <h2 className="accordion-header" id="panelsStayOpen-headingOne">
             <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-              Public
+              Studies Managment
             </button>
           </h2>
           <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
             <div className="accordion-body">
+              <p className='fw-bolder study-header'>Public Studies</p>
+              <hr className='break-line'></hr>
               <AllPublicStudies handleOnChange={changePrivacyToPublic} className={selectedBtn['all-public-studies']} />
               <MyPublicStudies handleOnChange={changetoMyPublicStudies} className={selectedBtn['my-public-studies']} isLogged={loggedStatus}/>
               <LikedPublic handleOnChange={changetoMyPublicLikedStudies} className={selectedBtn['liked-public-studies']} isLogged={loggedStatus}/>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item drop-down-div">
-          <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-              Private
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
-            <div className="accordion-body">
-                <AllPrivateStudies handleOnChange={changePrivacyToPrivate} className={selectedBtn['all-private-studies']} isLogged={loggedStatus}/>
-                <CreateStudy isLogged={loggedStatus} />
-                <LikedPrivate handleOnChange={changetoMyPrivateLikedStudies} className={selectedBtn['liked-private-studies']} isLogged={loggedStatus}/>
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item drop-down-div">
-          <h2 className="accordion-header" id="panelsStayOpen-headingThree">
-            <button className="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-              View Managment
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
-            <div className="accordion-body">
+              <p className='fw-bolder study-header'>Private Studies</p>
+              <hr className='break-line'></hr>
+              <AllPrivateStudies handleOnChange={changePrivacyToPrivate} className={selectedBtn['all-private-studies']} isLogged={loggedStatus}/>              
+              <LikedPrivate handleOnChange={changetoMyPrivateLikedStudies} className={selectedBtn['liked-private-studies']} isLogged={loggedStatus}/>
+              <hr className='break-line'></hr>
+              <CreateStudy isLogged={loggedStatus} />
+              <hr className='break-line'></hr>
               <SortStudies handleOnClick={handleSort} sort_by={sort} />
               <SearchItems handleOnKeyUp={handleSearch}/>
             </div>
           </div>
-        </div>
-        
+        </div>        
       </div>
       <div className='container'>
         <StudiesList user={userInfo.username} privacy={isPrivate} liked={liked} search={search} sort={sort} page={page} access={access}/>
-
         <Paginator previousPageHandler={previousPage} nextPageHandler={nextPage} selectPageHandler={selectPage} page_list={pagesList} isFirst={isFirst()} isLast={isLast()} page={page}/>
-
       </div>
-
     </div>
   )
 }

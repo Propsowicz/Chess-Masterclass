@@ -6,14 +6,13 @@ import datetime
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
         extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
+    def create(self, validated_data):           # method to create new user
         user = User(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -23,12 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def validate_email(self, value):
+    def validate_email(self, value):        # validation of email existance (method raise error whenever new email address already exists in database)
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("This email already exists.")
         return value
 
-    def validate(self, data):
+    def validate(self, data):               # validator of password -> check if password meet the requirements of django pass validation -> if it's not OK create list of errors (ie: password is too short, etc.)
         user = User(**data)
         password = data['password']
         errors = {}
@@ -40,7 +39,6 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)         
         return data
  
-
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

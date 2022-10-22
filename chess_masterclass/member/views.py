@@ -9,9 +9,6 @@ from .models import User, User_edit_keys
 from django.shortcuts import redirect
 from .utils import AccountOperations
 
-# Create your views here.
-
-
 # activate User's account template
 def activate(request, url):
     user_keys = User_edit_keys.objects.get(url=url)

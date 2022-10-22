@@ -1,30 +1,15 @@
 import React from 'react'
 import {url} from '../../constants/urlAPI'
+import {alertMsg} from '../../utils/utlis'
 
 const ForgotPass = () => {
 
-    // alerts
-    function alert(text, id){
-        let alertDiv = document.querySelector(`#${id}`)
-        let msg = document.createElement('p')            
-        let btn = document.querySelector('#btn-submit')
-
-        msg.innerText = text
-        msg.style.color = 'red'
-        alertDiv.appendChild(msg)        
-        btn.disabled = true
-        setTimeout(() => {
-            alertDiv.removeChild(msg);
-            btn.disabled = false
-          }, 2000)        
-    }
-
+    // FORGOT PASSWORD OPERATION -- start
     let sendNewUserKey = async (e)  => {
         e.preventDefault()
 
         if(!e.target.username.value && !e.target.email.value){
-            alert('At least one field must be filled!', 'edit-pass')
-            
+            alertMsg('edit-pass', 'At least one field must be filled!', 'btn-submit')            
         }else{
             let response = await fetch(`${url}/member/api/forgot-pass/send`, {
             method: 'POST',
@@ -38,17 +23,16 @@ const ForgotPass = () => {
             })
             })
             let data = await response.json()
-            console.log(data)
 
             if(response.status === 200){
-                alert(data['Response msg'], 'edit-pass')
+                alertMsg('edit-pass', data['Response msg'], 'btn-submit')
                         
             }else{
-                alert(data['Response msg'], 'edit-pass')
+                alertMsg('edit-pass', data['Response msg'], 'btn-submit')
             }
-        }  
-        
+        }          
     }
+    // FORGOT PASSWORD OPERATION -- end
 
   return (  
 
@@ -62,14 +46,9 @@ const ForgotPass = () => {
             <div className="form-outline" id='email'>
                 <input id='email' type="email" className="form-control" name="email" placeholder="Enter email address"/>
                 <label id='email-ID' className="form-label" htmlFor="email">Enter email address</label>
-            </div>
-            
-            <button id='btn-submit' type="submit" className="btn btn-primary btn-block" >Send email with key</button>
-            
+            </div>            
+            <button id='btn-submit' type="submit" className="btn btn-primary btn-block" >Send email with key</button>            
         </form>
-
-
-
     </div>
   )
 }

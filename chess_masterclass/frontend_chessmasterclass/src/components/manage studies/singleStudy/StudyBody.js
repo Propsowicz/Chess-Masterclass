@@ -1,12 +1,11 @@
 import React from 'react'
 import '../../../css/Study.css'
-
+import {url} from '../../../constants/urlAPI'
 
 const StudyBody = (props) => {
 
-    // UPDATE DATA -- start
     let editBody = async (e) => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -14,21 +13,19 @@ const StudyBody = (props) => {
         body: JSON.stringify(
             {
             'body': e.target.value
-            }
-           
+            }           
         )
         })
         let data = await response.json()    
     }
-  // UPDATE DATA -- end
 
   return (
     <div>
         {props.isLogged
         ?
-            <textarea className='study-body-textarea' onKeyUp={editBody}>{props.body}</textarea>
+            <textarea className='study-body-textarea' onKeyUp={editBody} defaultValue={props.body}></textarea>
         :
-            <p className="fs-6">{props.body}</p> 
+            <span className="fs-6">{props.body}</span> 
         }
         
 

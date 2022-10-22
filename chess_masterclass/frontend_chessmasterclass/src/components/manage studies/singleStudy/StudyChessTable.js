@@ -1,11 +1,13 @@
 import React from 'react'
 import StudyChessBoard from './StudyChessBoard'
 import StudyChessTableBody from './StudyChessTableBody'
+import {url} from '../../../constants/urlAPI'
+
 
 const StudyChessTable = (props) => {
 
     let deleteTable = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/delete`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,7 +22,7 @@ const StudyChessTable = (props) => {
     }
 
     let setRepresentative = async () => {
-        let response = await fetch(`http://127.0.0.1:8000/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/set-repr`, {
+        let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/set-repr`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,8 +42,7 @@ const StudyChessTable = (props) => {
         <div className="card mb-3">
             <div className="row g-0">
                 <div className="col-md-4">
-                    <StudyChessBoard coord={props.coord} size={400} isLogged={props.isLogged} tableId={props.tableId} author={props.author} id={props.id}/>
-                    
+                    <StudyChessBoard coord={props.coord} size={400} isLogged={props.isLogged} tableId={props.tableId} author={props.author} id={props.id}/>                    
                 </div>
                 <div className="col-md-8">
                     <StudyChessTableBody text={props.text} isLogged={props.isLogged} tableId={props.tableId} author={props.author} id={props.id}/>                
