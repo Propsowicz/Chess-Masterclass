@@ -160,13 +160,3 @@ class payResponse(APIView):
         print('GET METHOD')
         return Response('note')
 
-# @csrf_exempt
-# def fetchDATA(request):
-#     if request.method == 'POST':
-        
-#         print(request)
-#         print(request.body)
-        
-        
-#     return JsonResponse('cart is completed', safe=False)
-
