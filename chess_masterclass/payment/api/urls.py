@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import premiumPlans, premiumPlan, payView, payViewOK, payResponse, fetchDATA
+from .views import premiumPlans, premiumPlan, payView, payViewOK, payResponse
 
 urlpatterns = [
     path('premium-plans/', premiumPlans.as_view(), name='get-all-premiumPlans'),
