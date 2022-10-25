@@ -33,7 +33,6 @@ class premiumPlan(APIView):
     
     
     def get(self, request, slug):          
-        print('get')     
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
         
@@ -64,9 +63,24 @@ import hashlib
 import binascii
 import base64
 from payment.utils import createCHK
+from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import urlparse
 
-def payView(request):
+
+
+
+@csrf_exempt
+def payView(request, *args, **kwargs):
+    print(request.POST)
+    print(request.META['REMOTE_ADDR'])
+    print(kwargs)
+    print(args)
     
+    try:
+        post = urlparse.parse_qs(request._raw_post_data)
+    except AttributeError:
+        post = request.POST
+    print(post)
     # secret_key = b'2gOmPw671IouFoDLF6yR8CDZpjz7NjJU'
     params_ex = {
          "amount": "98.53",
@@ -118,6 +132,9 @@ def payView(request):
     
     return render(request, 'payment.html', {'form': form})
 
+
+
+@csrf_exempt
 def payViewOK(request):
     
     return render(request, 'ok.html', {'n': 'n'})
@@ -126,8 +143,22 @@ class payResponse(APIView):
     authentication_classes = []
     permission_classes = [] 
     
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         print('POST METHOD')
         
         
         return Response('note')
+    
+    def get(self, request, *args, **kwargs):
+        print('GET METHOD')
+        return Response('note')
+
+@csrf_exempt
+def fetchDATA(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        print(data)
+    
+    return JsonResponse('cart is completed', safe=False)
