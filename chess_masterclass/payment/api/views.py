@@ -133,6 +133,7 @@ def payView(request, *args, **kwargs):
     return render(request, 'payment.html', {'form': form})
 
 
+from urlparse import parse_qs
 
 @csrf_exempt
 def payViewOK(request):
@@ -146,7 +147,12 @@ class payResponse(APIView):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         print('POST METHOD')
-        
+        x = request.body
+        print(x)
+        y = parse_qs(x)
+        print(y)
+        z = parse_qs(str(x))
+        print(z)
         
         return Response('note')
     
@@ -154,11 +160,13 @@ class payResponse(APIView):
         print('GET METHOD')
         return Response('note')
 
-@csrf_exempt
-def fetchDATA(request):
-    if request.method == 'POST':
+# @csrf_exempt
+# def fetchDATA(request):
+#     if request.method == 'POST':
         
-        print(request)
-        print(request.body)
-    
-    return JsonResponse('cart is completed', safe=False)
+#         print(request)
+#         print(request.body)
+        
+        
+#     return JsonResponse('cart is completed', safe=False)
+
