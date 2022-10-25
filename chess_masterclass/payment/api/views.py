@@ -158,7 +158,7 @@ class payResponse(APIView):
 def fetchDATA(request):
     if request.method == 'POST':
         
-        data = json.loads(request.body)
-        print(data)
+        print(request)
+        print(request.body)
     
     return JsonResponse('cart is completed', safe=False)
