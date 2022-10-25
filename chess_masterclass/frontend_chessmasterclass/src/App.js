@@ -16,10 +16,11 @@ import EditProfileEmail from './pages/profile_edit/EditProfileEmail';
 import EditProfileName from './pages/profile_edit/EditProfileName';
 import EditProfilePass from './pages/profile_edit/EditProfilePass';
 import ForgotPass from './pages/profile_edit/ForgotPass';
-import PremiumPlans from './pages/PremiumPlans';
+import PremiumPlans from './pages/Payments/PremiumPlans';
 import LikedCourses from './pages/LikedCourses';
 import AllStudies from './pages/manage studies/AllStudies';
 import Study from './pages/manage studies/Study';
+import GetPremium from './pages/Payments/GetPremium';
 
 function App() {
   return (
@@ -47,7 +48,8 @@ function App() {
               <Route path='/forgot-pass' element={<ForgotPass />}/>
 
               {/* PAYMENT SERVIVCE */}
-              <Route path='/premium-plans' element={<PremiumPlans />}/>
+              <Route path='/payment/premium-plans' element={<PremiumPlans />}/>
+              <Route path='/payment/premium-plans/getpremium/:slug' element={<GetPremium />}/>
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  

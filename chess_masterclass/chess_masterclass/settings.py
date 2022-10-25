@@ -30,9 +30,9 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME: 
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+# if RENDER_EXTERNAL_HOSTNAME: 
+#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -47,14 +47,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # created apps
     'main',
+    'payment',
     # 'member',
     'member.apps.MemberConfig',
-
 
     # api service:
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    
+    # payment
+    # "getpaid",
+    # "getpaid_payu",
 
     # mail sender:
     "anymail",
@@ -261,3 +266,4 @@ EMAIL_USE_TLS = False
 EMAIL_HOST_USER = str(os.getenv('EMAIL2_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL2_HOST_PASSWORD'))
 
+# PAYMENT SETTINGS

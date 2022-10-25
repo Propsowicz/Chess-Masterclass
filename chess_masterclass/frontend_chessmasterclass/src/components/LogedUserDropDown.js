@@ -15,6 +15,7 @@ const LogedUserDropDown = () => {
             </span>
             <ul className="dropdown-menu dropdown-menu-end">
                 <li><Link to={`profile/${userInfo.username}`} className='dropdown-item'>Profile</Link></li>                  
+                <li><Link to={`payment/premium-plans/`} className='dropdown-item'>Premium Plans</Link></li>                  
                 <li><span className="dropdown-item" onClick={logout} style={{cursor: 'pointer'}}>Logout</span></li>
             </ul>
             </li>
