@@ -133,7 +133,7 @@ def payView(request, *args, **kwargs):
     return render(request, 'payment.html', {'form': form})
 
 
-from urlparse import parse_qs
+from urllib.parse import parse_qs
 
 @csrf_exempt
 def payViewOK(request):
