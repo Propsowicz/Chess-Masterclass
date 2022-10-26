@@ -226,7 +226,7 @@ class payTransactionResponse(APIView):
         #     dictionary[key] = value[0]
         # signature = dictionary['signature'][:-1] 
         # print(dictionary)
-        # print(signature)
+        # print(signature)asdasd
         
         return Response('note')
     
