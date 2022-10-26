@@ -44,6 +44,7 @@ class premiumPlan(APIView):
         user_id = User.objects.get(id=id).id
         # shop_id = str(os.getenv('DOTPAY_ID'))
         shop_id = str(os.getenv('DOTPAY_ID'))
+        print(shop_id)
         payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), shop_id)
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
