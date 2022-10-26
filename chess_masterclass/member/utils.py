@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model, authenticate
 from django.core.mail import send_mail
 import os
 from datetime import date
+from dotenv import load_dotenv
+
 
 
 # * Class created to service user operations: creating user's secret key and URL (activate account and forgot password case)

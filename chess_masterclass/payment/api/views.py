@@ -28,6 +28,8 @@ import requests
 import json
 from django.http import HttpResponseRedirect
 import os
+from dotenv import load_dotenv
+
     
 class premiumPlan(APIView):
     authentication_classes = []
@@ -41,7 +43,7 @@ class premiumPlan(APIView):
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         shop_id = str(os.getenv('DOTPAY_ID'))
-        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), '746269')
+        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), shop_id)
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call})
