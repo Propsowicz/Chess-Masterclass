@@ -44,8 +44,9 @@ class DotPayHandler():
         
     def createDotPayRequest(self, price, user_id):
         # https://chess-masterclass.onrender.com
-        url = 'https://chess-masterclass.onrender.com/payment/premium-plans/pay-back'
-        urlc = 'https://chess-masterclass.onrender.com/payment/premium-plans/pay-response'
+        # http://127.0.0.1:8000
+        url = 'http://127.0.0.1:8000/payment/premium-plans/pay-back'
+        urlc = 'http://127.0.0.1:8000/payment/premium-plans/pay-response'
         attr_dict = {
             "amount": str(price),
             "currency": "USD",
