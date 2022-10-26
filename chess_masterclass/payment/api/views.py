@@ -40,7 +40,7 @@ class premiumPlan(APIView):
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
         # load_dotenv(find_dotenv())
-        load_dotenv('.env')
+        load_dotenv(sys.path[1])
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         # shop_id = str(os.getenv('DOTPAY_ID'))
