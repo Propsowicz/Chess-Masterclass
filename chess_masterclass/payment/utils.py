@@ -60,7 +60,7 @@ class DotPayHandler():
         }
         json_dict = json.dumps(attr_dict)
         json_dict = json_dict.replace(' ', "")
-        chk = hmac.new(bytes(self.key, 'utf-8'), msg=bytes(json_dict,'utf-8'), digestmod=hashlib.sha256).hexdigest()
+        chk = hmac.new(bytes(str(self.key), 'utf-8'), msg=bytes(str(json_dict),'utf-8'), digestmod=hashlib.sha256).hexdigest()
         attr_dict['chk'] = chk
         return attr_dict
     
