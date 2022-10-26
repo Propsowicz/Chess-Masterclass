@@ -49,7 +49,7 @@ class premiumPlan(APIView):
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call})
     
     # def post(self, request, id, slug):
-    #     print('pay call')
+    #     print('pay call')x
         
     #     url = 'https://ssl.dotpay.pl/test_payment/'
     #     data = {
