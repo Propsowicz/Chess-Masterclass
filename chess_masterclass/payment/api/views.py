@@ -41,7 +41,7 @@ class premiumPlan(APIView):
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         shop_id = str(os.getenv('DOTPAY_ID'))
-        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), shop_id)
+        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), '746269')
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call})
@@ -208,7 +208,7 @@ class payTransactionResponse(APIView):
         #                        }
         dotpay_response = parse_dotpay_response(parsed_data)
         
-        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), str(os.getenv('DOTPAY_ID')))
+        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), '746269')
         
         if checkResponseSignature(dotpay_response):            
             DotPayRespond.objects.create(user=dotpay_response['description'].split(':')[1], 
