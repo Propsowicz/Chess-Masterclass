@@ -28,7 +28,7 @@ import requests
 import json
 from django.http import HttpResponseRedirect
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
     
 class premiumPlan(APIView):
@@ -39,7 +39,7 @@ class premiumPlan(APIView):
     def get(self, request, id, slug):          
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
-        load_dotenv()
+        load_dotenv(find_dotenv())
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         # shop_id = str(os.getenv('DOTPAY_ID'))
