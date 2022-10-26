@@ -175,9 +175,9 @@ class payTransactionDone(APIView):
     def post(self, request, *args, **kwargs):
         response_status = request.body.decode().split('=')[1]        
         if response_status == 'OK':
-            return HttpResponseRedirect('http://localhost:3000/payment/success')
+            return HttpResponseRedirect('https://chess-masterclass.onrender.com/payment/success')
         else:
-            return HttpResponseRedirect('http://localhost:3000/payment/failure')
+            return HttpResponseRedirect('https://chess-masterclass.onrender.com/payment/failure')
 
 class payTransactionResponse(APIView):
     authentication_classes = []
