@@ -39,12 +39,12 @@ class premiumPlan(APIView):
     def get(self, request, id, slug):          
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
-        # load_dotenv(find_dotenv())
+        load_dotenv(find_dotenv())
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         # shop_id = str(os.getenv('DOTPAY_ID'))
-        dotpay_id = '746269'
-        dotpay_pin = 'ZjiCeVnzqJxUHSpoEqFR9SsXpuXLIVhN'        
+        dotpay_id = str(os.getenv('DOTPAY_ID'))
+        dotpay_pin = str(os.getenv('DOTPAY_PIN'))
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
@@ -211,9 +211,8 @@ class payTransactionResponse(APIView):
         #                        'signature': ["1f27e59d81152b7469e3137633aedd6ff889d2d64678f0a170e45f68419c16a6'"]
         #                        }
         dotpay_response = parse_dotpay_response(parsed_data)
-        dotpay_id = '746269'
-        dotpay_pin = 'ZjiCeVnzqJxUHSpoEqFR9SsXpuXLIVhN'
-        
+        dotpay_id = str(os.getenv('DOTPAY_ID'))
+        dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         
         if checkResponseSignature(dotpay_response):            
