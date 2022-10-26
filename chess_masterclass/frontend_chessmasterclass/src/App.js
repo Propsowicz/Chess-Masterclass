@@ -21,6 +21,8 @@ import LikedCourses from './pages/LikedCourses';
 import AllStudies from './pages/manage studies/AllStudies';
 import Study from './pages/manage studies/Study';
 import GetPremium from './pages/Payments/GetPremium';
+import PaymentSuccess from './pages/Payments/PaymentSuccess';
+import PaymentFailure from './pages/Payments/PaymentFailure';
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
               {/* PAYMENT SERVIVCE */}
               <Route path='/payment/premium-plans' element={<PremiumPlans />}/>
               <Route path='/payment/premium-plans/getpremium/:slug' element={<GetPremium />}/>
+              <Route path='/payment/success' element={<PaymentSuccess />}/>
+              <Route path='/payment/failure' element={<PaymentFailure />}/>
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  

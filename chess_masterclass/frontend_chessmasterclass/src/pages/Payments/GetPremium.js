@@ -9,12 +9,14 @@ const GetPremium = () => {
     let slug = useParams().slug
     let [getPlan, setGetPlan] = useState([])
     let [get_exp_date, set_exp_date] = useState([])
+    let [dotpay_call, setDotpay_call] = useState([])
 
     let getPremiumPlanInfo = async () => {
-        let response = await fetch(`${url}/payment/premium-plans/getpremium/${slug}`)
+        let response = await fetch(`${url}/payment/premium-plans/getpremium/${userInfo.user_id}/${slug}`)
         let data = await response.json()
         setGetPlan(data.data)
         set_exp_date(data.exp_date)
+        setDotpay_call(data.dotpay_call)
     }
 
     let handlePayment = async () => {
@@ -43,7 +45,7 @@ const GetPremium = () => {
 
 
       
-      <PaymentInfo user={userInfo.username} price={getPlan.price} exp_date={get_exp_date} onClickHandle={handlePayment}/>
+      <PaymentInfo data={dotpay_call} exp_date={get_exp_date} user={userInfo.username} plan_name={getPlan.name} price={getPlan.price} />
 
     </div>   
   )
