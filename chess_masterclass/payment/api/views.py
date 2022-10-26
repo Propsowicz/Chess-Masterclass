@@ -40,15 +40,12 @@ class premiumPlan(APIView):
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
         # load_dotenv(find_dotenv())
-        load_dotenv('.env')
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
         # shop_id = str(os.getenv('DOTPAY_ID'))
-        shop_id = str(os.environ.get('DOTPAY_ID'))
-        print(shop_id)
-        print(os.getcwd())
-        print(os.listdir('/'))
-        payment = DotPayHandler(str(os.environ.get('DOTPAY_PIN')), shop_id)
+        dotpay_id = '746269'
+        dotpay_pin = 'ZjiCeVnzqJxUHSpoEqFR9SsXpuXLIVhN'        
+        payment = DotPayHandler(dotpay_pin, dotpay_id)
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call})
@@ -214,8 +211,10 @@ class payTransactionResponse(APIView):
         #                        'signature': ["1f27e59d81152b7469e3137633aedd6ff889d2d64678f0a170e45f68419c16a6'"]
         #                        }
         dotpay_response = parse_dotpay_response(parsed_data)
+        dotpay_id = '746269'
+        dotpay_pin = 'ZjiCeVnzqJxUHSpoEqFR9SsXpuXLIVhN'
         
-        payment = DotPayHandler(str(os.getenv('DOTPAY_PIN')), '746269')
+        payment = DotPayHandler(dotpay_pin, dotpay_id)
         
         if checkResponseSignature(dotpay_response):            
             DotPayRespond.objects.create(user=dotpay_response['description'].split(':')[1], 
