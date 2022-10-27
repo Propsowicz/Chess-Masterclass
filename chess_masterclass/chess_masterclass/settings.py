@@ -162,24 +162,15 @@ WSGI_APPLICATION = 'chess_masterclass.wsgi.application'
 import dj_database_url
 # Postgres render.com doc connection:
 DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='postgresql://postgres:postgres@localhost:5432/chess_masterclass',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'chess_db',
+        'USER': 'propsowicz',
+        'PASSWORD': str(os.getenv('DB_PASS')),
+        'HOST': str(os.getenv('DB_URL')),
+        'PORT': '5432',
+    }
 }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'chess_db',
-#         'USER': 'propsowicz',
-#         'PASSWORD': str(os.getenv('DB_PASS')),
-#         'HOST': str(os.getenv('DB_URL')),
-#         'PORT': '5432',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
