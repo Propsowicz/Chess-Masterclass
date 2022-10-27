@@ -1,7 +1,3 @@
-databases:
-  - name: chess_masterclass
-    databaseName: chess_masterclass
-    user: Propsowicz
 
 services:
   - type: web
