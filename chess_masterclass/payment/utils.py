@@ -58,13 +58,13 @@ class DotPayHandler():
         str_to_decode = self.key + self.shop_id
         for key, value in dotpay_response.items():
             str_to_decode += value
-        print(str_to_decode)
+        # print(str_to_decode)
         server_signature = hashlib.sha256(bytes(str_to_decode, 'utf-8')).hexdigest()
-        print(dotpay_signature)
-        print(type(dotpay_signature))
-        print(server_signature)
-        print(type(server_signature))
-        if server_signature == dotpay_response:
+        # print(dotpay_signature)
+        # print(type(dotpay_signature))
+        # print(server_signature)
+        # print(type(server_signature))
+        if server_signature == dotpay_signature:
             print(True)
             return True
         else:
