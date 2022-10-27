@@ -60,7 +60,10 @@ class DotPayHandler():
             str_to_decode += value
         print(str_to_decode)
         server_signature = hashlib.sha256(bytes(str_to_decode, 'utf-8')).hexdigest()
+        print(dotpay_signature)
+        print(type(dotpay_signature))
         print(server_signature)
+        print(type(server_signature))
         if server_signature == dotpay_response:
             return True
         else:
