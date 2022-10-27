@@ -5,7 +5,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from .serializers import PremiumPlansDescriptionsSerializer
-from payment.models import PremiumPlansDescriptions
+from payment.models import PremiumPlansDescriptions, DotPayRespond
 from payment.utils import exp_date, DotPayHandler, parse_dotpay_response
 from main.models import ChessCourse
 from member.models import User
