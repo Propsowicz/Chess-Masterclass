@@ -65,7 +65,9 @@ class DotPayHandler():
         print(server_signature)
         print(type(server_signature))
         if server_signature == dotpay_response:
+            print(True)
             return True
         else:
+            print(False)
             return False
             
