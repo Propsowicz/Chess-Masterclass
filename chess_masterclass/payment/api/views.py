@@ -58,7 +58,7 @@ import hmac
 import hashlib
 import binascii
 import base64
-from payment.utils import createCHK, createResponseSignature
+
 from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import urlparse
 from django.http import HttpResponseRedirect
@@ -92,7 +92,7 @@ class payTransactionResponse(APIView):
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         
-        if checkResponseSignature(dotpay_response):            
+        if checkResponseSignature(dotpay_response) and dotpay_response['operation_status'] == 'completed':            
             DotPayRespond.objects.create(user=User.objects.get(id=int(dotpay_response['description'].split(':')[1])), 
                                         operation_number=dotpay_response['operation_number'],
                                         operation_status=dotpay_response['operation_status'],

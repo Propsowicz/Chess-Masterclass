@@ -23,20 +23,6 @@ def parse_dotpay_response(data):
     
     return data_to_encode
 
-def createCHK(key, dict):
-    json_dict = json.dumps(dict)
-    json_dict = json_dict.replace(' ', "")
-    print(json_dict)
-    # print(type(json_dict))
-    return hmac.new(bytes(key, 'utf-8'), msg=bytes(json_dict,'utf-8'), digestmod=hashlib.sha256).hexdigest()
-
-def createResponseSignature(key, response_dict):
-    response_dict.pop('signature')    
-    sign_string = key
-    for key,value in response_dict.items():
-        sign_string += value   
-    return hashlib.sha256(bytes(sign_string, 'utf-8')).hexdigest()
-
 class DotPayHandler():
     def __init__(self, key, shop_id):
         self.key = key
