@@ -82,6 +82,7 @@ class payTransactionResponse(APIView):
         
         dotpay_response = parse_dotpay_response(parsed_data)
         # print(dotpay_response)
+        # ok
         dotpay_id = str(os.getenv('DOTPAY_ID'))
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
