@@ -6,5 +6,9 @@ services:
     buildCommand: "./build.sh"
     startCommand: "cd chess_masterclass && gunicorn chess_masterclass.wsgi:application"
     envVars:
+      - key: DB_URL
+        fromDatabase:
+          name: mysite
+          property: connectionString
       - key: SECRET_KEY
         generateValue: true

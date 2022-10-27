@@ -43,15 +43,12 @@ class premiumPlan(APIView):
         load_dotenv(find_dotenv())
         price = PremiumPlansDescriptions.objects.get(slug=slug).price
         user_id = User.objects.get(id=id).id
-        # shop_id = str(os.getenv('DOTPAY_ID'))
         dotpay_id = str(os.getenv('DOTPAY_ID'))
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         dotpay_call = payment.createDotPayRequest(price, user_id)
         
-        return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call})
-    
-  
+        return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call}) 
 
 from django.shortcuts import render
 import hmac
@@ -62,9 +59,6 @@ import base64
 from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import urlparse
 from django.http import HttpResponseRedirect
-
-
-
 
 class payTransactionDone(APIView):
     authentication_classes = []
@@ -81,7 +75,6 @@ class payTransactionResponse(APIView):
     authentication_classes = []
     permission_classes = [] 
     
-    # @csrf_exempt
     def post(self, request, *args, **kwargs):
         data = request.body
         parsed_data = parse_qs(str(data))

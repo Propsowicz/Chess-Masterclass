@@ -19,3 +19,5 @@ pytz = "^2022.2.1"
 sqlparse = "^0.4.3"
 tzdata = "^2022.2"
 whitenoise = {extras = ["brotli"], version = "^5.1.0"}
+dj-database-url = "^1.0.0"
+psycopg2-binary = "^2.9.5"
