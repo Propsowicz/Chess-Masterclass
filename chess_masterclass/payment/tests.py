@@ -53,3 +53,22 @@ class PaymentService(TestCase):
         self.assertEqual(str(new_credit), '50.00')
         self.assertNotEqual(old_exp_date, new_exp_date)
         self.assertNotEqual(old_credit, new_credit)
+        
+    def test_realRespond(self):
+        data = {'operation_number': 'M9993-41240', 'operation_type': 'payment', 'operation_status': 'completed',
+                'operation_amount': '94.38', 'operation_currency': 'PLN', 'operation_original_amount': '19.99',
+                'operation_original_currency': 'USD', 'operation_datetime': '2022-10-27 21:17:01', 'description': 'UserId:1',
+                'email': 'qwe@qdqwe.qwe', 'p_info': 'Test User (tomasiktomasz00@gmail.com)', 'p_email': 'tomasiktomasz00@gmail.com',
+                'channel': '1', 'signature': '6f91edd2789140c109f4015dd096650949a9428449d2006f5ab8dad58e7cf340', 'id': '746269'}
+        respond_signatur = data['signature']
+        load_dotenv(find_dotenv())
+        dotpay_response = parse_dotpay_response(data)
+        dotpay_id = str(os.getenv('DOTPAY_ID'))
+        dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
+        payment = DotPayHandler(dotpay_pin, dotpay_id)
+        
+        if payment.checkResponseSignature(data) and data['operation_status'] == 'completed':
+            print(True)
+        else:
+            print(False)
+        self.assertEqual(1,1)

@@ -86,14 +86,14 @@ class payTransactionResponse(APIView):
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         
-        if payment.checkResponseSignature(dotpay_response) and dotpay_response['operation_status'] == 'completed':   
+        if payment.checkResponseSignature(data) and data['operation_status'] == 'completed':   
             print('signature is ok')         
-            DotPayRespond.objects.create(user=User.objects.get(id=int(dotpay_response['description'].split(':')[1])), 
-                                        operation_number=dotpay_response['operation_number'],
-                                        operation_status=dotpay_response['operation_status'],
-                                        operation_amount=dotpay_response['operation_amount'],
-                                        operation_datatime=dotpay_response['operation_datetime'],
-                                        email=dotpay_response['email'],
+            DotPayRespond.objects.create(user=User.objects.get(id=int(data['description'].split(':')[1])), 
+                                        operation_number=data['operation_number'],
+                                        operation_status=data['operation_status'],
+                                        operation_amount=data['operation_amount'],
+                                        operation_datatime=data['operation_datetime'],
+                                        email=data['email'],
                                         expiration_date=exp_date(),
                                         )
         else:

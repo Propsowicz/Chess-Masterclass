@@ -17,8 +17,8 @@ def parse_dotpay_response(data):
     data_to_encode = {}
     for key, value in data.items():
         data_to_encode[key] = value[0]
-    data_to_encode['id'] = data_to_encode["b'id"]
-    data_to_encode.pop("b'id")
+    # data_to_encode['id'] = data_to_encode["b'id"]
+    # data_to_encode.pop("b'id")
     data_to_encode['signature'] = data_to_encode['signature'][:-1]
     
     return data_to_encode
@@ -53,13 +53,14 @@ class DotPayHandler():
     def checkResponseSignature(self, dotpay_response):
         dotpay_signature = dotpay_response['signature']
         dotpay_response.pop('signature')
+        dotpay_response.pop('id')
         
-        str_to_decode = self.key
+        str_to_decode = self.key + self.shop_id
         for key, value in dotpay_response.items():
             str_to_decode += value
-            
+        # print(str_to_decode)
         server_signature = hashlib.sha256(bytes(str_to_decode, 'utf-8')).hexdigest()
-        
+        # print(server_signature)
         if server_signature == dotpay_response:
             return True
         else:
