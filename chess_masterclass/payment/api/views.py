@@ -10,6 +10,7 @@ from payment.utils import exp_date, DotPayHandler, parse_dotpay_response
 from main.models import ChessCourse
 from member.models import User
 from datetime import date, timedelta
+from urllib.parse import parse_qs
 
 class premiumPlans(APIView):
     authentication_classes = []
