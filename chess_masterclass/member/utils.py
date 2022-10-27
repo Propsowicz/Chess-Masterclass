@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model, authenticate
 from django.core.mail import send_mail
 import os
 from datetime import date
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 
 
@@ -42,7 +42,7 @@ class AccountOperations():
 
     def sendProfileEditedEmail(self, changed_data):
         msg = f'Hi {self.user.username}. You {changed_data} was changed succesfully!'
-        
+        load_dotenv(find_dotenv())
         send_mail(      
         'Edited Profile - Chess Masterclass',
         msg,
@@ -55,7 +55,8 @@ class AccountOperations():
     def sendWelcomeEmail(self):
         user_keys = User_edit_keys.objects.get(user=self.user)
         msg = f'Welcome on website. To finish your acount activation please visit the link: https://chess-masterclass.onrender.com/member/activate/{user_keys.url} and verify login with password: {user_keys.secretkey}'
-        
+        load_dotenv(find_dotenv())
+        print(os.getenv('EMAIL2_HOST_USER'))
         send_mail(      
         'Acount Activation - Chess Masterclass',
         msg,
@@ -68,7 +69,7 @@ class AccountOperations():
     def sendNewUserKey(self):
         user_keys = User_edit_keys.objects.get(user=self.user)
         msg = f'Hello. To change your password visit the link: https://chess-masterclass.onrender.com/member/set-new-pass/{user_keys.url} and set new password using this key: {user_keys.secretkey}'
-        
+        load_dotenv(find_dotenv())
         send_mail(      
         'Change password - Chess Masterclass',
         msg,

@@ -52,8 +52,8 @@ function App() {
               {/* PAYMENT SERVIVCE */}
               <Route path='/payment/premium-plans' element={<PremiumPlans />}/>
               <Route path='/payment/premium-plans/getpremium/:slug' element={<GetPremium />}/>
-              <Route path='/payment/success' element={<PaymentSuccess />}/>
-              <Route path='/payment/failure' element={<PaymentFailure />}/>
+              {/* <Route path='/payment/success' element={<PaymentSuccess />}/>
+              <Route path='/payment/failure' element={<PaymentFailure />}/> */}
           </Routes>      
         </UserContextProvider>  
     </BrowserRouter>  
