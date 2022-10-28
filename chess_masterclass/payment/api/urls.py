@@ -6,6 +6,9 @@ urlpatterns = [
     path('premium-plans/getpremium/<int:id>/<str:slug>', premiumPlan.as_view(), name='get-single-premiumPlan'),
     path('premium-plans/pay-back', payTransactionDone.as_view(), name='get-single-pay'),
     
+    # api
+    path('create-order/<int:id>/<str:credit>', premiumPlan.as_view(), name='create-order'),
+    
     # Response from dotpay
     path('premium-plans/pay-response', payTransactionResponse.as_view(), name='get-single-pay'),        # response with POST data
     path('success', successLink, name='successLink'),                                                   # response with come back button

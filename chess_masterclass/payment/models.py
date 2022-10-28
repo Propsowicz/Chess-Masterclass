@@ -22,6 +22,14 @@ def premium_plans_descrp_receiver(sender, instance, *args, **kwargs):
         
 
 # PAYMENT MODEL
+class PaymentOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    selected_credit = models.DecimalField(default=0, decimal_places=2, max_digits=6)
+    isDone = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.id} || {self.isDone}'
+    
 class DotPayRespond(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)    
     operation_number = models.CharField(max_length=99)
@@ -30,6 +38,10 @@ class DotPayRespond(models.Model):
     operation_datatime = models.CharField(max_length=99)
     email = models.CharField(max_length=99)
     expiration_date = models.DateField(blank=True, null=True)
+    currency = models.CharField(max_length=3, default='USD')
+    
+    def __str__(self):
+        return f'{self.user.id} || {self.operation_amount} || {self.expiration_date}' 
 
 @receiver(pre_save, sender=DotPayRespond)
 def payment_respond_receiver(sender, instance, *args, **kwargs):

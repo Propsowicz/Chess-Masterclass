@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from .serializers import PremiumPlansDescriptionsSerializer
-from payment.models import PremiumPlansDescriptions, DotPayRespond
+from payment.models import PremiumPlansDescriptions, DotPayRespond, PaymentOrder
 from payment.utils import exp_date, DotPayHandler, parse_dotpay_response
 from main.models import ChessCourse
 from member.models import User
@@ -50,6 +50,14 @@ class premiumPlan(APIView):
         
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call}) 
 
+    def post(self, request, id, credit):
+        user = User.objects.get(id=id)
+        if not PaymentOrder.objects.filter(user=user, isDone=False).exists():
+            PaymentOrder.objects.create(user=user, selected_credit=float(credit))
+            return Response({'msg': 'Order has been created.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'msg': 'Order is already created. Please wait or contact our support.'}, status=status.HTTP_400_BAD_REQUEST)
+    
 from django.shortcuts import render
 import hmac
 import hashlib
@@ -80,6 +88,7 @@ class payTransactionResponse(APIView):
         parsed_data = parse_qs(str(data))
         load_dotenv(find_dotenv())       
         
+        user = User.objects.get(id=int(dotpay_response['description'].split(':')[1]))
         dotpay_response = parse_dotpay_response(parsed_data)
         # print(dotpay_response)
         # ok
@@ -87,16 +96,19 @@ class payTransactionResponse(APIView):
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
         
-        if payment.checkResponseSignature(dotpay_response):   
+        if payment.checkResponseSignature(dotpay_response) and PaymentOrder.objects.filter(user=user, isDone=False, selected_credit=float(dotpay_response['operation_original_amount'])).exists():   
             print('signature is ok')         
-            DotPayRespond.objects.create(user=User.objects.get(id=int(dotpay_response['description'].split(':')[1])), 
+            DotPayRespond.objects.create(user=user, 
                                         operation_number=dotpay_response['operation_number'],
                                         operation_status=dotpay_response['operation_status'],
-                                        operation_amount=dotpay_response['operation_amount'],
+                                        operation_amount=float(dotpay_response['operation_original_amount']),
                                         operation_datatime=dotpay_response['operation_datetime'],
                                         email=dotpay_response['email'],
                                         expiration_date=exp_date(),
                                         )
+            pay_order = PaymentOrder.objects.filter(user=user, isDone=False, selected_credit=float(dotpay_response['operation_original_amount']))[0]
+            pay_order.isDone = True
+            pay_order.save()
         else:
             print('wrong signature')                
         return Response('OK')

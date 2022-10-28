@@ -8,6 +8,7 @@ import {
   Routes,
   Route,
   BrowserRouter,
+  HashRouter, 
   } 
 from 'react-router-dom'
 import Register from './pages/Register';
@@ -27,7 +28,7 @@ import PaymentFailure from './pages/Payments/PaymentFailure';
 function App() {
   return (
     <div className="App">      
-      <BrowserRouter>
+      <HashRouter>
         <UserContextProvider>
           <Header />          
           <Routes>          
@@ -56,7 +57,7 @@ function App() {
               <Route path='/payment/failure' element={<PaymentFailure />}/> */}
           </Routes>      
         </UserContextProvider>  
-    </BrowserRouter>  
+    </HashRouter>  
     </div>
   );
 }

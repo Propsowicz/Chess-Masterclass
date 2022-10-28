@@ -1,11 +1,24 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import {url} from '../../constants/urlAPI'
 import { useParams, Link } from 'react-router-dom'
-
+import {UserContext} from '../../context/UserContext'
 
 const PaymentInfo = (props) => {
+    let {userInfo} = useContext(UserContext)
+    let [msg, setMsg] = useState('')
 
-    function handleClick(e){props.onClickHandle(e)}
+    let createPaymentOrder = async (e) => {
+      let response = await fetch(`${url}/payment/create-order/${userInfo.user_id}/${props.price}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: {'msg': 'create order'}
+      })
+      let data = await response
+      console.log(data)
+      
+    }
 
   return (
     <div style={{paddingTop: '3em'}}>
@@ -45,7 +58,7 @@ const PaymentInfo = (props) => {
                     <input type="hidden" name="chk" value={props.data.chk} /> 
                     <input type="hidden" name="urlc" value={props.data.urlc} /> 
                     <input type="hidden" name="ignore_last_payment_channel" value={props.data.ignore_last_payment_channel} />                      
-                    <p><button className="btn btn-primary">Go to payment</button></p>
+                    <p><button className="btn btn-primary" onClick={createPaymentOrder}>Go to payment</button></p>
                 </form>
      
      

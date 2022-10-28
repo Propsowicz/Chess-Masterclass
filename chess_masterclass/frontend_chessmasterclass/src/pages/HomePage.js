@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { CoursesList } from '../components/CoursesList'
 import Filtering from '../components/HomePageComponents/Filtering'
 import Paginator from '../components/HomePageComponents/Paginator'
@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import SortItems from '../components/HomePageComponents/SortItems'
 import SearchItems from '../components/HomePageComponents/SearchItems'
 import {url} from '../constants/urlAPI'
+import {UserContext} from '../context/UserContext'
 
 const HomePage = () => {
 // PAGINATOR -- start
@@ -114,8 +115,12 @@ let searchHandler = (e) => {
 }
 // SEARCH -- end
 
+// RELOAD JWT EVERY VISIT ON HOMEPAGE (to change user premium plan status after payment >> after payment user is redirected to homepage)
+let {updateTokens} = useContext(UserContext)
+
 useEffect(() => {  
   getCoursesData()
+  // updateTokens()
 },[filter, page, totalPageNumber, sortBy, searchString])  
 // use effect is basically realoded every display option (filter/search/sort) is changed
 

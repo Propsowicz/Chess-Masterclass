@@ -29,9 +29,18 @@ const GetPremium = () => {
       })
   }
 
+  let checkIfFree = () => {
+    if(getPlan.name === 'Free' || !(userInfo.premium_plan === 'free')){
+      return true
+    }else{
+      return false
+    }
+  }
+
     useEffect(() => {
         getPremiumPlanInfo()
-    }, [])
+        console.log(userInfo)
+    }, [getPlan.name])
 
   return (
     <div className='container'>
@@ -43,9 +52,14 @@ const GetPremium = () => {
         </div>
       </div>
 
-
+      {checkIfFree()
+      ?
+        <></>
+      :
+        <PaymentInfo data={dotpay_call} exp_date={get_exp_date} user={userInfo.username} plan_name={getPlan.name} price={getPlan.price} />
+      }
       
-      <PaymentInfo data={dotpay_call} exp_date={get_exp_date} user={userInfo.username} plan_name={getPlan.name} price={getPlan.price} />
+      
 
     </div>   
   )

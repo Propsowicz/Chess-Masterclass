@@ -57,7 +57,6 @@ export const UserContextProvider = ({children}) => {
             body: JSON.stringify({'refresh': authTokens?.refresh}),
         })
         let data = await response.json()
-
         if(response.status === 200){                                        // set JWT token in local storage
             setAuthTokens(data)
             setUserInfo(jwt_decode(data.access))
@@ -140,6 +139,7 @@ export const UserContextProvider = ({children}) => {
         register: register,
         login: login,
         logout: logout,
+        updateTokens: updateTokens,
     }
 
     // PROVIDER DOM
