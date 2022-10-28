@@ -88,14 +88,15 @@ class payTransactionResponse(APIView):
         parsed_data = parse_qs(str(data))
         load_dotenv(find_dotenv())       
         
-        user = User.objects.get(id=int(dotpay_response['description'].split(':')[1]))
         dotpay_response = parse_dotpay_response(parsed_data)
+        user = User.objects.get(id=int(dotpay_response['description'].split(':')[1]))
+
         # print(dotpay_response)
         # ok
         dotpay_id = str(os.getenv('DOTPAY_ID'))
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
-        
+
         if payment.checkResponseSignature(dotpay_response) and PaymentOrder.objects.filter(user=user, isDone=False, selected_credit=float(dotpay_response['operation_original_amount'])).exists():   
             print('signature is ok')         
             DotPayRespond.objects.create(user=user, 
