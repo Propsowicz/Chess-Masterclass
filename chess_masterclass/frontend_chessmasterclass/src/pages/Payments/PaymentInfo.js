@@ -5,6 +5,7 @@ import {UserContext} from '../../context/UserContext'
 
 const PaymentInfo = (props) => {
     let {userInfo} = useContext(UserContext)
+    let {logoutWithoutRedirect} = useContext(UserContext)
     let [msg, setMsg] = useState('')
 
     let createPaymentOrder = async (e) => {
@@ -15,9 +16,7 @@ const PaymentInfo = (props) => {
         },
         body: {'msg': 'create order'}
       })
-      let data = await response
-      console.log(data)
-      
+      logoutWithoutRedirect()
     }
 
   return (

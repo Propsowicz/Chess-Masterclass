@@ -13,6 +13,7 @@ export const UserContextProvider = ({children}) => {
     // lists with user/auth data
     // check if there are tokens in local storage: if there are overwrite lists 
     let [authTokens, setAuthTokens] = useState(localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : [])
+    // let [userInfo, setUserInfo] = useState(localStorage.getItem('authTokens') ? jwt_decode(JSON.parse(localStorage.getItem('authTokens')).access) : [])
     let [userInfo, setUserInfo] = useState(localStorage.getItem('authTokens') ? jwt_decode(JSON.parse(localStorage.getItem('authTokens')).access) : [])
 
     // func to navigate (ie to homepage)
@@ -45,7 +46,7 @@ export const UserContextProvider = ({children}) => {
         }
     }
     // LOGIN FUNCTION -- end
-
+    
     // UPDATE TOKEN FUNCTION -- start
     // update refresh token every 4 mins (django refresh it every 5 minutes so i want to overtake it here)
     let updateTokens = async () => {        
@@ -58,7 +59,7 @@ export const UserContextProvider = ({children}) => {
         })
         let data = await response.json()
         if(response.status === 200){                                        // set JWT token in local storage
-            setAuthTokens(data)
+            setAuthTokens(data)            
             setUserInfo(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))              
         }
@@ -77,6 +78,14 @@ export const UserContextProvider = ({children}) => {
         navigate('/')
     }   
     // LOGOUT -- end
+
+    // LOGOUT W/O REDIRECT -- start
+    let logoutWithoutRedirect = () => {
+        setAuthTokens([])
+        setUserInfo([])
+        localStorage.clear() 
+    }   
+    // LOGOUT W/O REDIRECT -- end
 
     // REGISTER -- end
     let register = async (e) => {
@@ -138,9 +147,9 @@ export const UserContextProvider = ({children}) => {
         // functions
         register: register,
         login: login,
-        logout: logout,
-        updateTokens: updateTokens,
-    }
+        logout: logout, 
+        logoutWithoutRedirect: logoutWithoutRedirect,       
+    }   
 
     // PROVIDER DOM
     return(

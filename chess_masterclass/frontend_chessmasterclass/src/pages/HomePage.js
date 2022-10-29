@@ -115,12 +115,8 @@ let searchHandler = (e) => {
 }
 // SEARCH -- end
 
-// RELOAD JWT EVERY VISIT ON HOMEPAGE (to change user premium plan status after payment >> after payment user is redirected to homepage)
-let {updateTokens} = useContext(UserContext)
-
 useEffect(() => {  
   getCoursesData()
-  // updateTokens()
 },[filter, page, totalPageNumber, sortBy, searchString])  
 // use effect is basically realoded every display option (filter/search/sort) is changed
 

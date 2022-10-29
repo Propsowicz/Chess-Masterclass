@@ -35,7 +35,7 @@ const CourseListItem = (props) => {
                 return <Link to={`/course/${props.slug}`} className="btn btn-success">Check it out</Link>
 
             }else{
-                return <Link to={`/premium-plans`} className="btn btn-secondary">Buy access</Link>
+                return <Link to={`/payment/premium-plans/`} className="btn btn-secondary">Buy access</Link>
             }          
         }else{
             return <Link to={`/register`} className="btn btn-primary">Register</Link>
