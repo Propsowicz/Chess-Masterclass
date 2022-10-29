@@ -63,7 +63,7 @@ Every user can create his own chess study and eventually share it by setting it 
 
 #### User Managment
 
-The application allows to create user account, edit user's data and help user with forgotten password. Registartion is made via e-mail with activation link and code. The same system is adapted to forgot password service. To edit  password or e-mail user need to verify his password. 
+The application allows to create user account, edit user's data and help user with forgotten password. Registartion is made via e-mail with activation link and code. The same system is adapted to forgot password service. To edit  password or e-mail address, user need to verify his password. 
 
 Passwords are validated by Django validators. 
 
@@ -74,10 +74,24 @@ The main purpose of using JWT is validating user's data (such as login and passw
 
 Permission to content of the application is provided from backend (by sending suitable data through API) and frontend (by redirecting user from forbidden pages).
 
+#### Chess Courses and Chess Studies 
 
-#### Historical Data
+The Chess Courses and The Chess Studies are displayed with options of sorting, filtering and searching specific content. There are also paginator which dispalys current page of ceontent. All of this is made thorugh API requests so it works without reloding of the application.  
 
-Archival data is gathered from .csv files by a simple script, which is avaible only to the admin user. Next, the data is saved in database and then analyzed to find the correlation between the measurements. 
+Chess Studies are divided into the public and the private ones. The user have permisson to visit and see only his own priavte studies and other's users public studies.
+Each new study created by user is private by deafult. After creating the study user need to wait 5 miuntes till creating another one (it's insurance from overloading database by dump content). 
+
+Created study can be fully edited: name and content can be edited in text are with is loaded when user is creator of study; user can add interactive chessboard, modify it and set is as represantative to whole study; finally user can delete study.
+
+There is an option to like selected courses and studies. Liked content is avaible from special sections in the application.
+
+
+
+
+
+
+
+
 
 ## Illustrations
 
