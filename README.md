@@ -57,17 +57,23 @@ The application is designed to be used by registered users. The main content of 
 
 After buying selected Premium Plan, user get a monthly access to chosen courses. Courses are created by users who have "creator" permissons.
 
----
 
-The other content of the website are free studies which can be created and shared by users.
-
+The other content of the website are free studies which can be created and shared by users. 
 Every user can create his own chess study and eventually share it by setting it as a public one.
 
-#### Weather Tracker
+#### User Managment
 
-Daily forecasts are collected by web scraping meteo websites using BeatifulSoup 4.11.1 Python library. Real weather data is called from OpenWeatherAPI. The above mentioned processes are executed in background by Celery worker, in a specific schedule determined in Redis database. Eventually, the data is analyzed via Python math and statistics libraries to find the most precise forecast.
+The application allows to create user account, edit user's data and help user with forgotten password. Registartion is made via e-mail with activation link and code. The same system is adapted to forgot password service. To edit  password or e-mail user need to verify his password. 
 
-If the application gets information about thunderstorm in local area, it sends sms to the selected users. 
+Passwords are validated by Django validators. 
+
+All user managment is made in React components and send via token handlers. Generally flow of user's data between forntend and backend is made by JWT.
+
+#### JWT
+The main purpose of using JWT is validating user's data (such as login and password) in frontend environment. The second task of JW Tokens is sending user's data (such as current Premium Plan) from backend to frontend. Refreshing of tokens are setted up to 5 minutes. User data is save in local storage and sended in React environment as Context.
+
+Permission to content of the application is provided from backend (by sending suitable data through API) and frontend (by redirecting user from forbidden pages).
+
 
 #### Historical Data
 
@@ -75,21 +81,6 @@ Archival data is gathered from .csv files by a simple script, which is avaible o
 
 ## Illustrations
 
-Weather Tracker in light mode:
-
-![weather track - light mode](https://github.com/Propsowicz/weather-tracker/blob/main/illustrations/h-p-lm.webp?raw=true)
-
-Weather Tracker in dark mode:
-
-![weather track - dark mode](https://github.com/Propsowicz/weather-tracker/blob/main/illustrations/h-p-dm.webp?raw=true)
-
-Historical data in light mode:
-
-![historical data - light mode](https://github.com/Propsowicz/weather-tracker/blob/main/illustrations/h-d-lm.webp?raw=true)
-
-Historical data in dark mode:
-
-![historical data - dark mode](https://github.com/Propsowicz/weather-tracker/blob/main/illustrations/h-d-dm.webp?raw=true)
 
 
 ## Installation
