@@ -7,11 +7,14 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from .serializers import PremiumPlansDescriptionsSerializer
 from payment.models import PremiumPlansDescriptions, DotPayRespond, PaymentOrder
 from payment.utils import exp_date, DotPayHandler, parse_dotpay_response
-from main.models import ChessCourse
 from member.models import User
-from datetime import date, timedelta
 from urllib.parse import parse_qs
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+import os
+from dotenv import load_dotenv, find_dotenv
 
+# GET premium plans
 class premiumPlans(APIView):
     authentication_classes = []
     permission_classes = [] 
@@ -22,21 +25,12 @@ class premiumPlans(APIView):
         
         return Response(serializer.data)
     
-    
-
-from decimal import Decimal
-import requests
-import json
-from django.http import HttpResponseRedirect
-import os
-from dotenv import load_dotenv, find_dotenv
-import sys
-    
+# handle singe premium plan
 class premiumPlan(APIView):
     authentication_classes = []
-    permission_classes = [] 
+    permission_classes = []     
     
-    
+    # sending premium plan data to fronteend -> IMPORTANT: this method sends data needed to make proper request to dotpay 
     def get(self, request, id, slug):          
         premiumPlan = PremiumPlansDescriptions.objects.get(slug=slug)
         serializer = PremiumPlansDescriptionsSerializer(premiumPlan, many=False)
@@ -50,6 +44,7 @@ class premiumPlan(APIView):
         
         return Response({'data': serializer.data, 'exp_date': exp_date(), 'dotpay_call': dotpay_call}) 
 
+    # method which handles creating orders when trying to make payment -> order data is compared with POST request from external server (dotpay) to check if it is correct
     def post(self, request, id, credit):
         user = User.objects.get(id=id)
         if not PaymentOrder.objects.filter(user=user, isDone=False).exists():
@@ -58,16 +53,7 @@ class premiumPlan(APIView):
         else:
             return Response({'msg': 'Order is already created. Please wait or contact our support.'}, status=status.HTTP_400_BAD_REQUEST)
     
-from django.shortcuts import render
-import hmac
-import hashlib
-import binascii
-import base64
-
-from django.views.decorators.csrf import csrf_exempt
-from urllib.parse import urlparse
-from django.http import HttpResponseRedirect
-
+# redirecting to speicified website after making payment (exatcly after clicking button "Powrót do strony sklepu" on dotpay server)
 class payTransactionDone(APIView):
     authentication_classes = []
     permission_classes = []     
@@ -79,6 +65,14 @@ class payTransactionDone(APIView):
         else:
             return HttpResponseRedirect('https://chess-masterclass.onrender.com/payment/failure')
 
+# templates from above
+def successLink(response):    
+    return render(response, 'success.html') 
+
+def failureLink(response):    
+    return render(response, 'failure.html') 
+
+# class to handle response from dotpay server -> at first signatures and order/payment data are compared:
 class payTransactionResponse(APIView):
     authentication_classes = []
     permission_classes = [] 
@@ -90,13 +84,11 @@ class payTransactionResponse(APIView):
         
         dotpay_response = parse_dotpay_response(parsed_data)
         user = User.objects.get(id=int(dotpay_response['description'].split(':')[1]))
-
-        # print(dotpay_response)
-        # ok
         dotpay_id = str(os.getenv('DOTPAY_ID'))
         dotpay_pin = str(os.getenv('DOTPAY_PIN'))        
         payment = DotPayHandler(dotpay_pin, dotpay_id)
 
+    # if it's OK -> create payment model and (via signals) changing User's premium plan and its expiration day
         if payment.checkResponseSignature(dotpay_response) and PaymentOrder.objects.filter(user=user, isDone=False, selected_credit=float(dotpay_response['operation_original_amount'])).exists():   
             print('signature is ok')         
             DotPayRespond.objects.create(user=user, 
@@ -112,10 +104,5 @@ class payTransactionResponse(APIView):
             pay_order.save()
         else:
             print('wrong signature')                
-        return Response('OK')
+        return Response('OK')   # response to dotpay server (from their docs)
     
-def successLink(response):    
-    return render(response, 'success.html') 
-
-def failureLink(response):    
-    return render(response, 'failure.html') 

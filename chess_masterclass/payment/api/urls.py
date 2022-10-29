@@ -10,7 +10,7 @@ urlpatterns = [
     path('create-order/<int:id>/<str:credit>', premiumPlan.as_view(), name='create-order'),
     
     # Response from dotpay
-    path('premium-plans/pay-response', payTransactionResponse.as_view(), name='get-single-pay'),        # response with POST data
+    path('premium-plans/pay-response', payTransactionResponse.as_view(), name='get-single-pay'),        # response with POST data (URLC)
     path('success', successLink, name='successLink'),                                                   # response with come back button
     path('failure', failureLink, name='failureLink'),                                                   # response with come back button
 ]

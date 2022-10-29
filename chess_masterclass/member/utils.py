@@ -7,14 +7,8 @@ import os
 from datetime import date
 from dotenv import load_dotenv, find_dotenv
 
-
-
 # * Class created to service user operations: creating user's secret key and URL (activate account and forgot password case)
 # * checking correctness of password, sending emails to user and checking user's current payment plan
-# *! at this moment (22-10-2022) cannot resolve problem with host (render.com) firewall blocking sending emails
-# *! as far i know i need to use API (mailjet - to 200 free email per day) to send mails - to do that i need email on my own domain -> working on this
-# *TODO resolve email problem 
-
 class AccountOperations():
     def __init__(self, user):
         self.user = user
