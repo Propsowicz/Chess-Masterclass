@@ -3,7 +3,7 @@
 Chess Masterclass is an application created to learn chess. Content of the website is divided to paid courses and completely free studies which can be shared between users.
 
 
-Application has been created to learn new technologies and web development tools - the plan was to learn React, authentication system (JWT), payment systems, code testing and hosting application on web.
+Application has been created to learn new technologies and web development tools - the plan was to learn React, authentication system (JWT), payment systems, code testing and hosting application on web. 
 
 
 ## Table of content
@@ -28,27 +28,40 @@ Application has been created to learn new technologies and web development tools
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
-
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-
-![Celery](https://img.shields.io/badge/celery-%2337814A.svg?&style=for-the-badge&logo=celery&logoColor=white)
+![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 
 ## Description
 
-The application was created in 2 views mode. All data is sent to frontend through Django RESTFramework and rendered live to the charts. The website contains a contact form to communicate with the administator.
+The application is designed to be used by registered users. The main content of website are chess courses which have been divided into four groups, dependent on Premium Plans. Premium Plans are: 
+>Free | 0.00$
+
+>Master | 9.99$
+
+>International Master | 19.99$
+
+>Grandmaster | 34.99$
+
+After buying selected Premium Plan, user get a monthly access to chosen courses. Courses are created by users who have "creator" permissons.
+
+---
+
+The other content of the website are free studies which can be created and shared by users.
+
+Every user can create his own chess study and eventually share it by setting it as a public one.
 
 #### Weather Tracker
 
