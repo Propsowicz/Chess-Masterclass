@@ -5,6 +5,8 @@ Chess Masterclass is an application created to learn chess. Content of the websi
 
 Application has been created to learn new technologies and web development tools - the plan was to learn React, authentication system (JWT), payment systems, code testing (unit and integration) and hosting application on web. 
 
+Here is link to live page (it can take some time to render webpage) [Chess Masterclass](https://chess-masterclass.onrender.com).
+
 
 ## Table of content
 
@@ -105,4 +107,3 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
