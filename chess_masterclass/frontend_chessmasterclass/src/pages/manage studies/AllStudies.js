@@ -14,6 +14,7 @@ import AllPrivateStudies from '../../components/manage studies/AllPrivateStudies
 import MyPublicStudies from '../../components/manage studies/MyPublicStudies'
 import LikedPublic from '../../components/manage studies/LikedPublic'
 import LikedPrivate from '../../components/manage studies/LikedPrivate'
+import {url} from '../../constants/urlAPI'
 
 const AllStudies = () => {
   let {userInfo} = useContext(UserContext)
@@ -33,7 +34,7 @@ const AllStudies = () => {
   const [pagesList, setPagesList] = useState([])
 
   let getStudies = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/study/${userInfo.username}/${access}/${isPrivate}/${liked}/${search}/${sort}/${page}`)
+    let response = await fetch(`${url}/api/study/${userInfo.username}/${access}/${isPrivate}/${liked}/${search}/${sort}/${page}`)
     let data = await response.json()
       setTotalPageNumber(parseFloat(data.number_of_pages))
      

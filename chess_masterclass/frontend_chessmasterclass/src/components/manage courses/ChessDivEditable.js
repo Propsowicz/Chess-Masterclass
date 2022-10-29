@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Chessboard } from "react-chessboard";
+import {url} from '../../constants/urlAPI'
 
 
 const ChessDivEditable = (props) => {
@@ -25,7 +26,7 @@ const ChessDivEditable = (props) => {
     }
 
     let upgradePosition = async (e) => {
-        let response = await fetch(`http://127.0.0.1:8000/api/course/creator-mode/edit/${props.courseId}/${props.id}`, {
+        let response = await fetch(`${url}/api/course/creator-mode/edit/${props.courseId}/${props.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
