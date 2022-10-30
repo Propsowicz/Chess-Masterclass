@@ -1,11 +1,11 @@
 # Chess-Masterclass
 
-Chess Masterclass is an application created to learn chess. Content of the website is divided to paid courses and completely free studies which can be shared between users.
+Chess Masterclass is an application created to study chess. Content of the website is divided to paid courses and completely free studies which can be shared between users.
 
 
 Application has been created to learn new technologies and web development tools - the plan was to learn React, authentication system (JWT), payment systems, code testing (unit and integration) and hosting application on web. 
 
-Here is link to live page (it can take some time to load it) [Chess Masterclass](https://chess-masterclass.onrender.com).
+Here is a link to the application (it can take some time to load it) [Chess Masterclass](https://chess-masterclass.onrender.com).
 
 
 ## Table of content
@@ -46,7 +46,7 @@ Here is link to live page (it can take some time to load it) [Chess Masterclass]
 
 ## Description
 
-The application is designed to be used by registered users. The main content of website are chess courses which have been divided into four groups, dependent on Premium Plans. Premium Plans are: 
+The application is designed to be used only by registered users. The main content of website are chess courses which have been divided into four groups, dependent on Premium Plans. Premium Plans are: 
 >Free | 0.00$
 
 >Master | 9.99$
@@ -55,8 +55,7 @@ The application is designed to be used by registered users. The main content of 
 
 >Grandmaster | 34.99$
 
-After buying selected Premium Plan, user get a monthly access to chosen courses. Courses are created by users who have "creator" permissons.
-
+After buying selected Premium Plan, user get a monthly access to a respondent courses. The Courses are created by users who have "creator" permissons.
 
 The other content of the website are free studies which can be created and shared by users. 
 Every user can create his own chess study and eventually share it by setting it as a public one.
@@ -67,22 +66,22 @@ The application allows to create user account, edit user's data and help user wi
 
 Passwords are validated by Django validators. 
 
-All user managment is made in React components and send via token handlers. Generally flow of user's data between forntend and backend is made by JWT.
+All user managment is made in a React components and send via token handlers. Generally flow of user's data between the frontend and the backend is made by JWT.
 
 #### JWT
 
-The main purpose of using JWT is validating user's data (such as login and password) in frontend environment. The second task of JW Tokens is sending user's data (such as current Premium Plan) from backend to frontend. Refreshing of tokens are setted up to 5 minutes. User data is save in local storage and sended in React environment as Context.
+The main purpose of using JWT is validating user's data (such as login and password) in frontend environment. The second task of JW Tokens is sending user's data (such as current Premium Plan) from the backend to the frontend. Refreshing of tokens are setted up to 5 minutes. User's data is saved in local storage and shared in React environment as Context.
 
-Permission to content of the application is provided from backend (by sending suitable data through API) and frontend (by redirecting user from forbidden pages).
+Permission to the content of the application is provided from the backend (by sending respondent data through API) and the frontend (by redirecting user from forbidden pages).
 
 #### Chess Courses and Chess Studies 
 
-The Chess Courses and The Chess Studies are displayed with options of sorting, filtering and searching specific content. There are also paginator which dispalys current page of ceontent. All of this is made thorugh API requests so it works without reloding of the application.  
+The Chess Courses and The Chess Studies are displayed with options of sorting, filtering and searching a specific content. There are also a paginator which dispalys current page of the content. All of this is made thorugh API requests so it works without reloding of the application.  
 
-Chess Studies are divided into the public and the private ones. The user have permisson to visit and see only his own priavte studies and other's users public studies.
-Each new study created by user is private by deafult. After creating the study user need to wait 5 miuntes till creating another one (it's insurance from overloading database by dump content). 
+Chess Studies are divided into the public and the private ones. The user have permisson to visit and display only his own private studies and other's users public studies.
+Each new study created by user is private by deafult. After creating the study user needs to wait 5 miuntes till creating another one (it's insurance from overloading database with dump content). 
 
-Created study can be fully edited: name and content can be edited in text are with is loaded when user is creator of study; user can add interactive chessboard, modify it and set is as represantative to whole study; finally user can delete study.
+Created study can be fully edited: a name and a content can be edited in a text are with is loaded when user is creator of study; user can add interactive chessboard, modify it and set is as represantative to whole study; finally user can delete study.
 
 There is an option to like selected courses and studies. Liked content is avaible from special sections in the application.
 
@@ -90,11 +89,11 @@ There is an option to like selected courses and studies. Liked content is avaibl
 
 Payment for Premium Plans is made to dotpay.pl service (sandbox mode is used). Payment service goes as follows:
 
-- After Premium Plan is selected the application creates order model with data of operation
+- After Premium Plan is selected the application creates an order model with data of a operation
 
-- User is redirected to payment webstie - he needs to choose form of payment and actually make it (feel free to do that - it's sandbox). With user's redirection there is also flow of operation data between the backend and dotpay server. Besides payment data, operation signature created by the application is sended.
+- User is redirected to payment webstie - he needs to choose form of payment and actually make it (feel free to do that - it's sandbox). With user's redirection there is also flow of the operation data between the backend and the dotpay server. Besides payment data, operation's signature created by the application is sended.
 
-- In response dotpay service sends back data with the operation data and payment signature. Then the signature and data is compared with signature generated by the application and data stored in order models. If everything is correct, the backend creates models for order and changes user's Premium Plan. 
+- In response dotpay service sends back the data with the operation data and the payment signature. Then the signature and data is compared with the signature generated by the application and the data stored in order models. If everything is correct, the backend creates models for an order and changes user's Premium Plan. 
 
 ## To do
 
@@ -107,3 +106,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
