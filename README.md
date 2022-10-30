@@ -103,7 +103,7 @@ For HTML and CSS the Bootstrap was mainly used with a few changes to fit the int
 
 #### Tests
 
-For each Django application proper tests were made. The units test was made to check a correctness of executing single methods and classes. The integration tests was made to check action of REST - a lot of tests simulated a request from the frontend, saving the data in a test database and sending new data back to the frontend. 
+For each Django application proper tests were made. The units test was made to check a correctness of executing single methods and classes. The integration tests was made to check action of REST - a lot of tests simulated a request from the frontend, saving the data in a test database and sending a response with new data back to the frontend. 
 
 ## To do
 
