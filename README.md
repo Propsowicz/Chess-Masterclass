@@ -99,11 +99,11 @@ Payment for Premium Plans is made to dotpay.pl service (sandbox mode is used). P
 
 The frontend was made almost whole in React. React Router was used to manage the application urls. User's data was shared between React components via Context Provider. Every main component of the application was made mainly in RESTful API technology provided by DRF. 
 
-For HTML and CSS the Bootstrap was mainly used with few changes to fit the interface better.
+For HTML and CSS the Bootstrap was mainly used with a few changes to fit the interface better.
 
 #### Tests
 
-For each Django application proper tests were made. The units test was made to check correctness of executing single methods and classes. The integration tests was made to check action of REST - a lot of tests simulated a request from the frontend, saving the data in a test database and sending new data back to the frontend. 
+For each Django application proper tests were made. The units test was made to check a correctness of executing single methods and classes. The integration tests was made to check action of REST - a lot of tests simulated a request from the frontend, saving the data in a test database and sending new data back to the frontend. 
 
 ## To do
 
