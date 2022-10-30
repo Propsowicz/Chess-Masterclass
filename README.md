@@ -14,7 +14,7 @@ Here is a link to the application (it can take some time to load it) [Chess Mast
 
 [Description](#description)
 
-[To do](#to%20do)
+[To do](#to-do)
 
 [Contributing](#contributing)
 
