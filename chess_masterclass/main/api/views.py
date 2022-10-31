@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.core.paginator import Paginator
 from ..utils import ChessCoursesPaginator
 from member.models import User
@@ -19,8 +19,8 @@ from datetime import datetime, timedelta
 # CHESS COURSES VIEW CLASSES
 # DISPLAY ALL COURSES (HOMEPAGE)
 class coursesListAPI(APIView):              
-    authentication_classes = []
-    permission_classes = []  
+    # authentication_classes = []
+    permission_classes = [IsAuthenticated]  
 
     def get(self, request, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -43,8 +43,8 @@ class coursesListAPI(APIView):
 
 # DISPLAY LIKED COURSES
 class coursesLikedByUserListAPI(APIView):
-    authentication_classes = []
-    permission_classes = []   
+    # authentication_classes = []
+    permission_classes = [IsAuthenticated]   
 
     def get(self, request, username, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -129,23 +129,6 @@ class editCourse(APIView):
             course.body = data['body']            
         course.save()
         return Response({'msg':'Course content has been edited'})
-
-
-
-# class EditStudyAPI(APIView):
-#     authentication_classes = []
-#     permission_classes = []
-
-    
-
-#     def put(self, request, username, slug):
-#         study = ChessStudy.objects.get(id=id)
-#         serializer = ChessStudySerializer(study, many=False)
-
-#         return Response(serializer.data)
-
-
-
 
 # CHESS STUDY VIEW CLASSES
 # DISPLAY ALL STUDIES AND CREATE NEW STUDY (with some deafaults)
