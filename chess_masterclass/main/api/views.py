@@ -19,8 +19,8 @@ from datetime import datetime, timedelta
 # CHESS COURSES VIEW CLASSES
 # DISPLAY ALL COURSES (HOMEPAGE)
 class coursesListAPI(APIView):              
-    # authentication_classes = []
-    permission_classes = [IsAuthenticated]  
+    authentication_classes = []
+    permission_classes = []  
 
 
     def get(self, request, order_by, filter, search, page, format=None):
@@ -44,8 +44,8 @@ class coursesListAPI(APIView):
 
 # DISPLAY LIKED COURSES
 class coursesLikedByUserListAPI(APIView):
-    # authentication_classes = []
-    permission_classes = [IsAuthenticated]   
+    authentication_classes = []
+    permission_classes = []   
 
     def get(self, request, username, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
