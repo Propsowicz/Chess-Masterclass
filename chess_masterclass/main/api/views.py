@@ -22,6 +22,7 @@ class coursesListAPI(APIView):
     # authentication_classes = []
     permission_classes = [IsAuthenticated]  
 
+
     def get(self, request, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
         if filter == 'filter' and search == 'search':
