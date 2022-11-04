@@ -23,10 +23,14 @@ const CoursePage = () => {
     let [chessTables, setChessTables] = useState([])
 
     let courseDetailGET = async () => {
-        let response = await fetch(`${url}/api/courses/${courseSlug}`)
+        let response = await fetch(`${url}/api/courses/${courseSlug}`, {
+            method: 'GET',
+            headers: {
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+            }
+        })
         let data = await response.json()
         setCourseDetails(data)
-        console.log(data)
 
         if(!checkCurrentPremiumPlan(data, userInfo)){              
             navigate('/')
@@ -42,7 +46,12 @@ const CoursePage = () => {
         
     // CHESS TABLES GET -- start
     let tablesGET = async () => {
-        let response = await fetch(`${url}/api/courses/${courseSlug}/table`)
+        let response = await fetch(`${url}/api/courses/${courseSlug}/table`, {
+            method: 'GET',
+            headers: {
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+            }
+        })
         let data = await response.json()
         setChessTables(data)
     }
@@ -51,7 +60,8 @@ const CoursePage = () => {
         let response = await fetch(`${url}/api/courses/${userInfo.username}/${courseDetails.id}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify({
                 'course_id': courseDetails.id, 'username': userInfo.username

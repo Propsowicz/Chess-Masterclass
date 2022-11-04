@@ -15,7 +15,7 @@ const LikeHeart = (props) => {
 
   return (
     <>
-        <BsFillHeartFill color={colors[props.isLiked]} onClick={likeOnClick} />     
+        <BsFillHeartFill color={colors[props.isLiked]} onClick={likeOnClick} style={{'cursor':'pointer'}}/>     
     </>
   )
 }

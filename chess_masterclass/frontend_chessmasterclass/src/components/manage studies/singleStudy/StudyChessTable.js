@@ -10,7 +10,8 @@ const StudyChessTable = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/delete`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {
@@ -25,7 +26,8 @@ const StudyChessTable = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}/set-repr`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

@@ -16,8 +16,7 @@ from dotenv import load_dotenv, find_dotenv
 
 # GET premium plans
 class premiumPlans(APIView):
-    authentication_classes = []
-    permission_classes = [] 
+    permission_classes = [IsAuthenticatedOrReadOnly] 
     
     def get(self, request):
         premiumPlans = PremiumPlansDescriptions.objects.all()
@@ -74,7 +73,6 @@ def failureLink(response):
 
 # class to handle response from dotpay server -> at first signatures and order/payment data are compared:
 class payTransactionResponse(APIView):
-    authentication_classes = []
     permission_classes = [] 
     
     def post(self, request, *args, **kwargs):

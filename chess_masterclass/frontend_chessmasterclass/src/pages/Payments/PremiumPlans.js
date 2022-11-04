@@ -6,7 +6,12 @@ const PremiumPlans = () => {
 
   let [allPlans, setAllPlans] = useState([])
   let getPremiumPlans = async () => {
-    let response = await fetch(`${url}/payment/premium-plans/`)
+    let response = await fetch(`${url}/payment/premium-plans/`, {
+      method: 'GET',
+      headers: {
+          Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+      }
+  })
     let data = await response.json()
     setAllPlans(data)
   }

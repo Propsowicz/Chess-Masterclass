@@ -70,7 +70,9 @@ const Study = () => {
     let response = await fetch(`${url}/api/study/detail/${author}/${id}/table/like`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+
         },
         body: JSON.stringify(
             {

@@ -10,7 +10,12 @@ export const LikedCoursesList = (props) => {
     // GET DATA -- start
     let [coursesList, setCoursesList] = useState([])    
     let coursesGET = async () => {
-        let response = await fetch(`${url}/api/courses/${username}/${props.sort_by}/${props.filter}/${props.search}/${props.page}`)
+        let response = await fetch(`${url}/api/courses/${username}/${props.sort_by}/${props.filter}/${props.search}/${props.page}`, {
+            method: 'GET',
+            headers: {
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+            }
+        })
         let data = await response.json()
         setCoursesList(data.data)             
     }

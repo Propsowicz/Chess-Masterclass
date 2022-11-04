@@ -34,7 +34,12 @@ const AllStudies = () => {
   const [pagesList, setPagesList] = useState([])
 
   let getStudies = async () => {
-    let response = await fetch(`${url}/api/study/${userInfo.username}/${access}/${isPrivate}/${liked}/${search}/${sort}/${page}`)
+    let response = await fetch(`${url}/api/study/${userInfo.username}/${access}/${isPrivate}/${liked}/${search}/${sort}/${page}`, {
+      method: 'GET',
+      headers: {
+          Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+      }
+  })
     let data = await response.json()
       setTotalPageNumber(parseFloat(data.number_of_pages))
      

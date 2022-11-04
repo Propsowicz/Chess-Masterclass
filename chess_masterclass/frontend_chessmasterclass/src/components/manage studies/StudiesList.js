@@ -5,7 +5,12 @@ import {url} from '../../constants/urlAPI'
 const StudiesList = (props) => {
     let [studyList, setStudyList] = useState([])
     let getStudies = async () => {
-        let response = await fetch(`${url}/api/study/${props.user}/${props.access}/${props.privacy}/${props.liked}/${props.search}/${props.sort}/${props.page}`)
+        let response = await fetch(`${url}/api/study/${props.user}/${props.access}/${props.privacy}/${props.liked}/${props.search}/${props.sort}/${props.page}`, {
+            method: 'GET',
+            headers: {
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+            }
+        })
         let data = await response.json()
         setStudyList(data.data)
     }

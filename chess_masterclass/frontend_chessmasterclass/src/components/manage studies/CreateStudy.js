@@ -25,6 +25,7 @@ const CreateStudy = (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

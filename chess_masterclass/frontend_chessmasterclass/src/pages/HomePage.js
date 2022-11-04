@@ -22,7 +22,12 @@ const HomePage = () => {
             }            
           }        
           setFilterURL(filterPath)
-      let response = await fetch(`${url}/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`)
+      let response = await fetch(`${url}/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`, {
+        method: 'GET',
+        headers: {
+            Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : 'nuasddsdasll',
+        }
+    })
       let data = await response.json()
       setTotalPageNumber(parseFloat(data.number_of_pages))      
       

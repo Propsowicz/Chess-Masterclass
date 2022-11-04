@@ -12,7 +12,12 @@ const GetPremium = () => {
     let [dotpay_call, setDotpay_call] = useState([])
 
     let getPremiumPlanInfo = async () => {
-        let response = await fetch(`${url}/payment/premium-plans/getpremium/${userInfo.user_id}/${slug}`)
+        let response = await fetch(`${url}/payment/premium-plans/getpremium/${userInfo.user_id}/${slug}`, {
+          method: 'GET',
+          headers: {
+              Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
+          }
+      })
         let data = await response.json()
         setGetPlan(data.data)
         set_exp_date(data.exp_date)
@@ -23,7 +28,8 @@ const GetPremium = () => {
       let response = await fetch(`${url}/payment/premium-plans/getpremium/${slug}`, {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
           },
           body: JSON.stringify('some content')
       })

@@ -5,7 +5,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from .serializers import UserSerializer, EditProfileSerializer
 from ..utils import AccountOperations
 from ..models import User
@@ -38,15 +38,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 # class to create new User (generic)
 class RegisterAPI(generics.CreateAPIView):
-    authentication_classes = []
-    permission_classes = []    
+    permission_classes = [AllowAny]    
 
     serializer_class = UserSerializer
 
 # serializer of User (GET&POST)
 class EditProfileAPI(APIView):
-    authentication_classes = []
-    permission_classes = []  
+    permission_classes = [IsAuthenticatedOrReadOnly]  
 
     # GET
     def get(self, *args, **kwargs):        
@@ -110,8 +108,7 @@ class EditProfileAPI(APIView):
 # forget password API -> when user forgot password he needs to give username OR email. Then email with key and link to change password is sent.
 # without activated account User cant visit detail course page
 class ForgotPassAPI(APIView):
-    authentication_classes = []
-    permission_classes = []  
+    permission_classes = [AllowAny]  
 
     def post(self, request, *args, **kwargs):        
         data = request.data

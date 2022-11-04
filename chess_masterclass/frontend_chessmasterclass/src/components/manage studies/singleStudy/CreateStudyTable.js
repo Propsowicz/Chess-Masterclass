@@ -7,7 +7,8 @@ const CreateStudyTable = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/create`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

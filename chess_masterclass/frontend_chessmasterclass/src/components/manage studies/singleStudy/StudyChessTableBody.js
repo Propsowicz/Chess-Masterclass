@@ -9,7 +9,8 @@ const StudyChessTableBody = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/${props.tableId}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

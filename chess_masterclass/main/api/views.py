@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.core.paginator import Paginator
 from ..utils import ChessCoursesPaginator
@@ -18,10 +19,8 @@ from datetime import datetime, timedelta
 
 # CHESS COURSES VIEW CLASSES
 # DISPLAY ALL COURSES (HOMEPAGE)
-class coursesListAPI(APIView):              
-    authentication_classes = []
-    permission_classes = []  
-
+class coursesListAPI(APIView):    
+    permission_classes = [IsAuthenticatedOrReadOnly]   
 
     def get(self, request, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -44,8 +43,7 @@ class coursesListAPI(APIView):
 
 # DISPLAY LIKED COURSES
 class coursesLikedByUserListAPI(APIView):
-    authentication_classes = []
-    permission_classes = []   
+    permission_classes = [IsAuthenticatedOrReadOnly]   
 
     def get(self, request, username, order_by, filter, search, page, format=None):
         filter_list = filter[6:].split(';')
@@ -69,8 +67,7 @@ class coursesLikedByUserListAPI(APIView):
 
 # DISPLAY SINGLE COURSE
 class courseDetailAPI(APIView):
-    authentication_classes = []
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, slug, format=None):
         course = ChessCourse.objects.get(slug=slug)
@@ -80,8 +77,7 @@ class courseDetailAPI(APIView):
      
 # DISPLAY TABLES OF EACH COURSE
 class courseDetailTablesAPI(APIView):
-    authentication_classes = []
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, slug, format=None):
         tables = ChessTable.objects.filter(course__slug=slug)        
@@ -91,8 +87,7 @@ class courseDetailTablesAPI(APIView):
 
 # LIKE COURSE
 class likeCourse(APIView):
-    authentication_classes = []
-    permission_classes = []
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def post(self, request, username, id, *args, **kwargs):
         course = ChessCourse.objects.get(id=id)
@@ -107,8 +102,7 @@ class likeCourse(APIView):
                     
 # EDIT COURSES -- ONLY TO USER WITH is_creator == True
 class editCourse(APIView):
-    authentication_classes = []
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, id, tableId):
         data = request.data
@@ -134,8 +128,7 @@ class editCourse(APIView):
 # CHESS STUDY VIEW CLASSES
 # DISPLAY ALL STUDIES AND CREATE NEW STUDY (with some deafaults)
 class AllStudiesAPI(APIView):
-    authentication_classes = []
-    permission_classes = []    
+    permission_classes = [IsAuthenticatedOrReadOnly]    
 
     def post(self, request, username): # create deafult study (deafult: private, deafault name: My chess study #{next free number})
         user = User.objects.get(username=username)
@@ -212,8 +205,7 @@ class AllStudiesAPI(APIView):
 
 # DISPLAY SINGE STUDY (AND EDIT IT)
 class StudyAPI(APIView):
-    authentication_classes = []
-    permission_classes = []    
+    permission_classes = [IsAuthenticatedOrReadOnly]    
 
     def get(self, request, username, id):
         user = User.objects.get(username=username)
@@ -241,8 +233,7 @@ class StudyAPI(APIView):
 
 # DISPLAY CHESS TABLES FOR EACH STUDY (also create, delete and edit it)
 class StudyTableAPI(APIView):
-    authentication_classes = []
-    permission_classes = []   
+    permission_classes = [IsAuthenticatedOrReadOnly]   
 
     # get table data
     def get(self, request, username, id):

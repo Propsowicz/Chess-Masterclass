@@ -10,7 +10,8 @@ const EditableCourseContent = (props) => {
         let response = await fetch(`http://127.0.0.1:8000/api/course/creator-mode/edit/${props.id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {
@@ -25,7 +26,8 @@ const EditableCourseContent = (props) => {
         let response = await fetch(`http://127.0.0.1:8000/api/course/creator-mode/edit/${props.id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

@@ -29,7 +29,8 @@ const ChessDivEditable = (props) => {
         let response = await fetch(`${url}/api/course/creator-mode/edit/${props.courseId}/${props.id}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {
@@ -44,7 +45,8 @@ const ChessDivEditable = (props) => {
         let response = await fetch(`http://127.0.0.1:8000/api/course/creator-mode/edit/${props.courseId}/${props.id}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {

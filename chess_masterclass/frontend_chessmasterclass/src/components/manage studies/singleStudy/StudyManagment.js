@@ -17,7 +17,8 @@ const StudyManagment = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/change-privacy`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {
@@ -33,7 +34,8 @@ const StudyManagment = (props) => {
         let response = await fetch(`${url}/api/study/detail/${props.author}/${props.id}/table/delete-study`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             },
             body: JSON.stringify(
                 {
