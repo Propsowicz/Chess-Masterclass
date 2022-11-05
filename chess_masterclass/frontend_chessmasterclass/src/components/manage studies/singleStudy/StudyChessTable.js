@@ -2,7 +2,7 @@ import React from 'react'
 import StudyChessBoard from './StudyChessBoard'
 import StudyChessTableBody from './StudyChessTableBody'
 import {url} from '../../../constants/urlAPI'
-
+import {alertMsg} from '../../../utils/utlis'
 
 const StudyChessTable = (props) => {
 
@@ -35,14 +35,16 @@ const StudyChessTable = (props) => {
                 }
             )
         })
-        window.location.reload(false)
+        alertMsg(`chess-content-div${props.tableId}`, 'The representative table has been changed.', `chess-content-btn${props.tableId}`)
+
+        // window.location.reload(false)
     }
 
   return (
     <div className='container'>
 
         <div className="card mb-3">
-            <div className="row g-0">
+            <div className="row g-0" id={'chess-content-div' + props.tableId}>
                 <div className="col-md-4">
                     <StudyChessBoard coord={props.coord} size={400} isLogged={props.isLogged} tableId={props.tableId} author={props.author} id={props.id}/>                    
                 </div>
@@ -52,7 +54,7 @@ const StudyChessTable = (props) => {
                 {props.isLogged
                 ?   
                     <>
-                        <button type='button' className="btn btn-outline-info" onClick={setRepresentative}>Set as representative table</button>
+                        <button type='button' id={'chess-content-btn' + props.tableId} className="btn btn-outline-info" onClick={setRepresentative}>Set as representative table</button>
                         <button type='button' className="btn btn-outline-danger" onClick={deleteTable}>Delete table</button>
                     </>                    
                 :

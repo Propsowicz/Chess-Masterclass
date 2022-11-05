@@ -25,7 +25,7 @@ const HomePage = () => {
       let response = await fetch(`${url}/api/courses/${sortBy}/${filterPath}/${searchString}/${page}`, {
         method: 'GET',
         headers: {
-            Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : 'nuasddsdasll',
+            Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
         }
     })
       let data = await response.json()

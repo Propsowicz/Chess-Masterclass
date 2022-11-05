@@ -3,6 +3,8 @@
     height: 1.6em;
     text-align: center;
     resize: none;
+    color: gray;
+    font-style: italic;
 }
 
 .study-header-label {
@@ -21,6 +23,9 @@
     height: 20em;
     text-align: center;
     resize: none;
+    color: gray;
+    font-style: italic;
+    
 }
 
 .study-chess-table-body{
@@ -29,4 +34,6 @@
     height: 22em;
     text-align: center;
     resize: none;
+    color: gray;
+    font-style: italic;
 }

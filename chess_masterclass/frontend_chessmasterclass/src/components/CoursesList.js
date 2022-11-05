@@ -11,7 +11,7 @@ export const CoursesList = (props) => {
         let response = await fetch(`${url}/api/courses/${props.sort_by}/${props.filter}/${props.search}/${props.page}`, {
             method: 'GET',
             headers: {
-                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : 'asdasdasdas',
+                Authorization: localStorage.getItem('authTokens') ? `Bearer ${JSON.parse(localStorage.getItem('authTokens')).access}` : null,
             }
         })
         let data = await response.json()
